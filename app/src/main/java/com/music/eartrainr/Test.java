@@ -1,5 +1,7 @@
 package com.music.eartrainr;
 
+import com.music.eartrainr.model.User;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,19 +9,22 @@ import java.util.List;
 public class Test {
 
 
-  public static List<String> getFriendList() {
+  public static List<User> getFriendList() {
 
-    List friends = new ArrayList(10);
+    List<User> friends = new ArrayList(10);
 
-    friends.add("Raphael");
-    friends.add("Jacinta");
-    friends.add("Nicole");
-    friends.add("Adrian");
-    friends.add("Michael");
-    friends.add("Nick");
-    friends.add("Victor");
-    friends.add("Jordan");
-    friends.add("Nathan");
+    User user = new User();
+    user.setUserName("Raphael");
+
+    friends.add(user);
+    friends.add(user);
+    friends.add(user);
+    friends.add(user);
+    friends.add(user);
+    friends.add(user);
+    friends.add(user);
+    friends.add(user);
+    friends.add(user);
 
     return friends;
 
