@@ -14,6 +14,8 @@ import com.music.eartrainr.retrofit.FirebaseService;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.music.eartrainr.Database.FirebaseKeys.USERS;
+
 
 public class Database {
 
@@ -26,11 +28,14 @@ public class Database {
 
   protected interface FirebaseKeys {
     String USERS = "users";
+    String USERNAME = "userName";
+    String FRIENDS = "friends";
   }
 
   public interface EventToken {
     int NEW_USER = Auth.generateEventToken(TAG, "new_user");
     int AUTHORIZATION = Auth.generateEventToken(TAG, "existing_user");
+    int FRIEND_ADDED = Auth.generateEventToken(TAG, "new_friend");
   }
 
   public interface FirebaseGET<T> {
@@ -76,7 +81,7 @@ public class Database {
         userDetails.put("rank", RANK_STARTING);
         userDetails.put("userName", email.split("\\@")[0]);
 
-        mFirebaseRef.child(FirebaseKeys.USERS)
+        mFirebaseRef.child(USERS)
             .child(uid)
             .setValue(userDetails, new Firebase.CompletionListener() {
               @Override public void onComplete(
