@@ -25,11 +25,17 @@
     <string name="error_invalid_email">Invalid email address</string>
     <string name="sign_up">Sign up</string>
     <string name="error_invalid_password">Password is invalid</string>
-    <string name="fragment_title_friendadd">Add a friend</string>
+
     <string name="error_login_generic">Unable to establish credentials. Try again later.</string>
     <string name="nav_logout">Logout</string>
     <string name="preferences_file">eartrainer_prefs</string>
     <string name="title_activity_main">MainActivity</string>
+
+    <!-- FRAGMENT TITLES -->
     <string name="fragment_title_login">Login</string>
     <string name="fragment_title_profile">Profile</string>
+    <string name="fragment_title_friendadd">Add a friend</string>
+    <string name="hint_username">Type a username</string>
+    <string name="friend_add_searching">Searching...</string>
+    <string name="friend_add_found">Adding as friend...</string>
 </resources>
