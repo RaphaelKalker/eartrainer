@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import static com.music.eartrainr.ModuleUri.Args.ACTION;
+
 
 public class ModuleUri {
 
@@ -25,7 +27,7 @@ public class ModuleUri {
   private static final String ACTIVITY = "activity";
 
   private Context mContext;
-  public Map<String, Object> mUriArgs;
+  private Map<String, Object> mUriArgs;
   private Uri mUri;
   private List<String> mSegments;
 
@@ -41,6 +43,10 @@ public class ModuleUri {
 
   public String getActivity() {
     return (String) mUriArgs.get(ACTIVITY);
+  }
+
+  public int getAction() {
+    return mUriArgs.get(ACTION) != null ? Integer.valueOf((String) mUriArgs.get(ACTION)): Action.NONE;
   }
 
 //  public String getActivityPath() {
@@ -76,6 +82,16 @@ public class ModuleUri {
     return this;
   }
 
+//  public ModuleUri action(final Action action) {
+//    mUriArgs.put(ACTION, action);
+//    return this;
+//  }
+
+  public ModuleUri exitCurrent() {
+    mUriArgs.put(ACTION, Action.EXIT);
+    return this;
+  }
+
   public ModuleUri bundle(final Bundle bundle) {
     mUriArgs.put(BUNDLE, bundle);
     return this;
@@ -92,12 +108,15 @@ public class ModuleUri {
     for (Map.Entry<String, Object> entry : mUriArgs.entrySet()) {
       Object val = entry.getValue();
 
-      if (val instanceof String) {
-        builder.appendQueryParameter(entry.getKey(), val.toString());
+      if (val == null) {
+        continue;
       }
 
       if (val instanceof Bundle) {
         Wtf.log("GOTTA DO SOME BUNDLE SHIT");
+      } else {
+        builder.appendQueryParameter(entry.getKey(), val.toString());
+
       }
     }
 
@@ -178,6 +197,10 @@ public class ModuleUri {
     return mUriArgs.get(TYPE) != null && Integer.valueOf((String) mUriArgs.get(TYPE)) == Type.DIALOG;
   }
 
+  public boolean closeCurrentFragment() {
+    return mUriArgs.get(ACTION) != null && mUriArgs.get(ACTION) == Action.EXIT;
+  }
+
   public String getFragmentTag() {
     return mUriArgs != null ? (String) mUriArgs.get(FRAGMENT) : "";
   }
@@ -193,5 +216,15 @@ public class ModuleUri {
     int DIALOG = 0;
     int OVERLAY = 1;
     int ACTIVITY = 2;
+  }
+
+  public interface Action {
+    int EXIT = 0;
+    int OPEN = 1;
+    int NONE = -1;
+  }
+
+  public interface Args {
+    String ACTION = "action";
   }
 }
