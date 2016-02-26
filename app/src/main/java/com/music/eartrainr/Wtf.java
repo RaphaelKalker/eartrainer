@@ -15,6 +15,10 @@ public class Wtf {
     Log.e("RAPHTAG", getClassNameMethodNameAndLineNumber() + " --> " + message);
   }
 
+  public static void logEvent(final int eventId) {
+    Log.v("RAPHTAG", getClassNameMethodNameAndLineNumber() + "--> " + "Caught Event: " + eventId);
+  }
+
   public static void log() {
     Log.v("RAPHTAG", getClassNameMethodNameAndLineNumber());
   }
