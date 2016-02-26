@@ -2,33 +2,72 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="30dp"
     tools:context="com.music.eartrainr.fragment.FriendAddFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment"/>
+        android:layout_height="match_parent">
 
-    <!-- USERNAME WRAPPER -->
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        style="@style/ET_TextInputLayout">
-
-        <!-- USERNAME TXT FIELD-->
-        <AutoCompleteTextView
-            android:id="@+id/friend_add_username"
+        <!-- USERNAME WRAPPER -->
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/friend_add_username_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/prompt_username"
-            android:imeActionId="@+id/login"
-            android:imeOptions="actionUnspecified"
-            android:inputType="textEmailAddress|textWebEmailAddress"
-            android:maxLines="1"
-            android:padding="8dp"
-            android:singleLine="true"
-            android:textColorHint="@color/c_green"/>
-    </android.support.design.widget.TextInputLayout>
+            style="@style/ET_TextInputLayout">
+
+            <!-- USERNAME TXT FIELD-->
+            <AutoCompleteTextView
+                android:id="@+id/friend_add_username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_username"
+                android:imeActionId="@+id/login"
+                android:imeOptions="actionUnspecified"
+                android:inputType="textEmailAddress|textWebEmailAddress"
+                android:maxLines="1"
+                android:padding="8dp"
+                android:singleLine="true"
+                android:textColorHint="@color/c_green"/>
+
+        </android.support.design.widget.TextInputLayout>
+
+        <!-- ADD FRIEND BTN-->
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/friend_add_btn"
+            android:layout_below="@id/friend_add_username_container"
+            android:layout_centerHorizontal="true"
+            android:text="@string/fragment_title_friendadd"
+            android:background="?selectableItemBackground"/>
+
+        <!--<Button-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_toRightOf="@id/friend_add_btn"-->
+        <!--android:layout_alignBottom="@id/friend_add_btn"-->
+        <!--android:layout_margin="10dp"/>-->
+
+        <!-- LOADING INDICATOR-->
+        <ProgressBar
+            android:id="@+id/progress_spinner"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            android:layout_alignParentEnd="true"/>
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/friend_add_status_message"
+            android:layout_below="@id/friend_add_btn"
+            android:gravity="center"
+            android:visibility="visible"
+            tools:text="Not able to find friend"/>
+
+    </RelativeLayout>
 
 </FrameLayout>
