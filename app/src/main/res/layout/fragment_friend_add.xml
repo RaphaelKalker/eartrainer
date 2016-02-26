@@ -1,0 +1,34 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.music.eartrainr.fragment.FriendAddFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@string/hello_blank_fragment"/>
+
+    <!-- USERNAME WRAPPER -->
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/ET_TextInputLayout">
+
+        <!-- USERNAME TXT FIELD-->
+        <AutoCompleteTextView
+            android:id="@+id/friend_add_username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/prompt_username"
+            android:imeActionId="@+id/login"
+            android:imeOptions="actionUnspecified"
+            android:inputType="textEmailAddress|textWebEmailAddress"
+            android:maxLines="1"
+            android:padding="8dp"
+            android:singleLine="true"
+            android:textColorHint="@color/c_green"/>
+    </android.support.design.widget.TextInputLayout>
+
+</FrameLayout>

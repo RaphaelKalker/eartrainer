@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="launcher activity"
+        android:textSize="40dp"/>
+</FrameLayout>
+
+
+
+    <!--<android.support.v4.widget.DrawerLayout-->
+    <!--xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:fitsSystemWindows="true">-->
+
+
+    <!--<android.support.design.widget.CoordinatorLayout-->
+        <!--xmlns:android="http://schemas.android.com/apk/res/android"-->
+        <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
+        <!--xmlns:tools="http://schemas.android.com/tools"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:fitsSystemWindows="true"-->
+        <!--tools:context=".activity.LauncherActivity">-->
+
+        <!--<android.support.design.widget.AppBarLayout-->
+            <!--android:id="@+id/launcher_appBarLayout"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:orientation="vertical"-->
+            <!--android:theme="@style/AppTheme.AppBarOverlay">-->
+
+            <!--<android.support.v7.widget.Toolbar-->
+                <!--android:id="@+id/toolbar"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="?attr/actionBarSize"-->
+                <!--android:background="?attr/colorPrimary"-->
+                <!--android:minHeight="?attr/actionBarSize"-->
+                <!--app:theme="@style/ThemeOverlay.AppCompat.ActionBar"-->
+                <!--app:popupTheme="@style/AppTheme.PopupOverlay"-->
+                <!--android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>-->
+
+        <!--</android.support.design.widget.AppBarLayout>-->
+
+        <!--&lt;!&ndash; CONTAINER&ndash;&gt;-->
+
+        <!--<FrameLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_marginTop="?attr/actionBarSize"-->
+            <!--android:id="@+id/fragment_container"/>-->
+
+    <!--</android.support.design.widget.CoordinatorLayout>-->
+
+
+    <!--<android.support.design.widget.NavigationView-->
+        <!--android:id="@+id/nav_view"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_gravity="start"-->
+        <!--app:headerLayout="@layout/drawer_layout"-->
+        <!--app:menu="@menu/drawer_menu"/>-->
+
+<!--</android.support.v4.widget.DrawerLayout>-->

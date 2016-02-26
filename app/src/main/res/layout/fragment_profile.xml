@@ -1,0 +1,115 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragment.ProfileFragment">
+
+    <!-- TOP LEVEL -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/activity_horizontal_margin">
+
+        <!-- PROFILE PICTURE -->
+        <ImageView
+            android:id="@+id/profile_image"
+            android:layout_width="@dimen/profile_image"
+            android:layout_height="@dimen/profile_image"
+            android:background="@color/c_acidgreen"
+            android:layout_marginRight="40dp"
+            android:layout_alignParentTop="true"/>
+
+        <!-- NAME-->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/profile_name"
+            tools:text="Raphael Kalker"
+            android:layout_alignTop="@id/profile_image"
+            android:layout_toEndOf="@id/profile_image"
+            android:layout_marginTop="40dp"/>
+
+        <!-- EMAIL -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/profile_email"
+            android:layout_below="@id/profile_name"
+            android:layout_alignLeft="@id/profile_name"
+            tools:text="raphael.kalker@gmail.com"/>
+
+        <!-- USERNAME -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/profile_username"
+            android:layout_below="@id/profile_email"
+            android:layout_alignLeft="@id/profile_name"
+            tools:text="raphaelUserName"/>
+
+        <!-- USERNAME -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/profile_rank"
+            android:layout_below="@id/profile_username"
+            android:layout_alignLeft="@id/profile_name"
+            tools:text="100"/>
+
+
+        <Space
+            android:id="@+id/spacer"
+            android:layout_width="1dp"
+            android:layout_height="10dp"
+            android:layout_below="@id/profile_image"/>
+
+        <!-- FRIENDS TITLE -->
+        <TextView
+            android:id="@+id/profile_friends_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/friends"
+            android:textAllCaps="true"
+            android:layout_below="@id/spacer"
+            android:layout_marginTop="@dimen/activity_verticle_spacing"/>
+
+
+        <!-- FRIEND LIST-->
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/profile_friends"
+            android:layout_marginTop="@dimen/activity_verticle_spacing_title"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@id/profile_friends_title"/>
+
+        <!-- ADD FRIEND BTN-->
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/profile_add_friend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:src="@android:drawable/ic_dialog_alert"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            app:elevation="4dp"/>
+
+        <!--<Button-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:layout_alignParentEnd="true"/>-->
+
+    </RelativeLayout>
+
+
+    <!--<android.support.v7.widget.RecyclerView-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="200dp">-->
+
+    <!--</android.support.v7.widget.RecyclerView>-->
+
+
+    <!-- STATS -->
+
+</FrameLayout>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
+
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@android:drawable/ic_dialog_alert"
+            android:title="@string/nav_home"/>
+
+        <item
+            android:id="@+id/nav_games"
+            android:title="@string/nav_game">
+
+            <menu>
+
+                <item
+                    android:id="@+id/nav_game1"
+                    android:icon="@android:drawable/ic_media_play"
+                    android:title="@string/nav_game1"/>
+
+                <item
+                    android:id="@+id/nav_game2"
+                    android:icon="@android:drawable/ic_media_play"
+                    android:title="@string/nav_game2"/>
+
+                <item
+                    android:id="@+id/nav_game3"
+                    android:icon="@android:drawable/ic_media_play"
+                    android:title="@string/nav_game3"/>
+
+                <item
+                    android:id="@+id/nav_game4"
+                    android:icon="@android:drawable/ic_media_play"
+                    android:title="@string/nav_game4"/>
+
+            </menu>
+        </item>
+
+        <item
+            android:id="@+id/nav_settings"
+            android:icon="@android:drawable/ic_lock_power_off"
+            android:title="@string/nav_settings"/>
+
+        <item
+            android:id="@+id/nav_logout"
+            android:icon="@android:drawable/ic_lock_power_off"
+            android:title="@string/nav_logout"/>
+
+    </group>
+</menu>

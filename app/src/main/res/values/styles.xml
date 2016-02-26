@@ -1,0 +1,33 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <!-- Specify no Action bar since we are using toolbar-->
+    <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+
+    <style name="ET_TextInputLayout">
+        <item name="android:layout_marginLeft">@dimen/textInputLayout_margin</item>
+        <item name="android:layout_marginRight">@dimen/textInputLayout_margin</item>
+    </style>
+
+    <style name="ET_Header1">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/md_white</item>
+        <item name="android:textStyle">italic</item>
+        <item name="android:typeface">sans</item>
+    </style>
+
+</resources>
