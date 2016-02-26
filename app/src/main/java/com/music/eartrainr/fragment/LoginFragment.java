@@ -44,7 +44,7 @@ public class LoginFragment extends BaseFragment implements FragmentNavigation {
   @Bind(R.id.login_toggle_signup_btn) TextView mToggleTxt;
   @Bind(R.id.login_progress) ProgressBar mProgressBar;
 
-  private int mLoginState = SIGN_UP;
+  private int mLoginState = SIGN_IN;
 
   public static final String BUNDLE_EMAIL_KEY = "email";
   public static final String BUNDLE_PASSWORD_KEY = "password";
