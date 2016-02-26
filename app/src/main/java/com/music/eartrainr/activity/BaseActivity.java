@@ -20,6 +20,8 @@ import com.music.eartrainr.fragment.LoginFragment;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import static com.music.eartrainr.ModuleUri.Action.EXIT;
+
 
 public class BaseActivity
     extends AppCompatActivity
@@ -57,6 +59,16 @@ public class BaseActivity
     if (LOGGING) Wtf.log("Opening... " + uri.toString());
 
     final ModuleUri moduleUri = ModuleUri.parseUri(getApplicationContext(), uri);
+    final int action = moduleUri.getAction();
+
+    /*
+    * Requesting close
+    * */
+    if (action == EXIT) {
+      Wtf.log("Closing Fragment");
+      getSupportFragmentManager().popBackStack();
+      return;
+    }
 
     final String clazzPath = ModuleUri.getFragmentString(uri);
     final int fragmentType = moduleUri.getFragmentType(uri);
@@ -88,9 +100,9 @@ public class BaseActivity
       /*
       * Launch a new fragment
       * */
-
-
       FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+
+
 
       /*
       * Do not .commit() a dialog - .show() takes care of it
