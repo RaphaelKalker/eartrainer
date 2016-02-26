@@ -143,8 +143,7 @@ public class ProfileFragment extends BaseFragment  {
     });
 
 
-
-    mProfile = Database.getSingleton().getProfile(Database.getSingleton().getUserId(), new Database.FirebaseGET<User>() {
+    Database.getSingleton().getProfile(Database.getSingleton().getUserId(), new Database.FirebaseGET<User>() {
       @Override public void onSuccess(final User user) {
         Wtf.log();
         mProfileName.setText(user.getUserName());
