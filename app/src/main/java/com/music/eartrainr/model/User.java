@@ -8,6 +8,7 @@ public class User {
   private String rank;
   private String userName;
   private long  stackId;
+  private String uid;
 
   public User() {
   }
@@ -18,6 +19,14 @@ public class User {
 
   public void setStackId(final long stackId) {
     this.stackId = stackId;
+  }
+
+  public String getUid() {
+    return uid;
+  }
+
+  public void setUid(final String uid) {
+    this.uid = uid;
   }
 
   public class user {
