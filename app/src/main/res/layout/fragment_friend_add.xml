@@ -58,15 +58,12 @@
             android:visibility="invisible"
             android:layout_alignParentEnd="true"/>
 
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/friend_add_status_message"
+        <!-- STATUS MESSAGE -->
+        <include layout="@layout/include_status_message"
             android:layout_below="@id/friend_add_btn"
             android:gravity="center"
-            android:visibility="visible"
-            tools:text="Not able to find friend"/>
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"/>
 
     </RelativeLayout>
 
