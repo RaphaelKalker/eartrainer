@@ -283,5 +283,22 @@ public class Database {
       return null;
     }
   }
+
+  private void cleanupListener(ChildEventListener listener) {
+    mFirebaseRef.removeEventListener(listener);
+  }
+
+  /**
+   * Since the single callback instance does not work when using equalsTo and no entry is found,
+   * you must manually remove the listener. Use this method on the first line of the callback to prevent
+   * recursive callbacks.
+   * @param listener
+   */
+  private void cleanupListener(ValueEventListener listener) {
+    mFirebaseRef.removeEventListener(listener);
+  }
+
+  private void cleanupListener(Firebase.AuthStateListener listener) {
+    mFirebaseRef.removeAuthStateListener(listener);
   }
 }
