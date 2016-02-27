@@ -38,4 +38,8 @@
     <string name="hint_username">Type a username</string>
     <string name="friend_add_searching">Searching...</string>
     <string name="friend_add_found">Adding as friend...</string>
+
+    <!-- STATUS MESSAGES-->
+    <string name="status_creating_profile">Creating profile...</string>
+    <string name="status_signing_up">Signing up...</string>
 </resources>
