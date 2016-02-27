@@ -6,6 +6,8 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 import com.firebase.client.annotations.NotNull;
+import com.music.eartrainr.event.FireBaseEvent;
+import com.music.eartrainr.event.FriendAddedEvent;
 import com.music.eartrainr.event.SignInEvent;
 import com.music.eartrainr.event.SignUpEvent;
 import com.music.eartrainr.model.User;
@@ -30,17 +32,23 @@ public class Database {
     String USERS = "users";
     String USERNAME = "userName";
     String FRIENDS = "friends";
+    String USER_UID = "user_uid";
   }
 
   public interface EventToken {
     int NEW_USER = Auth.generateEventToken(TAG, "new_user");
     int AUTHORIZATION = Auth.generateEventToken(TAG, "existing_user");
     int FRIEND_ADDED = Auth.generateEventToken(TAG, "new_friend");
+    int FRIEND_FOUND = Auth.generateEventToken(TAG, "friend_found");
   }
 
   public interface FirebaseGET<T> {
     void onSuccess(T snapshot);
     void onError(FirebaseError error);
+  }
+
+  public interface FirebasePut<T> {
+    void doShit();
   }
 
 
@@ -124,7 +132,35 @@ public class Database {
 
   }
 
-  public void doShit() {
+
+  /**
+   * adds a friend to the profile with the uid specified
+   * @param uid - identity of the profile to which a friend should be added
+   * @param user - user object from profile
+   */
+  public void addFriend(final User user) {
+    final Map<String, String> friendDetails = new HashMap<>();
+    friendDetails.put(FirebaseKeys.USERNAME, user.getUserName());
+    friendDetails.put(FirebaseKeys.USER_UID, user.getUid());
+
+    mFirebaseRef.child(USERS)
+                .child(getUserId())
+                .child(FirebaseKeys.FRIENDS)
+                .push()
+                .setValue(friendDetails, new Firebase.CompletionListener() {
+                  @Override public void onComplete(
+                      final FirebaseError firebaseError,
+                      final Firebase firebase) {
+                    if (firebaseError == null) {
+                      Bus.post(new FriendAddedEvent().success(EventToken.FRIEND_ADDED, user));
+                    } else {
+                      Bus.post(new FriendAddedEvent().error(EventToken.FRIEND_ADDED, firebaseError));
+                    }
+                  }
+                });
+  }
+
+  public void doShit(final String uid) {
 //    Firebase postRef =  mFirebaseRef.child(FirebaseKeys.USERS);
 //    Map<String, String> user = new HashMap();
 //    user.put("userName", "raphael");
@@ -135,6 +171,7 @@ public class Database {
 
 
   public String getUserId() {
+    //TODO: save uid to shared prefs, getAuth is a blocking call!
     if (mFirebaseRef.getAuth() != null) {
       return mFirebaseRef.getAuth().getUid();
     } else {
@@ -147,7 +184,7 @@ public class Database {
     return mFirebaseRef.getAuth().getProviderData().get("email").toString();
   }
   public Object getProfile(final FirebaseGET callback) {
-    return mFirebaseRef.child(FirebaseKeys.USERS).addValueEventListener(new ValueEventListener() {
+    return mFirebaseRef.child(USERS).addValueEventListener(new ValueEventListener() {
       @Override public void onDataChange(final DataSnapshot dataSnapshot) {
         Wtf.log(dataSnapshot.getValue().toString());
 
@@ -168,27 +205,64 @@ public class Database {
   }
 
 
-  public Object getProfile(final String uid, final FirebaseGET<User> callback) {
-    mFirebaseRef
-        .child(FirebaseKeys.USERS)
+  /**
+   * Get's the profile according to a uid.
+   * Uses Callback to retrieve information
+   * @param uid - unique identifer under users child
+   * @param callback
+   */
+  public void getProfile(final String uid, final FirebaseGET<User> callback) {
+    mFirebaseRef.child(USERS)
         .child(uid)
         .addListenerForSingleValueEvent(new ValueEventListener() {
           @Override public void onDataChange(final DataSnapshot dataSnapshot) {
-            Wtf.log();
+            //TODO: BUG: there are times where getValue returns null
+
             User user = dataSnapshot.getValue(User.class);
-            callback.onSuccess(user);
-            Wtf.log();
+
+            if (user != null) {
+              callback.onSuccess(user);
+            } else {
+              callback.onError(new FirebaseError(FirebaseError.UNKNOWN_ERROR, "User details was null"));
+            }
           }
 
           @Override public void onCancelled(final FirebaseError firebaseError) {
-
+            Wtf.log(firebaseError.getMessage());
+            callback.onError(firebaseError);
           }
         });
-    return null;
   }
 
 
   public void logout() {
     mFirebaseRef.unauth();
+  }
+
+
+  /**
+   * finds a User model
+   * @param username
+   */
+  public void findUser(final String username) {
+    mFirebaseRef.child(USERS).orderByChild(FirebaseKeys.USERNAME)
+                .equalTo(username)
+                .addListenerForSingleValueEvent(
+                    new ValueEventListener() {
+                      @Override public void onDataChange(final DataSnapshot dataSnapshot) {
+                        for (final DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                          final User user = snapshot.getValue(User.class);
+                          user.setUid(snapshot.getKey());
+                          addFriend(user);
+                          Wtf.log("Found User: " + user.getUserName());
+                        }
+                      }
+
+                      @Override public void onCancelled(final FirebaseError firebaseError) {
+                        Wtf.log(firebaseError.getMessage());
+                        Bus.post(new FriendAddedEvent().error(EventToken.FRIEND_ADDED, firebaseError));
+                      }
+                    }
+                );
   }
 }
