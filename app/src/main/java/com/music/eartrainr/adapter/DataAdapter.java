@@ -50,7 +50,7 @@ public class DataAdapter
   }
 
   protected class DataAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-    @Bind(R.id.friend_name) TextView name;
+    @Bind(R.id.friend_item_name) TextView name;
 
     public DataAdapterViewHolder(final View itemView) {
       super(itemView);
