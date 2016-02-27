@@ -18,14 +18,19 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.FirebaseError;
+import com.firebase.client.annotations.NotNull;
 import com.music.eartrainr.Database;
 import com.music.eartrainr.ModuleUri;
 import com.music.eartrainr.Wtf;
 import com.music.eartrainr.adapter.DataAdapter;
 import com.music.eartrainr.R;
 import com.music.eartrainr.Test;
+import com.music.eartrainr.event.FireBaseEvent;
+import com.music.eartrainr.event.FriendAddedEvent;
 import com.music.eartrainr.model.User;
 import com.music.eartrainr.retrofit.FirebaseService;
+
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.List;
 
@@ -55,6 +60,7 @@ public class ProfileFragment extends BaseFragment  {
   @Bind(R.id.profile_add_friend) FloatingActionButton mAddFriendBtn;
   private DataAdapter mFriendsListAdapter;
   private Object mProfile;
+  private List<User> mFriends;
 
 
   public ProfileFragment() {
@@ -156,8 +162,21 @@ public class ProfileFragment extends BaseFragment  {
         Wtf.log();
       }
     });
+  }
 
+  @Subscribe
+  public void onFriendAdded(@NotNull final FriendAddedEvent event) {
+    if (event.mEventID == Database.EventToken.FRIEND_ADDED) {
+      //TODO: handle generic failure case
 
+      if (event.mData != null) {
+        final User newFriend = (User) event.mData;
+        mFriends.add(newFriend);
+//        mFriendsListAdapter.setDataSource(mFriends);
+
+        //update some list observer
+      }
+    }
 
 
   }
