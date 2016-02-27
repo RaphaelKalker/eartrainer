@@ -132,10 +132,6 @@ public class BaseActivity
             .addToBackStack(null)
             .commit();
 
-        Wtf.log("didn't fire here");
-
-//        getSupportActionBar().setTitle(fragment.getTitle());
-
       }
 
 
