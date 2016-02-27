@@ -1,22 +1,34 @@
 package com.music.eartrainr.fragment;
 
-import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.music.eartrainr.Auth;
+import com.music.eartrainr.Bus;
+import com.music.eartrainr.Database;
 import com.music.eartrainr.R;
 import com.music.eartrainr.Wtf;
+import com.music.eartrainr.event.FriendAddedEvent;
+
+import org.greenrobot.eventbus.Subscribe;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 
 public class FriendAddFragment extends BaseDialogFragment {
 
   public static final String TAG = FriendAddFragment.class.getSimpleName();
+
+  @Bind(R.id.friend_add_username) TextView mUserName;
+  @Bind(R.id.status_message) TextView mStatusMessage;
+
 
   public FriendAddFragment() {
     // Required empty public constructor
@@ -25,6 +37,16 @@ public class FriendAddFragment extends BaseDialogFragment {
   public static FriendAddFragment newInstance(final Uri uri){
     FriendAddFragment fragment = new FriendAddFragment();
     return fragment;
+  }
+
+  @Override public void onStart() {
+    super.onStart();
+    Bus.register(this);
+  }
+
+  @Override public void onStop() {
+    super.onStart();
+    Bus.unregister(this);
   }
 
   @Override
@@ -48,6 +70,7 @@ public class FriendAddFragment extends BaseDialogFragment {
       final View view,
       final Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
+    ButterKnife.bind(this, view);
 
     if (true) {
       final Uri uri = getUri();
@@ -55,12 +78,75 @@ public class FriendAddFragment extends BaseDialogFragment {
     }
   }
 
+  @OnClick(R.id.friend_add_btn)
+  public void onFriendAddClick() {
+
+    showProgress();
+    mStatusMessage.setText(getString(R.string.friend_add_searching));
+
+    final String username = mUserName.getText().toString();
+
+    Wtf.log("Trying to add friend: " + username);
+
+    //TODO: check if the username exists
+    Database.getSingleton().findUser(username);
+  }
+
+  @Subscribe
+  public void onFriendAdded(final FriendAddedEvent event) {
+
+    Wtf.logEvent(event.mEventID);
+
+    if (event.mEventID == Database.EventToken.FRIEND_ADDED) {
+
+      if (event.isFriendExists() && event.mData != null) {
+
+        return;
+      }
+
+      if (event.mError != null) {
+        //TODO: error handling
+        //show message in dialog
+      }
+
+      //verify if friend exists
+
+//      boolean userExists = true;
+//
+//      if (userExists) {
+//
+//        mStatusMessage.setText(getString(R.string.friend_add_found));
+//        //TODO: add snack bar listener here or delegate to other fragment
+//        Wtf.log("User exists: " + username);
+//
+//        //TODO: ModuleUri exit with data
+//
+//        hideProgress();
+//
+//        mNavigationCallback.onFragmentInteraction(
+//            ModuleUri.Builder(getActivity())
+//                     .exitCurrent()
+//                     .bundle(
+//                         new Parameters.Builder().friend(username).build().bundle()
+//                     ).build()
+//        );
+//      }
+//
+////    Bus.post(new FriendAddedEvent().success(Database.EventToken.FRIEND_ADDED));
+
+
+    }
+  }
+
 
   public static class Parameters {
     public static final String TAG = Parameters.class.getCanonicalName();
     private static final String KEY_TITLE = Auth.createKey(TAG, "title");
+    private static final String KEY_FRIEND = Auth.createKey(TAG, "friend");
+
 
     public String mTitle;
+    public String mFriendName;
 
     private Parameters() {
     }
@@ -83,23 +169,34 @@ public class FriendAddFragment extends BaseDialogFragment {
     public Bundle bundle() {
       final Bundle bundle = new Bundle();
       bundle.putString(KEY_TITLE, mTitle);
+      bundle.putString(KEY_FRIEND, mFriendName);
       return bundle;
     }
 
     public static class Builder {
 
       private final Parameters mParameters;
+      private final Bundle mBundle;
 
       public Builder() {
         mParameters = new Parameters();
+        mBundle = new Bundle();
       }
 
       public Parameters build() {
         return mParameters;
+//        return mBundle;
       }
 
       public Builder title(final String title) {
         mParameters.mTitle = title;
+//        mBundle.putString(KEY_TITLE, title);
+        return this;
+      }
+
+      public Builder friend(final String friendName) {
+//        mBundle.putString(KEY_FRIEND, friendName);
+        mParameters.mFriendName = friendName;
         return this;
       }
     }
