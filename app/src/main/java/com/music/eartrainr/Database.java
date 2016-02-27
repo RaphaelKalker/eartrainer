@@ -64,6 +64,8 @@ public class Database {
 
   private static synchronized void initFirebase() {
      mFirebaseRef = new Firebase(FIREBASE_APP);
+    mFirebaseRef.keepSynced(true);
+    mFirebaseRef.getApp().goOnline();
   }
 
   public void createUser(@NotNull final String email, @NotNull final String password) {
