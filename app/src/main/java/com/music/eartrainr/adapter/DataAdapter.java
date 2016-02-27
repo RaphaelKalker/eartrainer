@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.music.eartrainr.R;
+import com.music.eartrainr.model.User;
 
 import java.util.List;
 
@@ -15,12 +16,12 @@ import butterknife.ButterKnife;
 
 
 public class DataAdapter
-    extends RecyclerViewBaseAdapter<String, DataAdapter.DataAdapterViewHolder> {
+    extends RecyclerViewBaseAdapter<User, DataAdapter.DataAdapterViewHolder> {
 
 
-  private OnRowItemClick<String> mOnClickListener;
+  private OnRowItemClick<User> mOnClickListener;
 
-  public DataAdapter(List<String> data, final int listItemLayout) {
+  public DataAdapter(List<User> data, final int listItemLayout) {
     setDataSource(data);
     setView(listItemLayout);
   }
@@ -37,10 +38,10 @@ public class DataAdapter
       final DataAdapterViewHolder holder,
       final int position) {
 
-    holder.name.setText(getItem(position));
+    holder.name.setText( getItem(position).getUserName());
   }
 
-  @Override public void setOnRowItemClickListener(final OnRowItemClick<String> listener) {
+  @Override public void setOnRowItemClickListener(final OnRowItemClick<User> listener) {
     mOnClickListener = listener;
   }
 
