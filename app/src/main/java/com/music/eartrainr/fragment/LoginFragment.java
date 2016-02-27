@@ -2,6 +2,7 @@ package com.music.eartrainr.fragment;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -54,6 +55,7 @@ public class LoginFragment extends BaseFragment implements FragmentNavigation {
   public static final int SIGN_IN = 0;
   public static final int SIGN_UP = 1;
 
+  @SuppressWarnings({"unused"})
   public static LoginFragment newInstance(final Uri uri) {
     LoginFragment fragment = new LoginFragment();
     Bundle args = new Bundle();
@@ -68,27 +70,20 @@ public class LoginFragment extends BaseFragment implements FragmentNavigation {
   }
 
   @Override
-  public void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    if (getArguments() != null) {
-    }
-  }
-
-  @Override
   public View onCreateView(
       LayoutInflater inflater,
       ViewGroup container,
       Bundle savedInstanceState) {
-    View view = inflater.inflate(R.layout.fragment_login, container, false);
+    return inflater.inflate(R.layout.fragment_login, container, false);
+  }
 
+  @Override public void onViewCreated(
+      final View view,
+      @Nullable final Bundle savedInstanceState) {
+    super.onViewCreated(view, savedInstanceState);
     ButterKnife.bind(this, view);
-
+    fillInDetails();
     restoreState(savedInstanceState);
-
-    mEmail.setText("raphael@gmail.com");
-    mPassword.setText("password");
-
-    return view;
   }
 
   @Override
@@ -97,8 +92,6 @@ public class LoginFragment extends BaseFragment implements FragmentNavigation {
       mLoginState = savedInstanceState.getInt(BUNDLE_TOGGLE_STATE, SIGN_IN);
       mEmail.setText(savedInstanceState.getString(BUNDLE_EMAIL_KEY));
       mPassword.setText(savedInstanceState.getString(BUNDLE_PASSWORD_KEY));
-
-    } else {
     }
 
     initView();
@@ -235,12 +228,12 @@ public class LoginFragment extends BaseFragment implements FragmentNavigation {
           Wtf.log("SECURITY EXCEPTION");
         }
 
-        Uri uri = ModuleUri.Builder(getActivity().getApplicationContext())
-                           .to(ProfileFragment.TAG)
-                           .user(Database.getSingleton().getUserId())
-                           .build();
-
-        mNavigationCallback.onFragmentInteraction(uri);
+//        Uri uri = ModuleUri.Builder(getActivity().getApplicationContext())
+//                           .to(ProfileFragment.TAG)
+//                           .user(Database.getSingleton().getUserId())
+//                           .build();
+//
+//        mNavigationCallback.onFragmentInteraction(uri);
 
 
       }
@@ -255,6 +248,7 @@ public class LoginFragment extends BaseFragment implements FragmentNavigation {
 
     if (event.mEventID == Database.EventToken.AUTHORIZATION) {
       mProgressBar.setVisibility(View.GONE);
+      mStatusMessage.setText(getString(R.string.status_auth_success));
       Wtf.log();
       final AuthData authData;
       final FirebaseError error;
@@ -294,5 +288,15 @@ public class LoginFragment extends BaseFragment implements FragmentNavigation {
 
   @Override public String getTitle() {
     return getString(R.string.fragment_title_login);
+  }
+
+
+  /*
+  * TEMP
+  * */
+
+  private void fillInDetails() {
+    mEmail.setText("raphael@gmail.com");
+    mPassword.setText("password");
   }
 }

@@ -42,4 +42,5 @@
     <!-- STATUS MESSAGES-->
     <string name="status_creating_profile">Creating profile...</string>
     <string name="status_signing_up">Signing up...</string>
+    <string name="status_auth_success">Authorization successful.</string>
 </resources>

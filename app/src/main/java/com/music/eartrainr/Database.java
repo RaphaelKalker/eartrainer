@@ -76,12 +76,20 @@ public class Database {
     mFirebaseRef.getApp().goOnline();
   }
 
+  /**
+   * 1. Creates a user - fires SignUpEvent for UI update
+   * 2. Creates a profile - fires event?
+   * 3. Signs in user -  fires SignInEvent
+   * @param email
+   * @param password
+   */
   public void createUser(@NotNull final String email, @NotNull final String password) {
     mFirebaseRef.createUser(email, password, new Firebase.ValueResultHandler<Map<String, Object>>() {
 
       @Override public void onSuccess(final Map<String, Object> stringObjectMap) {
         final String uid = (String)stringObjectMap.get("uid");
         Wtf.log("Successfully create user: " + uid);
+//        authorize(email, password);
         createProfile(uid);
       }
 
@@ -100,6 +108,7 @@ public class Database {
                 if (firebaseError == null) {
                   Wtf.log("Successfully created Profile: " + uid);
                   Bus.post(new SignUpEvent<String>().success(EventToken.NEW_USER, uid));
+                  authorize(email, password, null);
                 } else {
                   Bus.post(new SignUpEvent<>().error(EventToken.NEW_USER, firebaseError));
                 }
@@ -116,6 +125,7 @@ public class Database {
 
 
   public void authorize(final String email, final String password, Firebase.AuthResultHandler callback) {
+    Wtf.log("Authorizing User: " + email);
     if (callback == null) {
       callback = new Firebase.AuthResultHandler() {
         @Override public void onAuthenticated(final AuthData authData) {
