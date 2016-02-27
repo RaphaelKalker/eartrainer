@@ -43,6 +43,7 @@ public class LoginFragment extends BaseFragment implements FragmentNavigation {
   @Bind(R.id.login_password) EditText mPassword;
   @Bind(R.id.login_toggle_signup_btn) TextView mToggleTxt;
   @Bind(R.id.login_progress) ProgressBar mProgressBar;
+  @Bind(R.id.status_message) TextView mStatusMessage;
 
   private int mLoginState = SIGN_IN;
 
@@ -184,6 +185,7 @@ public class LoginFragment extends BaseFragment implements FragmentNavigation {
       }
 
       mProgressBar.setVisibility(View.VISIBLE);
+      mStatusMessage.setText(getString(R.string.status_signing_up));
       Database.getSingleton().createUser(email, password);
 
     } else {
@@ -206,9 +208,10 @@ public class LoginFragment extends BaseFragment implements FragmentNavigation {
     Wtf.log("Caught Event: " + event.mEventID);
 
     if (event.mEventID == Database.EventToken.NEW_USER) {
-      mProgressBar.setVisibility(View.GONE);
 
+      //There was an error with performing the sign up
       if (event.mError != null) {
+        mProgressBar.setVisibility(View.GONE);
         displayError(getView(), ((FirebaseError) event.mError).getMessage());
         return;
       }
@@ -223,6 +226,7 @@ public class LoginFragment extends BaseFragment implements FragmentNavigation {
         }
 
         //show creating profile dialog
+        mStatusMessage.setText(getString(R.string.status_creating_profile));
 
         //Sanity check
         if (!TextUtils.equals(Database.getSingleton().getUserId(), uid)) {
