@@ -274,5 +274,14 @@ public class Database {
                       }
                     }
                 );
+  private T parseFirstElement(
+      final DataSnapshot dataSnapshot,
+      final Class<?> clazz) {
+    if (dataSnapshot.getChildrenCount() != 0) {
+      return (T) dataSnapshot.getChildren().iterator().next().getValue(clazz);
+    } else {
+      return null;
+    }
+  }
   }
 }
