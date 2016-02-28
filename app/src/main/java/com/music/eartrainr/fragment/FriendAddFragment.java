@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.music.eartrainr.Auth;
 import com.music.eartrainr.Bus;
 import com.music.eartrainr.Database;
+import com.music.eartrainr.ModuleUri;
 import com.music.eartrainr.R;
 import com.music.eartrainr.Wtf;
 import com.music.eartrainr.event.FriendAddedEvent;
@@ -93,7 +94,7 @@ public class FriendAddFragment extends BaseDialogFragment {
     Database.getSingleton().findUser(username);
   }
 
-  @Subscribe
+  @Subscribe(priority = 2)
   public void onFriendStatusUpdate(final FriendAddedEvent event) {
 
     Wtf.logEvent(event.mEventID);
@@ -106,6 +107,10 @@ public class FriendAddFragment extends BaseDialogFragment {
 
       final User user = (User) event.mData;
       Wtf.log("TODO: time to navigate back to profile view");
+
+      mNavigationCallback.onFragmentInteraction(
+          ModuleUri.exit(getActivity().getApplicationContext())
+      );
 
       return;
     }
@@ -136,7 +141,7 @@ public class FriendAddFragment extends BaseDialogFragment {
 
 
     public String mTitle;
-    public String mFriendName;
+    public String mUserName;
 
     private Parameters() {
     }
@@ -159,7 +164,7 @@ public class FriendAddFragment extends BaseDialogFragment {
     public Bundle bundle() {
       final Bundle bundle = new Bundle();
       bundle.putString(KEY_TITLE, mTitle);
-      bundle.putString(KEY_FRIEND, mFriendName);
+      bundle.putString(KEY_FRIEND, mUserName);
       return bundle;
     }
 
@@ -184,9 +189,9 @@ public class FriendAddFragment extends BaseDialogFragment {
         return this;
       }
 
-      public Builder friend(final String friendName) {
+      public Builder friend(final User user) {
 //        mBundle.putString(KEY_FRIEND, friendName);
-        mParameters.mFriendName = friendName;
+        mParameters.mUserName = user.getUserName();
         return this;
       }
     }

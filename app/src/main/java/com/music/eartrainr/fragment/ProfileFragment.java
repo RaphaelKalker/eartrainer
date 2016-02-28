@@ -19,6 +19,7 @@ import com.bumptech.glide.Glide;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.annotations.NotNull;
+import com.music.eartrainr.Bus;
 import com.music.eartrainr.Database;
 import com.music.eartrainr.ModuleUri;
 import com.music.eartrainr.Wtf;
@@ -73,6 +74,16 @@ public class ProfileFragment extends BaseFragment  {
     args.putParcelable(FragmentNavigation.KEY_FRAGMENT_URI_ARG, uri);
     fragment.setArguments(args);
     return fragment;
+  }
+
+  @Override public void onStart() {
+    super.onStart();
+    Bus.register(this);
+  }
+
+  @Override public void onStop() {
+    super.onStop();
+    Bus.unregister(this);
   }
 
   @Override
@@ -164,22 +175,20 @@ public class ProfileFragment extends BaseFragment  {
     });
   }
 
-  @Subscribe
-  public void onFriendAdded(@NotNull final FriendAddedEvent event) {
-    if (event.mEventID == Database.EventToken.FRIEND_ADDED) {
-      //TODO: handle generic failure case
+  @Subscribe(priority = 1)
+  public void onFriendStatusUpdate(final FriendAddedEvent event) {
+    Wtf.logEvent(event.mEventID);
+    Wtf.log("Got user in profile view");
 
-      if (event.mData != null) {
-        final User newFriend = (User) event.mData;
-        mFriends.add(newFriend);
-//        mFriendsListAdapter.setDataSource(mFriends);
-
-        //update some list observer
-      }
+    if (event.mEventID == FriendAddedEvent.EVENT.FRIEND_ADDED) {
+      final User user = (User) event.mData;
+      mFriends = mFriendsListAdapter.getDataSource();
+      mFriends.add(user);
+      mFriendsListAdapter.setDataSource(mFriends);
+      Wtf.log("Got user in profile view: " + user.getUserName());
     }
-
-
   }
+
 
   @Override public void onViewCreated(
       final View view,
