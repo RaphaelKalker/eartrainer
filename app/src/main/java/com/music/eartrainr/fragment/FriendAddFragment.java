@@ -14,6 +14,7 @@ import com.music.eartrainr.Database;
 import com.music.eartrainr.R;
 import com.music.eartrainr.Wtf;
 import com.music.eartrainr.event.FriendAddedEvent;
+import com.music.eartrainr.model.User;
 
 import org.greenrobot.eventbus.Subscribe;
 
@@ -74,7 +75,7 @@ public class FriendAddFragment extends BaseDialogFragment {
 
     if (true) {
       final Uri uri = getUri();
-      Wtf.log(uri.toString());
+      Wtf.log("Is this uri valid:" + uri.toString());
     }
   }
 
@@ -93,49 +94,38 @@ public class FriendAddFragment extends BaseDialogFragment {
   }
 
   @Subscribe
-  public void onFriendAdded(final FriendAddedEvent event) {
+  public void onFriendStatusUpdate(final FriendAddedEvent event) {
 
     Wtf.logEvent(event.mEventID);
 
-    if (event.mEventID == Database.EventToken.FRIEND_ADDED) {
+    //Successfully added friend
+    if (event.mEventID == FriendAddedEvent.EVENT.FRIEND_ADDED &&
+        event.mData != null) {
 
-      if (event.isFriendExists() && event.mData != null) {
+      finishSearch(R.string.friend_add_successful);
 
-        return;
-      }
+      final User user = (User) event.mData;
+      Wtf.log("TODO: time to navigate back to profile view");
 
-      if (event.mError != null) {
-        //TODO: error handling
-        //show message in dialog
-      }
-
-      //verify if friend exists
-
-//      boolean userExists = true;
-//
-//      if (userExists) {
-//
-//        mStatusMessage.setText(getString(R.string.friend_add_found));
-//        //TODO: add snack bar listener here or delegate to other fragment
-//        Wtf.log("User exists: " + username);
-//
-//        //TODO: ModuleUri exit with data
-//
-//        hideProgress();
-//
-//        mNavigationCallback.onFragmentInteraction(
-//            ModuleUri.Builder(getActivity())
-//                     .exitCurrent()
-//                     .bundle(
-//                         new Parameters.Builder().friend(username).build().bundle()
-//                     ).build()
-//        );
-//      }
-//
-////    Bus.post(new FriendAddedEvent().success(Database.EventToken.FRIEND_ADDED));
-
-
+      return;
     }
+
+    //Found User, now adding as friend.
+    if (event.mEventID == FriendAddedEvent.EVENT.USER_FOUND){
+      mStatusMessage.setText(getString(R.string.friend_add_friend));
+      Database.getSingleton().addFriend((User) event.mData);
+      return;
+    }
+
+    if (event.mEventID == FriendAddedEvent.EVENT.USER_UNKNOWN) {
+      finishSearch(R.string.friend_add_not_found);
+      return;
+    }
+  }
+
+  private void finishSearch(final int stringId) {
+    mProgressBar.setVisibility(View.GONE);
+    mStatusMessage.setText(getString(stringId));
   }
 
 
