@@ -58,6 +58,12 @@ public class ModuleUri {
     //TODO move all builder stuff to inner class
   }
 
+  public static Uri exit(Context context) {
+    final ModuleUri uri = new ModuleUri(context);
+    uri.mUriArgs.put(ACTION, Action.EXIT);
+    return uri.build();
+  }
+
   public static ModuleUri Builder(final Context applicationContext) {
     return new ModuleUri(applicationContext);
   }
