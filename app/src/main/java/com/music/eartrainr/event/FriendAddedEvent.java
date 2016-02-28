@@ -1,18 +1,28 @@
 package com.music.eartrainr.event;
 
 
-public class FriendAddedEvent<T> extends EventBusEvent {
+import com.music.eartrainr.Auth;
+import com.music.eartrainr.fragment.FriendAddFragment;
+import com.music.eartrainr.model.User;
 
-  private boolean mFriendExists;
+
+public class FriendAddedEvent<T> extends EventBusEvent {
+  public static final String TAG = FriendAddedEvent.class.getSimpleName();
+
+
+
+
+  public interface EVENT {
+    int FRIEND_ADDED = Auth.generateEventToken(TAG, "new_friend");
+//    int FRIEND_FOUND = Auth.generateEventToken(TAG, "friend_found");
+    int USER_FOUND = Auth.generateEventToken(TAG, "user_found");
+    int USER_UNKNOWN = Auth.generateEventToken(TAG, "user_not_found");
+  }
+
 
   public FriendAddedEvent() {
   }
 
-  public FriendAddedEvent success(final int id, T data) {
-    mEventID = id;
-    mData = data;
-    return this;
-  }
 
   public FriendAddedEvent error(
       final int id,
@@ -22,11 +32,21 @@ public class FriendAddedEvent<T> extends EventBusEvent {
     return this;
   }
 
-  public boolean isFriendExists() {
-    return mFriendExists;
+  public EventBusEvent found(final User user) {
+    mEventID = EVENT.USER_FOUND;
+    mData = user;
+    return this;
   }
 
-  public void setFriendExists(final boolean friendExists) {
-    mFriendExists = friendExists;
+  public EventBusEvent friendAdded(final User user) {
+    mEventID = EVENT.FRIEND_ADDED;
+    mData = user;
+    return this;
+  }
+
+  public FriendAddedEvent notFound(final String userName) {
+    mEventID = EVENT.USER_UNKNOWN;
+    mData = userName;
+    return this;
   }
 }
