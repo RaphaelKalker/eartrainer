@@ -1,6 +1,9 @@
 package com.music.eartrainr;
 
+import android.text.TextUtils;
+
 import com.firebase.client.AuthData;
+import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -10,6 +13,7 @@ import com.music.eartrainr.event.FireBaseEvent;
 import com.music.eartrainr.event.FriendAddedEvent;
 import com.music.eartrainr.event.SignInEvent;
 import com.music.eartrainr.event.SignUpEvent;
+import com.music.eartrainr.model.ModelObj;
 import com.music.eartrainr.model.User;
 import com.music.eartrainr.retrofit.FirebaseService;
 
@@ -17,9 +21,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.music.eartrainr.Database.FirebaseKeys.USERS;
+import static com.music.eartrainr.event.FriendAddedEvent.EVENT.FRIEND_ADDED;
+import static com.music.eartrainr.event.FriendAddedEvent.EVENT.USER_UNKNOWN;
 
 
-public class Database {
+public class Database <T> {
 
   public static final String TAG = Database.class.getSimpleName();
   private static final String RANK_STARTING = "1";
@@ -38,8 +44,6 @@ public class Database {
   public interface EventToken {
     int NEW_USER = Auth.generateEventToken(TAG, "new_user");
     int AUTHORIZATION = Auth.generateEventToken(TAG, "existing_user");
-    int FRIEND_ADDED = Auth.generateEventToken(TAG, "new_friend");
-    int FRIEND_FOUND = Auth.generateEventToken(TAG, "friend_found");
   }
 
   public interface FirebaseGET<T> {
@@ -145,10 +149,14 @@ public class Database {
 
   /**
    * adds a friend to the profile with the uid specified
-   * @param uid - identity of the profile to which a friend should be added
    * @param user - user object from profile
    */
   public void addFriend(final User user) {
+    Wtf.log("addingFriend() -> " + user.getUserName());
+
+    //TODO:
+    //adding yourself results in a recursive loop, prevent this!
+
     final Map<String, String> friendDetails = new HashMap<>();
     friendDetails.put(FirebaseKeys.USERNAME, user.getUserName());
     friendDetails.put(FirebaseKeys.USER_UID, user.getUid());
@@ -162,9 +170,9 @@ public class Database {
                       final FirebaseError firebaseError,
                       final Firebase firebase) {
                     if (firebaseError == null) {
-                      Bus.post(new FriendAddedEvent().success(EventToken.FRIEND_ADDED, user));
+                      Bus.post(new FriendAddedEvent().friendAdded(user));
                     } else {
-                      Bus.post(new FriendAddedEvent().error(EventToken.FRIEND_ADDED, firebaseError));
+                      Bus.post(new FriendAddedEvent().error(FRIEND_ADDED, firebaseError));
                     }
                   }
                 });
@@ -255,25 +263,38 @@ public class Database {
    * @param username
    */
   public void findUser(final String username) {
-    mFirebaseRef.child(USERS).orderByChild(FirebaseKeys.USERNAME)
-                .equalTo(username)
-                .addListenerForSingleValueEvent(
-                    new ValueEventListener() {
-                      @Override public void onDataChange(final DataSnapshot dataSnapshot) {
-                        for (final DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                          final User user = snapshot.getValue(User.class);
-                          user.setUid(snapshot.getKey());
-                          addFriend(user);
-                          Wtf.log("Found User: " + user.getUserName());
-                        }
-                      }
 
-                      @Override public void onCancelled(final FirebaseError firebaseError) {
-                        Wtf.log(firebaseError.getMessage());
-                        Bus.post(new FriendAddedEvent().error(EventToken.FRIEND_ADDED, firebaseError));
-                      }
-                    }
-                );
+    //only this one works
+    mFirebaseRef.child(USERS).orderByChild(FirebaseKeys.USERNAME).equalTo(username)
+        .addValueEventListener(new ValueEventListener() {
+          @Override public void onDataChange(final DataSnapshot dataSnapshot) {
+            cleanupListener(this); //IMPORTANT
+
+            //user exists
+            if (dataSnapshot.getValue() != null) {
+              final User user = (User) parseFirstElement(dataSnapshot, User.class);
+              if (user == null) {
+                //TODO: temp check
+                throw new IllegalStateException("unable to parse first element");
+              }
+
+              Wtf.log("Found User: " + user.getUserName());
+              user.setUid(dataSnapshot.getKey());
+//              addFriend(user);
+              Bus.post(new FriendAddedEvent().found(user));
+            } else {
+              Bus.post(new FriendAddedEvent().notFound(username));
+            }
+
+          }
+
+          @Override public void onCancelled(final FirebaseError firebaseError) {
+            cleanupListener(this);
+            Bus.post(new FriendAddedEvent().error(USER_UNKNOWN, firebaseError));
+          }
+        });
+  }
+
   private T parseFirstElement(
       final DataSnapshot dataSnapshot,
       final Class<?> clazz) {
