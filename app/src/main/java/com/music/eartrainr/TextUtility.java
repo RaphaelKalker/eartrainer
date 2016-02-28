@@ -9,4 +9,7 @@ public class TextUtility {
     return !TextUtils.isEmpty(target) && android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
   }
 
+  public static String getUserNameFromEmail(final String email) {
+    return email.split("\\@")[0];
+  }
 }
