@@ -38,6 +38,8 @@ public class Database <T> {
     String USERNAME = "userName";
     String FRIENDS = "friends";
     String USER_UID = "user_uid";
+    String RANK = "rank";
+    String EMAIL = "email";
   }
 
   public interface EventToken {
