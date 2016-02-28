@@ -88,6 +88,12 @@ public abstract class BaseFragment<T>
         .getParcelable(FragmentNavigation.KEY_FRAGMENT_URI_ARG) : Uri.EMPTY;
   }
 
+  public static Bundle getDefaultArgs(final Uri uri) {
+    final Bundle bundle = new Bundle();
+    bundle.putParcelable(FragmentNavigation.KEY_FRAGMENT_URI_ARG, uri);
+    return bundle;
+  }
+
 
 
   abstract public void restoreState(final Bundle savedState);
