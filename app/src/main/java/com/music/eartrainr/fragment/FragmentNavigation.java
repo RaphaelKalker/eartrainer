@@ -8,7 +8,7 @@ import android.net.Uri;
  */
 public interface FragmentNavigation {
 
-  public static final String KEY_FRAGMENT_URI_ARG = "fragment_uri";
+  String KEY_FRAGMENT_URI_ARG = "fragment_uri";
 
   void onFragmentInteraction(Uri uri);
 
