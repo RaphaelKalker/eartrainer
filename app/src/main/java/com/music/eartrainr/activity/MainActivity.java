@@ -3,6 +3,7 @@ package com.music.eartrainr.activity;
 import android.os.Bundle;
 import android.app.Activity;
 import android.support.design.widget.NavigationView;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
@@ -20,6 +21,7 @@ public class MainActivity extends BaseActivity {
 
   @Bind(R.id.toolbar) Toolbar mToolbar;
   @Bind(R.id.nav_view) NavigationView mNavigationView;
+  @Bind(R.id.nav_drawerlayout) DrawerLayout mDrawerLayout;
 
 
   @Override
@@ -27,38 +29,25 @@ public class MainActivity extends BaseActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
     ButterKnife.bind(this);
-    setSupportActionBar(mToolbar);
 
+    setSupportActionBar(mToolbar);
     getSupportActionBar().setTitle("Main Activity");
 
-    onFragmentInteraction(getUri());
-    mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-      @Override public boolean onNavigationItemSelected(final MenuItem item) {
-        Wtf.log("NAVIGATION SELECTED");
-        return false;
-      }
-    });
+    mNavigationView.setNavigationItemSelectedListener(mNavigationItemListener);
 
+    onFragmentInteraction(getUri());
   }
 
   private NavigationView.OnNavigationItemSelectedListener mNavigationItemListener = new NavigationView.OnNavigationItemSelectedListener() {
     @Override public boolean onNavigationItemSelected(final MenuItem item) {
-      Wtf.log();
-
       switch (item.getItemId()) {
         case R.id.nav_logout:
-          Wtf.log("Logout");
-          //TODO: show some dialog
-
-          //TODO: go back to login activity with login fragment
           Database.getSingleton().logout();
-          finishActivity(0);
+          finish();
+          mDrawerLayout.closeDrawers();
           break;
       }
       return false;
     }
   };
-
-
-
 }
