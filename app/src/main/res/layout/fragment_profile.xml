@@ -80,7 +80,7 @@
             android:id="@+id/profile_friends"
             android:layout_marginTop="@dimen/activity_verticle_spacing_title"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="400dp"
             android:layout_below="@id/profile_friends_title"/>
 
         <!-- ADD FRIEND BTN-->
