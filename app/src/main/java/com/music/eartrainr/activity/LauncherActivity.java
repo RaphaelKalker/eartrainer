@@ -55,20 +55,7 @@ public class LauncherActivity extends BaseActivity {
 
   }
 
-  private NavigationView.OnNavigationItemSelectedListener mNavigationItemListener = new NavigationView.OnNavigationItemSelectedListener() {
-    @Override public boolean onNavigationItemSelected(final MenuItem item) {
 
-      switch (item.getItemId()) {
-        case R.id.nav_logout:
-          //TODO: show some dialog
-
-          //TODO: go back to login activity with login fragment
-          Database.getSingleton().logout();
-          break;
-      }
-      return false;
-    }
-  };
 
 
 
