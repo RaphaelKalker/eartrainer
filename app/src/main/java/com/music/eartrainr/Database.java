@@ -13,7 +13,6 @@ import com.music.eartrainr.event.FireBaseEvent;
 import com.music.eartrainr.event.FriendAddedEvent;
 import com.music.eartrainr.event.SignInEvent;
 import com.music.eartrainr.event.SignUpEvent;
-import com.music.eartrainr.model.ModelObj;
 import com.music.eartrainr.model.User;
 import com.music.eartrainr.retrofit.FirebaseService;
 
