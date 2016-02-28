@@ -36,8 +36,14 @@
     <string name="fragment_title_profile">Profile</string>
     <string name="fragment_title_friendadd">Add a friend</string>
     <string name="hint_username">Type a username</string>
+
+    <!-- ADD FRIEND FRAGMENT-->
     <string name="friend_add_searching">Searching...</string>
-    <string name="friend_add_found">Adding as friend...</string>
+    <string name="friend_add_friend">Adding user as friend...</string>
+    <string name="friend_add_successful">Successfully added as friend.</string>
+    <string name="friend_add_not_found">Unable to find user.</string>
+    <string name="friend_add_failed">Unable to add user, please try again.</string>
+
 
     <!-- STATUS MESSAGES-->
     <string name="status_creating_profile">Creating profile...</string>
