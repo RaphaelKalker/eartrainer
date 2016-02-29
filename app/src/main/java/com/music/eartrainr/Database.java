@@ -40,6 +40,7 @@ public class Database <T> {
     String USER_UID = "user_uid";
     String RANK = "rank";
     String EMAIL = "email";
+    boolean DEFAULT = true; //default value, we only care about the key when this is used
   }
 
   public interface EventToken {
