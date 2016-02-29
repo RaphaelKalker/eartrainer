@@ -296,24 +296,19 @@ public class Database <T> {
    * @param username
    */
   public void findUser(final String username) {
+    Wtf.log("Searching for user: " + username);
 
-    //only this one works
-    mFirebaseRef.child(USERS).orderByChild(FirebaseKeys.USERNAME).equalTo(username)
+    mFirebaseRef.child(USERS).child(username)
         .addValueEventListener(new ValueEventListener() {
           @Override public void onDataChange(final DataSnapshot dataSnapshot) {
             cleanupListener(this); //IMPORTANT
 
             //user exists
             if (dataSnapshot.getValue() != null) {
-              final User user = (User) parseFirstElement(dataSnapshot, User.class);
-              if (user == null) {
-                //TODO: temp check
-                throw new IllegalStateException("unable to parse first element");
-              }
+              final User user = dataSnapshot.getValue(User.class);
 
-              Wtf.log("Found User: " + user.getUserName());
-              user.setUid(dataSnapshot.getKey());
-//              addFriend(user);
+              Wtf.log("Found User: " + username);
+              user.setUserName(username);
               Bus.post(new FriendAddedEvent().found(user));
             } else {
               Bus.post(new FriendAddedEvent().notFound(username));
