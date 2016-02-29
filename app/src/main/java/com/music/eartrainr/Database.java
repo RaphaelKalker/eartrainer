@@ -101,12 +101,13 @@ public class Database <T> {
 
       private void createProfile(final String uid) {
         final Map<String, String> userDetails = new HashMap();
-        userDetails.put("email", email);
-        userDetails.put("rank", RANK_STARTING);
-        userDetails.put("userName", email.split("\\@")[0]);
+        final String username = TextUtility.getUserNameFromEmail(email);
+        userDetails.put(FirebaseKeys.EMAIL, email);
+        userDetails.put(FirebaseKeys.RANK, RANK_STARTING);
+//        userDetails.put(FirebaseKeys.USERNAME, username);
 
         mFirebaseRef.child(USERS)
-            .child(uid)
+            .child(TextUtility.getUserNameFromEmail(email))
             .setValue(userDetails, new Firebase.CompletionListener() {
               @Override public void onComplete(
                   final FirebaseError firebaseError,
