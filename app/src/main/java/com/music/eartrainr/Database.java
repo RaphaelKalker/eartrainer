@@ -1,7 +1,5 @@
 package com.music.eartrainr;
 
-import android.text.TextUtils;
-
 import com.firebase.client.AuthData;
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
@@ -9,16 +7,18 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 import com.firebase.client.annotations.NotNull;
-import com.music.eartrainr.event.FireBaseEvent;
 import com.music.eartrainr.event.FriendAddedEvent;
+import com.music.eartrainr.event.FriendItemGetEvent;
 import com.music.eartrainr.event.SignInEvent;
 import com.music.eartrainr.event.SignUpEvent;
 import com.music.eartrainr.model.User;
-import com.music.eartrainr.retrofit.FirebaseService;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.music.eartrainr.Database.FirebaseKeys.DEFAULT;
+import static com.music.eartrainr.Database.FirebaseKeys.FRIENDS;
+import static com.music.eartrainr.Database.FirebaseKeys.USERNAME;
 import static com.music.eartrainr.Database.FirebaseKeys.USERS;
 import static com.music.eartrainr.event.FriendAddedEvent.EVENT.FRIEND_ADDED;
 import static com.music.eartrainr.event.FriendAddedEvent.EVENT.USER_UNKNOWN;
@@ -152,7 +152,6 @@ public class Database <T> {
     }
 
     mFirebaseRef.authWithPassword(email, password, callback);
-
   }
 
 
@@ -164,25 +163,21 @@ public class Database <T> {
    * @param linkAgain - specify whether a friend link should be specified for the opposite user
    * @return -> fires Events
    */
-    Wtf.log("addingFriend() -> " + user.getUserName());
-
-    //TODO:
-    //adding yourself results in a recursive loop, prevent this!
-
-    final Map<String, String> friendDetails = new HashMap<>();
-    friendDetails.put(FirebaseKeys.USERNAME, user.getUserName());
-    friendDetails.put(FirebaseKeys.USER_UID, user.getUid());
-
+  public void addFriendLink(final String userA, final String userB, final boolean linkAgain){
     mFirebaseRef.child(USERS)
-                .child(getUserId())
+                .child(userA)
                 .child(FirebaseKeys.FRIENDS)
-                .push()
-                .setValue(friendDetails, new Firebase.CompletionListener() {
+                .updateChildren(createSingleMapObj(userB, DEFAULT), new Firebase.CompletionListener() {
                   @Override public void onComplete(
                       final FirebaseError firebaseError,
                       final Firebase firebase) {
                     if (firebaseError == null) {
-                      Bus.post(new FriendAddedEvent().friendAdded(user));
+                      if (linkAgain) {
+                        addFriendLink(userB, userA, false);
+                        User user = new User();
+                        user.setUserName(userB);
+                        Bus.post(new FriendAddedEvent().friendAdded(user));
+                      }
                     } else {
                       Bus.post(new FriendAddedEvent().error(FRIEND_ADDED, firebaseError));
                     }
