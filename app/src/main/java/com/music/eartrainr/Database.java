@@ -156,9 +156,13 @@ public class Database <T> {
   }
 
 
+
   /**
-   * adds a friend to the profile with the uid specified
-   * @param user - user object from profile
+   * Establishes a friend link between both userA & userB
+   * @param userA - userA get's a friend link to userB
+   * @param userB - similiarly userB get's a friend link to userA
+   * @param linkAgain - specify whether a friend link should be specified for the opposite user
+   * @return -> fires Events
    */
   public void addFriend(final User user) {
     Wtf.log("addingFriend() -> " + user.getUserName());
