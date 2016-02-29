@@ -198,7 +198,28 @@ public class ProfileFragment extends BaseFragment  {
     if (event.mEventID == FriendItemGetEvent.EVENT.FRIEND_RETRIEVED) {
       Wtf.log("adding user!");
       mFriendsListAdapter.addItem((User) event.mData);
+      return;
     }
+  }
+
+  @Subscribe
+  public void onFriendListItemDelete(final FriendItemGetEvent event) {
+
+    if (event.mEventID == FriendItemGetEvent.EVENT.DELETE_REQUEST){
+      Wtf.log("Delete request");
+      final User deleteUser = (User) event.mData;
+      final String currentUser = Database.getSingleton().getUserName();
+      Database.getSingleton().removeFriend(deleteUser.getUserName(), currentUser, true);
+      return;
+    }
+
+    if (event.mEventID == FriendItemGetEvent.EVENT.DELETE_SUCCESS){
+      Wtf.log("Delete success");
+      displaySuccess(getView(), getString(R.string.friend_add_friend_deleted));
+      mFriendsListAdapter.processDeletion();
+      return;
+    }
+
   }
 
 

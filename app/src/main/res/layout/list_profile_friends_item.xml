@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="@dimen/list_item_height"
     android:layout_margin="@dimen/activity_horizontal_margin">
 
     <!-- PROFILE PICTURE -->
@@ -33,9 +33,27 @@
         android:layout_centerHorizontal="true"
         android:layout_below="@id/friend_item_name"/>
 
+    <!-- DELETE FRIEND -->
     <Button
+        android:id="@+id/friend_item_delete"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:text="delete"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"/>
 
+    <!-- STATUS MSG -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/status_message"
+        android:layout_below="@id/friend_add_btn"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:textSize="10dp"
+        android:textColor="@color/md_grey_500"
+        android:gravity="bottom"
+        android:visibility="visible"
+        tools:text="Not able to find friend"/>
 
 </RelativeLayout>

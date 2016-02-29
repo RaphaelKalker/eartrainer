@@ -4,9 +4,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
+import com.music.eartrainr.Bus;
+import com.music.eartrainr.Database;
 import com.music.eartrainr.R;
+import com.music.eartrainr.Wtf;
+import com.music.eartrainr.event.FriendItemGetEvent;
 import com.music.eartrainr.model.User;
 
 import java.util.ArrayList;
@@ -14,6 +19,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 
 public class DataAdapter
@@ -52,6 +58,8 @@ public class DataAdapter
 
   protected class DataAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
     @Bind(R.id.friend_item_name) TextView name;
+    @Bind(R.id.friend_item_delete) Button deleteBtn;
+    @Bind(R.id.status_message) TextView statusMessage;
 
     public DataAdapterViewHolder(final View itemView) {
       super(itemView);
@@ -63,6 +71,15 @@ public class DataAdapter
       if (mOnClickListener != null) {
         mOnClickListener.onRowItemClick(v, getLayoutPosition());
       }
+    }
+
+    @OnClick(R.id.friend_item_delete)
+    public void onFriendDeleteClick() {
+      statusMessage.setText("Deleting...");
+      final User userToDelete = getItem(getLayoutPosition());
+      queueForDeletion(userToDelete);
+      Bus.post(new FriendItemGetEvent().itemDeleteRequest(userToDelete));
+      Wtf.log("ondeleteclicked");
     }
   }
 

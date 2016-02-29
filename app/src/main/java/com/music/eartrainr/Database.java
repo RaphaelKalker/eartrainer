@@ -18,7 +18,6 @@ import java.util.Map;
 
 import static com.music.eartrainr.Database.FirebaseKeys.DEFAULT;
 import static com.music.eartrainr.Database.FirebaseKeys.FRIENDS;
-import static com.music.eartrainr.Database.FirebaseKeys.USERNAME;
 import static com.music.eartrainr.Database.FirebaseKeys.USERS;
 import static com.music.eartrainr.event.FriendAddedEvent.EVENT.FRIEND_ADDED;
 import static com.music.eartrainr.event.FriendAddedEvent.EVENT.USER_UNKNOWN;
@@ -233,6 +232,27 @@ public class Database <T> {
 
           @Override public void onCancelled(final FirebaseError firebaseError) {
             Wtf.log();
+          }
+        });
+  }
+
+  public void removeFriend(final String userA, final String userB, final boolean tryAgain) {
+    Wtf.log("Removing friend link: " + userA + " & " + userB);
+
+    mFirebaseRef.child(USERS).child(userA).child(FRIENDS).child(userB)
+        .setValue(null, new Firebase.CompletionListener() {
+          @Override public void onComplete(
+              final FirebaseError firebaseError,
+              final Firebase firebase) {
+            if (firebaseError == null) {
+              if (tryAgain) {
+                removeFriend(userB, userA, false);
+              } else {
+                Bus.post(new FriendItemGetEvent().itemDeleteSuccess());
+              }
+            } else {
+              Bus.post(new FriendItemGetEvent().error(FriendItemGetEvent.EVENT.DELETE_REQUEST, firebaseError));
+            }
           }
         });
   }
