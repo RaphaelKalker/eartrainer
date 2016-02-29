@@ -118,7 +118,9 @@ public class FriendAddFragment extends BaseDialogFragment {
     //Found User, now adding as friend.
     if (event.mEventID == FriendAddedEvent.EVENT.USER_FOUND){
       mStatusMessage.setText(getString(R.string.friend_add_friend));
-      Database.getSingleton().addFriend((User) event.mData);
+      final String currentUser = Database.getSingleton().getUserName();
+      final String friendToAdd = ((User)event.mData).getUserName();
+      Database.getSingleton().addFriendLink(currentUser, friendToAdd, true);
       return;
     }
 
