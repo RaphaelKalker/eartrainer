@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 
 import android.view.View;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -21,9 +22,14 @@ public abstract class RecyclerViewBaseAdapter<T, VH extends RecyclerView.ViewHol
   public int mLayout;
 
   public void setDataSource(List<T> dataSource) {
-    mDataSource = dataSource;
+    mDataSource = dataSource != null ? dataSource : new ArrayList<T>();
     mSize = dataSource == null ? 0 : dataSource.size();
     notifyDataSetChanged();
+  }
+
+  public void addItem(T item) {
+    mDataSource.add(item);
+    notifyItemInserted(getItemCount() -1);
   }
 
   public List<T> getDataSource() {
@@ -31,11 +37,11 @@ public abstract class RecyclerViewBaseAdapter<T, VH extends RecyclerView.ViewHol
   }
 
   @Override public int getItemCount() {
-    return mSize;
+    return mDataSource != null ? mDataSource.size() : 0;
   }
 
   public T getItem(final int position) {
-    return position < mSize && position > -1
+    return position < getItemCount() && position > -1
         ? getDataSource().get(position)
         : null;
   }

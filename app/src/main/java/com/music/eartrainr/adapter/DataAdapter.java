@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.music.eartrainr.R;
 import com.music.eartrainr.model.User;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -21,8 +22,8 @@ public class DataAdapter
 
   private OnRowItemClick<User> mOnClickListener;
 
-  public DataAdapter(List<User> data, final int listItemLayout) {
-    setDataSource(data);
+  public DataAdapter(final int listItemLayout) {
+    setDataSource(null);
     setView(listItemLayout);
   }
 
