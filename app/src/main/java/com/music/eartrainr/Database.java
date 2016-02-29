@@ -130,7 +130,13 @@ public class Database <T> {
   }
 
 
-
+  /**
+   * Performs a login request and authorizes the user.
+   * Note: this must be called even for signups
+   * @param email
+   * @param password
+   * @param callback
+   */
   public void authorize(final String email, final String password, Firebase.AuthResultHandler callback) {
     Wtf.log("Authorizing User: " + email);
     if (callback == null) {
