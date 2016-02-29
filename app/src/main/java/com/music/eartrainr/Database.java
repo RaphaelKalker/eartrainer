@@ -205,9 +205,9 @@ public class Database <T> {
    * @param uid - unique identifer under users child
    * @param callback
    */
-  public void getProfile(final String uid, final FirebaseGET<User> callback) {
+  public void getProfile(final String user, final FirebaseGET<User> callback) {
     mFirebaseRef.child(USERS)
-        .child(uid)
+        .child(user)
         .addListenerForSingleValueEvent(new ValueEventListener() {
           @Override public void onDataChange(final DataSnapshot dataSnapshot) {
             //TODO: BUG: there are times where getValue returns null
