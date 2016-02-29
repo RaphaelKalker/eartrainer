@@ -288,9 +288,8 @@ public class Database <T> {
     map.put(key, value);
     return map;
   }
-  private void cleanupListener(ChildEventListener listener) {
-    mFirebaseRef.removeEventListener(listener);
-  }
+
+
 
   /**
    * Since the single callback instance does not work when using equalsTo and no entry is found,
@@ -304,5 +303,9 @@ public class Database <T> {
 
   private void cleanupListener(Firebase.AuthStateListener listener) {
     mFirebaseRef.removeAuthStateListener(listener);
+  }
+
+  private void cleanupListener(ChildEventListener listener) {
+    mFirebaseRef.removeEventListener(listener);
   }
 }
