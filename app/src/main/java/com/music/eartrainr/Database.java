@@ -229,11 +229,6 @@ public class Database <T> {
   }
 
 
-  public void logout() {
-    mFirebaseRef.unauth();
-  }
-
-
   /**
    * finds a User model
    * @param username
@@ -270,6 +265,11 @@ public class Database <T> {
           }
         });
   }
+
+  public void logout() {
+    mFirebaseRef.unauth();
+  }
+
 
   private T parseFirstElement(
       final DataSnapshot dataSnapshot,
