@@ -181,14 +181,6 @@ public class Database <T> {
                 });
   }
 
-  public void doShit(final String uid) {
-//    Firebase postRef =  mFirebaseRef.child(FirebaseKeys.USERS);
-//    Map<String, String> user = new HashMap();
-//    user.put("userName", "raphael");
-//    user.put("rank", "100");
-//    user.put("email", "raphael.kalker@gmail.com");
-//    postRef.push().setValue(user);
-  }
 
 
   public String getUserId() {
@@ -204,27 +196,8 @@ public class Database <T> {
   public String getEmail() {
     return mFirebaseRef.getAuth().getProviderData().get("email").toString();
   }
-  public Object getProfile(final FirebaseGET callback) {
-    return mFirebaseRef.child(USERS).addValueEventListener(new ValueEventListener() {
-      @Override public void onDataChange(final DataSnapshot dataSnapshot) {
-        Wtf.log(dataSnapshot.getValue().toString());
 
-        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-          User user = snapshot.getValue(User.class);
-          Wtf.log();
-        }
-
-        callback.onSuccess(dataSnapshot);
-
-      }
-
-      @Override public void onCancelled(final FirebaseError firebaseError) {
-        Wtf.log("error");
-        callback.onError(firebaseError);
-      }
-    });
   }
-
 
   /**
    * Get's the profile according to a uid.
