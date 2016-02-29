@@ -254,15 +254,11 @@ public class LoginFragment extends BaseFragment implements FragmentNavigation {
       final FirebaseError error;
       if ((authData = (AuthData)event.mData) != null) {
         displaySuccess(getView(), authData.getToken());
-        authData.getAuth();
-        authData.getToken();
-
-        //TODO: launch new activity
 
         Uri uri = ModuleUri.Builder(getActivity().getApplicationContext())
                            .activity(MainActivity.TAG)
                            .to(ProfileFragment.TAG)
-                           .user(Database.getSingleton().getEmail())
+                           .user(Database.getSingleton().getUserName())
                            .build();
 
 
