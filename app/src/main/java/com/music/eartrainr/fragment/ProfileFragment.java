@@ -189,6 +189,16 @@ public class ProfileFragment extends BaseFragment  {
     }
   }
 
+  @Subscribe
+  public void onFriendListItemGet(final FriendItemGetEvent<FirebaseError, User> event) {
+    Wtf.logEvent(event.mEventID);
+
+    if (event.mEventID == FriendItemGetEvent.EVENT.FRIEND_RETRIEVED) {
+      Wtf.log("adding user!");
+      mFriendsListAdapter.addItem((User) event.mData);
+    }
+  }
+
 
   @Override public void onViewCreated(
       final View view,
