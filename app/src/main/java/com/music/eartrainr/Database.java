@@ -306,6 +306,13 @@ public class Database <T> {
     }
   }
 
+  private Map<String, Object> createSingleMapObj(
+      final String key,
+      final Object value) {
+    final Map<String, Object> map = new HashMap<>(1);
+    map.put(key, value);
+    return map;
+  }
   private void cleanupListener(ChildEventListener listener) {
     mFirebaseRef.removeEventListener(listener);
   }
