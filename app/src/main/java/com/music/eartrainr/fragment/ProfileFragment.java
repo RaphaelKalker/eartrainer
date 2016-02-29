@@ -28,6 +28,7 @@ import com.music.eartrainr.R;
 import com.music.eartrainr.Test;
 import com.music.eartrainr.event.FireBaseEvent;
 import com.music.eartrainr.event.FriendAddedEvent;
+import com.music.eartrainr.event.FriendItemGetEvent;
 import com.music.eartrainr.model.User;
 import com.music.eartrainr.retrofit.FirebaseService;
 
@@ -62,6 +63,7 @@ public class ProfileFragment extends BaseFragment  {
   private DataAdapter mFriendsListAdapter;
   private Object mProfile;
   private List<User> mFriends;
+  private String mCurrentUser;
 
 
   public ProfileFragment() {
@@ -91,6 +93,8 @@ public class ProfileFragment extends BaseFragment  {
     super.onCreate(savedInstanceState);
     if (getArguments() != null) {
     }
+
+    mCurrentUser = Database.getSingleton().getUserName();
 
 
 
@@ -160,7 +164,8 @@ public class ProfileFragment extends BaseFragment  {
 //    });
 
 
-    Database.getSingleton().getProfile(Database.getSingleton().getUserId(), new Database.FirebaseGET<User>() {
+
+    Database.getSingleton().getProfile(mCurrentUser, new Database.FirebaseGET<User>() {
       @Override public void onSuccess(final User user) {
         Wtf.log();
         mProfileName.setText(user.getUserName());
@@ -177,9 +182,6 @@ public class ProfileFragment extends BaseFragment  {
 
   @Subscribe(priority = 1)
   public void onFriendStatusUpdate(final FriendAddedEvent event) {
-    Wtf.logEvent(event.mEventID);
-    Wtf.log("Got user in profile view");
-
     if (event.mEventID == FriendAddedEvent.EVENT.FRIEND_ADDED) {
       final User user = (User) event.mData;
       mFriends = mFriendsListAdapter.getDataSource();
@@ -229,6 +231,12 @@ public class ProfileFragment extends BaseFragment  {
     final View view = inflater.inflate(R.layout.fragment_profile, container, false);
     ButterKnife.bind(this, view);
 
+    mFriendsList.setLayoutManager(new LinearLayoutManager(getActivity()));
+    mFriendsListAdapter = new DataAdapter(R.layout.list_profile_friends_item);
+    mFriendsList.setAdapter(mFriendsListAdapter);
+
+    Database.getSingleton().getFriends(mCurrentUser);
+
     Glide
         .with(this)
         .load(R.drawable.raph)
@@ -238,9 +246,7 @@ public class ProfileFragment extends BaseFragment  {
 
 
 
-    mFriendsList.setLayoutManager(new LinearLayoutManager(getActivity()));
-    mFriendsListAdapter = new DataAdapter(Test.getFriendList(), R.layout.list_profile_friends_item);
-    mFriendsList.setAdapter(mFriendsListAdapter);
+
 
 
     return view;
