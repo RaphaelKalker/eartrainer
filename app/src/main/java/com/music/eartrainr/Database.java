@@ -164,7 +164,6 @@ public class Database <T> {
    * @param linkAgain - specify whether a friend link should be specified for the opposite user
    * @return -> fires Events
    */
-  public void addFriend(final User user) {
     Wtf.log("addingFriend() -> " + user.getUserName());
 
     //TODO:
@@ -192,6 +191,56 @@ public class Database <T> {
   }
 
 
+  /**
+   * Get's all the child nodes of the friends list one by one
+   * @param user - the username for which a list of friends are requuested
+   * @return - fires FriendItemGetEvent
+   */
+  public void getFriends(final String user) {
+
+    mFirebaseRef.child(USERS + "/" + user + "/" + FRIENDS)
+        .addChildEventListener(new ChildEventListener() {
+          @Override public void onChildAdded(
+              final DataSnapshot dataSnapshot,
+              final String s) {
+            //THIS IS EVIL BUT ACTUALLY THE RECOMMENDED PRACTICE
+            final String friendName = dataSnapshot.getKey();
+
+            mFirebaseRef.child(USERS + "/" + friendName)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                  @Override public void onDataChange(final DataSnapshot dataSnapshot) {
+                    final User user = dataSnapshot.getValue(User.class);
+                    user.setUserName(dataSnapshot.getKey());
+                    Bus.post(new FriendItemGetEvent().itemGet(user));
+                  }
+
+                  @Override public void onCancelled(final FirebaseError firebaseError) {
+
+                  }
+                });
+          }
+
+          @Override public void onChildChanged(
+              final DataSnapshot dataSnapshot,
+              final String s) {
+            Wtf.log();
+          }
+
+          @Override public void onChildRemoved(final DataSnapshot dataSnapshot) {
+            Wtf.log();
+          }
+
+          @Override public void onChildMoved(
+              final DataSnapshot dataSnapshot,
+              final String s) {
+            Wtf.log();
+          }
+
+          @Override public void onCancelled(final FirebaseError firebaseError) {
+            Wtf.log();
+          }
+        });
+  }
 
   public String getUserId() {
     //TODO: save uid to shared prefs, getAuth is a blocking call!
