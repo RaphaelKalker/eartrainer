@@ -256,6 +256,9 @@ public class Database <T> {
     return mFirebaseRef.getAuth().getProviderData().get("email").toString();
   }
 
+  public String getUserName() {
+    final String email = (String) mFirebaseRef.getAuth().getProviderData().get(FirebaseKeys.EMAIL);
+    return TextUtility.getUserNameFromEmail(email);
   }
 
   /**
