@@ -5,13 +5,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.music.eartrainr.Bus;
 import com.music.eartrainr.Database;
+import com.music.eartrainr.ModuleUri;
 import com.music.eartrainr.R;
 import com.music.eartrainr.Wtf;
 import com.music.eartrainr.event.FriendItemGetEvent;
+import com.music.eartrainr.event.NavigationEvent;
+import com.music.eartrainr.fragment.ProfileFragment;
 import com.music.eartrainr.model.User;
 
 import java.util.ArrayList;
@@ -56,7 +60,7 @@ public class DataAdapter
     mOnClickListener = null;
   }
 
-  protected class DataAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+  protected class DataAdapterViewHolder extends RecyclerView.ViewHolder {
     @Bind(R.id.friend_item_name) TextView name;
     @Bind(R.id.friend_item_delete) Button deleteBtn;
     @Bind(R.id.status_message) TextView statusMessage;
@@ -64,13 +68,6 @@ public class DataAdapter
     public DataAdapterViewHolder(final View itemView) {
       super(itemView);
       ButterKnife.bind(this, itemView);
-      itemView.setOnClickListener(this);
-    }
-
-    @Override public void onClick(final View v) {
-      if (mOnClickListener != null) {
-        mOnClickListener.onRowItemClick(v, getLayoutPosition());
-      }
     }
 
     @OnClick(R.id.friend_item_delete)
@@ -79,7 +76,12 @@ public class DataAdapter
       final User userToDelete = getItem(getLayoutPosition());
       queueForDeletion(userToDelete);
       Bus.post(new FriendItemGetEvent().itemDeleteRequest(userToDelete));
-      Wtf.log("ondeleteclicked");
+    }
+
+    @OnClick(R.id.friend_item_container)
+    public void onRequestProfileClicked(){
+      final User requestedUser = getItem(getLayoutPosition());
+      mOnClickListener.onRowItemClick(requestedUser, getLayoutPosition());
     }
   }
 

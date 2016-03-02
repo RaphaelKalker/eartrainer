@@ -98,6 +98,17 @@ public class ModuleUri {
     return this;
   }
 
+  /*
+  * CONVENIENCE NAVIGATION METHODS
+  * */
+  public ModuleUri navToProfile(final String username) {
+    this.to(ProfileFragment.TAG);
+    this.user(username);
+    this.activity(MainActivity.TAG);
+    return this;
+
+  }
+
   public ModuleUri bundle(final Bundle bundle) {
     mUriArgs.put(BUNDLE, bundle);
     return this;

@@ -69,8 +69,8 @@ public abstract class RecyclerViewBaseAdapter<T, VH extends RecyclerView.ViewHol
     }
   }
 
-  public interface OnRowItemClick<T> {
-    void onRowItemClick(final View view, final int position);
+  public interface OnRowItemClick<ITEM> {
+    void onRowItemClick(final ITEM view, final int position);
   }
 
   public abstract void setOnRowItemClickListener(OnRowItemClick<T> listener);

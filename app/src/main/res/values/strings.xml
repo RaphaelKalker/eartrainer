@@ -51,4 +51,5 @@
     <string name="status_auth_success">Authorization successful.</string>
     <string name="fragment_title_game1">Game 1</string>
     <string name="friend_add_friend_deleted">Successfully removed friend.</string>
+    <string name="fail_navigation">Failed to go to next screen.</string>
 </resources>
