@@ -111,17 +111,6 @@ public class ProfileFragment extends BaseFragment implements DataAdapter.OnRowIt
     });
   }
 
-  @Subscribe(priority = 1)
-  public void onFriendStatusUpdate(final FriendAddedEvent event) {
-    if (event.mEventID == FriendAddedEvent.EVENT.FRIEND_ADDED) {
-      final User user = (User) event.mData;
-      mFriends = mFriendsListAdapter.getDataSource();
-      mFriends.add(user);
-      mFriendsListAdapter.setDataSource(mFriends);
-      Wtf.log("Got user in profile view: " + user.getUserName());
-    }
-  }
-
   @Subscribe
   public void onFriendListItemGet(final FriendItemGetEvent<FirebaseError, User> event) {
     Wtf.logEvent(event.mEventID);
