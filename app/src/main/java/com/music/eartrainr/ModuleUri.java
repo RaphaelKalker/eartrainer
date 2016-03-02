@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
+import com.music.eartrainr.activity.MainActivity;
+import com.music.eartrainr.fragment.ProfileFragment;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
