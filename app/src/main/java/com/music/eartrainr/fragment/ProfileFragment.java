@@ -49,7 +49,7 @@ import rx.Subscriber;
 import rx.functions.Action1;
 
 
-public class ProfileFragment extends BaseFragment  {
+public class ProfileFragment extends BaseFragment implements DataAdapter.OnRowItemClick  {
 
   public static final String TAG = ProfileFragment.class.getSimpleName();
 
@@ -94,6 +94,7 @@ public class ProfileFragment extends BaseFragment  {
     if (getArguments() != null) {
     }
 
+    mCurrentUser = ModuleUri.parseUri(getContext(), getUri()).getUserId();
 
     Database.getSingleton().getProfile(mCurrentUser, new Database.FirebaseGET<User>() {
       @Override public void onSuccess(final User user) {
@@ -158,7 +159,7 @@ public class ProfileFragment extends BaseFragment  {
       @Nullable final Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
     ModuleUri moduleUri = ModuleUri.parseUri(getActivity(), getUri());
-    mProfileName.setText(moduleUri.getUserId());
+    mProfileName.setText(mCurrentUser);
   }
 
   private String longRunningOperationObservableEmitter() {
@@ -185,6 +186,7 @@ public class ProfileFragment extends BaseFragment  {
     mFriendsList.setLayoutManager(new LinearLayoutManager(getActivity()));
     mFriendsListAdapter = new DataAdapter(R.layout.list_profile_friends_item);
     mFriendsList.setAdapter(mFriendsListAdapter);
+    mFriendsListAdapter.setOnRowItemClickListener(this);
 
     Database.getSingleton().getFriends(mCurrentUser);
 
@@ -214,6 +216,7 @@ public class ProfileFragment extends BaseFragment  {
   @Override public void onDestroyView() {
     super.onDestroyView();
     ButterKnife.unbind(this);
+    mFriendsListAdapter.removeListener();
   }
 
 
@@ -243,5 +246,17 @@ public class ProfileFragment extends BaseFragment  {
   }
 
 
+  @Override public void onRowItemClick(
+      final Object item,
+      final int position) {
+    final User user = (User) item;
 
+    if (user != null) {
+      Wtf.log("Clicked on user: " + user.getUserName());
+      final Uri uri = ModuleUri.Builder(getActivity().getApplicationContext()).navToProfile(user.getUserName()).build();
+      mNavigationCallback.onFragmentInteraction(uri);
+    } else {
+      displayError(getView(), getString(R.string.fail_navigation));
+    }
+  }
 }
