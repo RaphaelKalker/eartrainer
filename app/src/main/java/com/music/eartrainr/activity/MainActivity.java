@@ -41,40 +41,32 @@ public class MainActivity extends BaseActivity {
 
   private NavigationView.OnNavigationItemSelectedListener mNavigationItemListener = new NavigationView.OnNavigationItemSelectedListener() {
     @Override public boolean onNavigationItemSelected(final MenuItem item) {
-      boolean isGame = false;
-      String tag;
+      String tag = "";
 
       switch (item.getItemId()) {
 
         case R.id.nav_logout:
           Database.getSingleton().logout();
           finish();
-          mDrawerLayout.closeDrawers();
           break;
 
         case R.id.nav_game1:
-          isGame = true;
           tag = Game1Fragment.TAG;
           break;
         case R.id.nav_game2:
-          isGame = true;
-          tag = Game1Fragment.TAG;
         case R.id.nav_game3:
         case R.id.nav_game4:
-//          onFragmentInteraction(
-////              ModuleUri.Builder(getApplicationContext()).launchGame
-//
-//
-//          );
-          //core progression
-          //error progression
-          //interval detection
-
+          break;
       }
 
+      mDrawerLayout.closeDrawers();
 
+      onFragmentInteraction(
+          ModuleUri.Builder(getApplicationContext()).to(tag).build()
+      );
 
       return false;
     }
   };
+  
 }
