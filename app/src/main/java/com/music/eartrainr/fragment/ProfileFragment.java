@@ -2,13 +2,11 @@ package com.music.eartrainr.fragment;
 
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.Loader;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,21 +14,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.firebase.client.DataSnapshot;
 import com.firebase.client.FirebaseError;
-import com.firebase.client.annotations.NotNull;
 import com.music.eartrainr.Bus;
 import com.music.eartrainr.Database;
 import com.music.eartrainr.ModuleUri;
 import com.music.eartrainr.Wtf;
 import com.music.eartrainr.adapter.DataAdapter;
 import com.music.eartrainr.R;
-import com.music.eartrainr.Test;
-import com.music.eartrainr.event.FireBaseEvent;
-import com.music.eartrainr.event.FriendAddedEvent;
+import com.music.eartrainr.adapter.RecyclerViewBaseAdapter.VisibilitySettings;
 import com.music.eartrainr.event.FriendItemGetEvent;
 import com.music.eartrainr.model.User;
-import com.music.eartrainr.retrofit.FirebaseService;
 
 import org.greenrobot.eventbus.Subscribe;
 
@@ -39,17 +32,9 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
-import rx.Observable;
-import rx.Subscriber;
-import rx.functions.Action1;
 
 
-public class ProfileFragment extends BaseFragment implements DataAdapter.OnRowItemClick  {
+public class ProfileFragment extends BaseFragment implements DataAdapter.OnRowItemClick {
 
   public static final String TAG = ProfileFragment.class.getSimpleName();
 
@@ -173,7 +158,7 @@ public class ProfileFragment extends BaseFragment implements DataAdapter.OnRowIt
     ButterKnife.bind(this, view);
 
     mFriendsList.setLayoutManager(new LinearLayoutManager(getActivity()));
-    mFriendsListAdapter = new DataAdapter(R.layout.list_profile_friends_item);
+    mFriendsListAdapter = new DataAdapter(R.layout.list_profile_friends_item, getVisiblitySettings());
     mFriendsList.setAdapter(mFriendsListAdapter);
     mFriendsListAdapter.setOnRowItemClickListener(this);
 
@@ -208,6 +193,17 @@ public class ProfileFragment extends BaseFragment implements DataAdapter.OnRowIt
     mFriendsListAdapter.removeListener();
   }
 
+  /*
+  * VIEW HELPER METHODS
+  * */
+
+  public VisibilitySettings getVisiblitySettings() {
+    if (TextUtils.equals(Database.getSingleton().getUserName(), mCurrentUser)){
+      return VisibilitySettings.OWNER;
+    } else {
+      return VisibilitySettings.OTHER;
+    }
+  }
 
 
   /*
@@ -248,4 +244,6 @@ public class ProfileFragment extends BaseFragment implements DataAdapter.OnRowIt
       displayError(getView(), getString(R.string.fail_navigation));
     }
   }
+
+
 }

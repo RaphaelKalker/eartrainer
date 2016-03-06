@@ -19,6 +19,7 @@ public abstract class RecyclerViewBaseAdapter<T, VH extends RecyclerView.ViewHol
   private static final String TAG = RecyclerViewBaseAdapter.class.getSimpleName();
   private List<T> mDataSource;
   private Queue<T> mDeletionQueue;
+  public VisibilitySettings mVisiblitySetting;
 
   public void setView(final int listItemLayout) {
     mLayout = listItemLayout;
@@ -76,5 +77,17 @@ public abstract class RecyclerViewBaseAdapter<T, VH extends RecyclerView.ViewHol
   public abstract void setOnRowItemClickListener(OnRowItemClick<T> listener);
 
   public abstract void removeListener();
+
+
+
+  public enum VisibilitySettings {
+    OWNER,
+    OTHER
+  }
+
+  public void applyVisibilitySettings(final VisibilitySettings vs) {
+    mVisiblitySetting = vs;
+  }
+
 }
 

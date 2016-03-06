@@ -32,9 +32,10 @@ public class DataAdapter
 
   private OnRowItemClick<User> mOnClickListener;
 
-  public DataAdapter(final int listItemLayout) {
-    setDataSource(null);
-    setView(listItemLayout);
+  public DataAdapter(final int listItemLayout, final VisibilitySettings visibilitySettings) {
+    super.setDataSource(null);
+    super.setView(listItemLayout);
+    super.applyVisibilitySettings(visibilitySettings);
   }
 
   @Override public DataAdapterViewHolder onCreateViewHolder(
@@ -49,6 +50,7 @@ public class DataAdapter
       final DataAdapterViewHolder holder,
       final int position) {
 
+    holder.deleteBtn.setVisibility(mVisiblitySetting == VisibilitySettings.OWNER ? View.VISIBLE : View.GONE);
     holder.name.setText( getItem(position).getUserName());
   }
 
@@ -85,5 +87,8 @@ public class DataAdapter
     }
   }
 
+  @Override public void applyVisibilitySettings(VisibilitySettings settings) {
 
+
+  }
 }
