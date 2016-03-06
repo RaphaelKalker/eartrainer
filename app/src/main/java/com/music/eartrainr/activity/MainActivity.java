@@ -12,6 +12,7 @@ import com.music.eartrainr.ModuleUri;
 import com.music.eartrainr.R;
 import com.music.eartrainr.Wtf;
 import com.music.eartrainr.fragment.Game1Fragment;
+import com.music.eartrainr.fragment.ProfileFragment;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -44,6 +45,10 @@ public class MainActivity extends BaseActivity {
       String tag = "";
 
       switch (item.getItemId()) {
+
+        case R.id.nav_home:
+          tag = ProfileFragment.TAG;
+          break;
 
         case R.id.nav_logout:
           Database.getSingleton().logout();
