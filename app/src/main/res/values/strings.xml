@@ -52,4 +52,27 @@
     <string name="fragment_title_game1">Game 1</string>
     <string name="friend_add_friend_deleted">Successfully removed friend.</string>
     <string name="fail_navigation">Failed to go to next screen.</string>
+    <string name="btn_replay">Replay</string>
+    <string name="btn_skip">Skip</string>
+    <string name="btn_end">End</string>
+    <string name="btn_submit">Submit</string>
+
+    <string-array name="game_classes">
+        <item>Choose ...</item>
+        <item>Major</item>
+        <item>Minor</item>
+        <item>Dim</item>
+        <item>Aug</item>
+    </string-array>
+
+    <string-array name="game_size">
+        <item>Choose ...</item>
+        <item>2nd</item>
+        <item>3rd</item>
+        <item>4th</item>
+        <item>5th</item>
+        <item>6th</item>
+        <item>7th</item>
+        <item>8th</item>
+    </string-array>
 </resources>
