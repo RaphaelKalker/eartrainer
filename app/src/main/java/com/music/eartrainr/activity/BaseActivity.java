@@ -23,7 +23,7 @@ import java.lang.reflect.Method;
 import static com.music.eartrainr.ModuleUri.Action.EXIT;
 
 
-public class BaseActivity
+public abstract class BaseActivity
     extends AppCompatActivity
     implements FragmentNavigation {
 
@@ -154,10 +154,7 @@ public class BaseActivity
     }
   }
 
-
-
   @Override public Uri getUri() {
     return mUri;
   }
-
 }
