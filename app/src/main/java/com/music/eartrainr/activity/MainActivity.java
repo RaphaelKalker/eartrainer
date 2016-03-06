@@ -33,7 +33,6 @@ public class MainActivity extends BaseActivity {
     ButterKnife.bind(this);
 
     setSupportActionBar(mToolbar);
-    getSupportActionBar().setTitle("Main Activity");
 
     mNavigationView.setNavigationItemSelectedListener(mNavigationItemListener);
 

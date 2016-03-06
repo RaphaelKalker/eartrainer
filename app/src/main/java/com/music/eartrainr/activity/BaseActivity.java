@@ -14,8 +14,7 @@ import com.music.eartrainr.ModuleUri;
 import com.music.eartrainr.R;
 import com.music.eartrainr.Wtf;
 import com.music.eartrainr.fragment.BaseFragment;
-import com.music.eartrainr.fragment.FragmentNavigation;
-import com.music.eartrainr.fragment.LoginFragment;
+import com.music.eartrainr.fragment.ActivityNavigation;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -25,7 +24,7 @@ import static com.music.eartrainr.ModuleUri.Action.EXIT;
 
 public abstract class BaseActivity
     extends AppCompatActivity
-    implements FragmentNavigation {
+    implements ActivityNavigation {
 
   public static final boolean LOGGING = true;
   private static final String URI = "uri";
@@ -156,5 +155,11 @@ public abstract class BaseActivity
 
   @Override public Uri getUri() {
     return mUri;
+  }
+
+  @Override public void setTitle(final String title) {
+    if (getSupportActionBar() != null) {
+      getSupportActionBar().setTitle(title);
+    }
   }
 }

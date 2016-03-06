@@ -27,14 +27,12 @@ import com.music.eartrainr.event.SignUpEvent;
 
 import org.greenrobot.eventbus.Subscribe;
 
-import java.util.Map;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class LoginFragment extends BaseFragment implements FragmentNavigation {
+public class LoginFragment extends BaseFragment {
 
   public static final String TAG = LoginFragment.class.getSimpleName();
 
@@ -59,7 +57,7 @@ public class LoginFragment extends BaseFragment implements FragmentNavigation {
   public static LoginFragment newInstance(final Uri uri) {
     LoginFragment fragment = new LoginFragment();
     Bundle args = new Bundle();
-    args.putParcelable(KEY_FRAGMENT_URI_ARG, uri);
+    args.putParcelable(ActivityNavigation.KEY_FRAGMENT_URI_ARG, uri);
     fragment.setArguments(args);
     return fragment;
   }
@@ -274,13 +272,6 @@ public class LoginFragment extends BaseFragment implements FragmentNavigation {
   }
 
 
-  @Override public void onFragmentInteraction(final Uri uri) {
-
-  }
-
-  @Override public Uri getUri() {
-    return null;
-  }
 
   @Override public String getTitle() {
     return getString(R.string.fragment_title_login);

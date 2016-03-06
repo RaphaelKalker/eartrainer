@@ -226,8 +226,10 @@ public class ModuleUri {
   }
 
 
-  public interface Module {
+  public interface FragmentModule {
     Uri getUri();
+    String getTitle();
+    void restoreState(final Bundle savedState);
 
   }
 

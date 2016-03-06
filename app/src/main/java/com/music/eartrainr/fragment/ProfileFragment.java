@@ -73,7 +73,7 @@ public class ProfileFragment extends BaseFragment implements DataAdapter.OnRowIt
   public static ProfileFragment newInstance(Uri uri) {
     ProfileFragment fragment = new ProfileFragment();
     Bundle args = new Bundle();
-    args.putParcelable(FragmentNavigation.KEY_FRAGMENT_URI_ARG, uri);
+    args.putParcelable(ActivityNavigation.KEY_FRAGMENT_URI_ARG, uri);
     fragment.setArguments(args);
     return fragment;
   }

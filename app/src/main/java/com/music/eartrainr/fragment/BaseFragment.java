@@ -7,26 +7,17 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
-import com.fasterxml.jackson.databind.Module;
-import com.music.eartrainr.Bus;
-import com.music.eartrainr.FragmentHelper;
 import com.music.eartrainr.ModuleUri;
 import com.music.eartrainr.Wtf;
-
-import org.greenrobot.eventbus.EventBus;
-
-import butterknife.OnClick;
 
 
 public abstract class BaseFragment<T>
     extends Fragment
-    implements ModuleUri.Module {
+    implements ModuleUri.FragmentModule {
 
-  FragmentNavigation mNavigationCallback;
+  ActivityNavigation mNavigationCallback;
 
 
 
@@ -48,8 +39,9 @@ public abstract class BaseFragment<T>
   @Override public void onAttach(final Context context) {
     super.onAttach(context);
 
-    if (context instanceof FragmentNavigation) {
-      mNavigationCallback = (FragmentNavigation) context;
+    if (context instanceof ActivityNavigation) {
+      mNavigationCallback = (ActivityNavigation) context;
+      mNavigationCallback.setTitle(getTitle());
     } else {
       throw new RuntimeException(context.toString()
           + " must implement OnFragmentInteractionListener");
@@ -85,17 +77,12 @@ public abstract class BaseFragment<T>
   @Override
   public Uri getUri() {
     return getArguments() != null ? (Uri) getArguments()
-        .getParcelable(FragmentNavigation.KEY_FRAGMENT_URI_ARG) : Uri.EMPTY;
+        .getParcelable(ActivityNavigation.KEY_FRAGMENT_URI_ARG) : Uri.EMPTY;
   }
 
   public static Bundle getDefaultArgs(final Uri uri) {
     final Bundle bundle = new Bundle();
-    bundle.putParcelable(FragmentNavigation.KEY_FRAGMENT_URI_ARG, uri);
+    bundle.putParcelable(ActivityNavigation.KEY_FRAGMENT_URI_ARG, uri);
     return bundle;
   }
-
-
-
-  abstract public void restoreState(final Bundle savedState);
-  abstract public String getTitle();
 }
