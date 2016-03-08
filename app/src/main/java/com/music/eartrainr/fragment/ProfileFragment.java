@@ -220,8 +220,8 @@ public class ProfileFragment extends BaseFragment implements DataAdapter.OnRowIt
 
 
     //open view on top
-    final Uri uri = ModuleUri.Builder(getContext().getApplicationContext())
-        .to(FriendAddFragment.TAG)
+    final Uri uri = new ModuleUri.BBuilder()
+        .fragment(FriendAddFragment.TAG)
         .type(ModuleUri.Type.DIALOG)
         .bundle(params.bundle())
         .build();
@@ -238,7 +238,7 @@ public class ProfileFragment extends BaseFragment implements DataAdapter.OnRowIt
 
     if (user != null) {
       Wtf.log("Clicked on user: " + user.getUserName());
-      final Uri uri = ModuleUri.Builder(getActivity().getApplicationContext()).navToProfile(user.getUserName()).build();
+      final Uri uri = new ModuleUri.BBuilder().navToProfile(user.getUserName());
       mNavigationCallback.onFragmentInteraction(uri);
     } else {
       displayError(getView(), getString(R.string.fail_navigation));

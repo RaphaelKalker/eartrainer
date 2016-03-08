@@ -109,7 +109,7 @@ public class FriendAddFragment extends BaseDialogFragment {
       Wtf.log("TODO: time to navigate back to profile view");
 
       mNavigationCallback.onFragmentInteraction(
-          ModuleUri.exit(getActivity().getApplicationContext())
+          new ModuleUri.BBuilder().exit()
       );
 
       return;

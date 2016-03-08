@@ -1,6 +1,7 @@
 package com.music.eartrainr.activity;
 
 import android.app.Activity;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 
@@ -27,12 +28,13 @@ public class LoginActivity extends BaseActivity {
 
     getSupportActionBar().setTitle("Login Page");
 
+    Uri uri = new ModuleUri.BBuilder()
+        .type(ModuleUri.Type.ACTIVITY)
+        .activity(LoginActivity.TAG)
+        .fragment(LoginFragment.TAG)
+        .build();
 
-    onFragmentInteraction(ModuleUri.Builder(getApplicationContext())
-                                   .type(ModuleUri.Type.ACTIVITY)
-                                   .activity(LoginActivity.TAG)
-                                   .to(LoginFragment.TAG)
-                                   .build());
+    onFragmentInteraction(uri);
   }
 
   public LoginActivity() {

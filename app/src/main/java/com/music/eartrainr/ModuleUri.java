@@ -28,97 +28,25 @@ public class ModuleUri {
   private static final String TYPE = "type";
   private static final String BUNDLE = "bundle";
   private static final String ACTIVITY = "activity";
+  private static final String ACTION = "action";
 
-  private Context mContext;
   private Map<String, Object> mUriArgs;
   private Uri mUri;
   private List<String> mSegments;
+//  private final Context mContext;
 
 
-  private ModuleUri(final Context applicationContext) {
-    mUriArgs = new HashMap<>();
-    mContext = applicationContext;
+  private ModuleUri(AbstractBuilder builder) {
+    mUriArgs = builder.mUriArgs;
+//    mContext = builder.mAppContext;
   }
 
-  public String getUserId() {
-    return (String) mUriArgs.get(USER);
-  }
-
-  public String getActivity() {
-    return (String) mUriArgs.get(ACTIVITY);
-  }
-
-  public int getAction() {
-    return mUriArgs.get(ACTION) != null ? Integer.valueOf((String) mUriArgs.get(ACTION)): Action.NONE;
-  }
-
-//  public String getActivityPath() {
-//    return mUriArgs.get(ACTIVITY);
-//    return mActivityPath;
-//  }
-
-  public static class BBuilder{
-    //TODO move all builder stuff to inner class
-  }
-
-  public static Uri exit(Context context) {
-    final ModuleUri uri = new ModuleUri(context);
-    uri.mUriArgs.put(ACTION, Action.EXIT);
-    return uri.build();
-  }
-
-  public static ModuleUri Builder(final Context applicationContext) {
-    return new ModuleUri(applicationContext);
-  }
-
-  public ModuleUri to(final String destination) {
-    mUriArgs.put(FRAGMENT, destination);
-    return this;
-  }
-
-  public ModuleUri activity(final String activity) {
-    mUriArgs.put(ACTIVITY, activity);
-    return this;
-  }
-
-  public ModuleUri user(final String user) {
-    mUriArgs.put(USER, user);
-    return this;
-  }
-
-  public ModuleUri type(final int type) {
-    mUriArgs.put(TYPE, String.valueOf(type));
-    return this;
-  }
-
-//  public ModuleUri action(final Action action) {
-//    mUriArgs.put(ACTION, action);
-//    return this;
-//  }
-
-  public ModuleUri exitCurrent() {
-    mUriArgs.put(ACTION, Action.EXIT);
-    return this;
-  }
-
-  /*
-  * CONVENIENCE NAVIGATION METHODS
-  * */
-  public ModuleUri navToProfile(final String username) {
-    this.to(ProfileFragment.TAG);
-    this.user(username);
-    this.activity(MainActivity.TAG);
-    return this;
+  private ModuleUri() {
 
   }
 
-  public ModuleUri bundle(final Bundle bundle) {
-    mUriArgs.put(BUNDLE, bundle);
-    return this;
-  }
-
-  public Uri build() {
-    final String app = mContext.getResources().getString(R.string.app_name);
+  public Uri toUri() {
+//    final String app = mContext.getResources().getString(R.string.app_name);
 
     Uri.Builder builder = new Uri.Builder();
     builder.scheme(SCHEME);
@@ -141,6 +69,95 @@ public class ModuleUri {
     }
 
     return builder.build();
+  }
+
+
+
+  public String getUserId() {
+    return (String) mUriArgs.get(USER);
+  }
+
+  public String getActivity() {
+    return (String) mUriArgs.get(ACTIVITY);
+  }
+
+  public int getAction() {
+    return mUriArgs.get(ACTION) != null ? Integer.valueOf((String) mUriArgs.get(ACTION)): Action.NONE;
+  }
+
+//  public String getActivityPath() {
+//    return mUriArgs.get(ACTIVITY);
+//    return mActivityPath;
+//  }
+
+  public static class BBuilder extends AbstractBuilder {
+
+    public BBuilder() {
+      super();
+    }
+
+    /*
+    * SET PROPERTIES FOR URI
+    * */
+
+    public BBuilder fragment(final String destination) {
+      mUriArgs.put(FRAGMENT, destination);
+      return this;
+    }
+
+    public BBuilder activity(final String activity) {
+      mUriArgs.put(ACTIVITY, activity);
+      return this;
+    }
+
+    public BBuilder type(final int type) {
+      mUriArgs.put(TYPE, String.valueOf(type));
+      return this;
+    }
+
+    public BBuilder user (final String user) {
+      mUriArgs.put(USER, user);
+      return this;
+    }
+
+    public BBuilder bundle(final Bundle bundle) {
+      mUriArgs.put(BUNDLE, bundle);
+      return this;
+    }
+
+    /*
+    * CONVENIENT METHODS
+    * */
+
+    public Uri navToProfile(final String username) {
+      fragment(ProfileFragment.TAG);
+      user(username);
+      activity(MainActivity.TAG);
+      return new ModuleUri(this).toUri();
+    }
+
+    public Uri exit() {
+      mUriArgs.put(ACTION, Action.EXIT);
+      return new ModuleUri(this).toUri();
+    }
+
+    /*
+    * CREATE A URI PARCELABLE OBJECT
+    * */
+
+    public Uri build() {
+      return new ModuleUri(this).toUri();
+    }
+  }
+
+  public static abstract class AbstractBuilder {
+//    protected final Context mAppContext;
+    protected Map<String, Object> mUriArgs;
+
+    public AbstractBuilder() {
+//      mAppContext = appContext;
+      mUriArgs = new HashMap<>();
+    }
   }
 
   public static String getFragmentString(@NonNull Uri uri) {
@@ -194,7 +211,7 @@ public class ModuleUri {
   }
 
   public static ModuleUri parseUri(final Context context, final Uri uri) {
-    final ModuleUri moduleUri = new ModuleUri(context);
+    final ModuleUri moduleUri = new ModuleUri();
     moduleUri.mUri = uri;
     moduleUri.mSegments = uri.getPathSegments();
 

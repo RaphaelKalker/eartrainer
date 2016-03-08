@@ -67,7 +67,7 @@ public class MainActivity extends BaseActivity {
       mDrawerLayout.closeDrawers();
 
       onFragmentInteraction(
-          ModuleUri.Builder(getApplicationContext()).to(tag).build()
+          new ModuleUri.BBuilder().fragment(tag).build()
       );
 
       return false;

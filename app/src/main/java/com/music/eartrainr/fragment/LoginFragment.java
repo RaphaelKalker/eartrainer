@@ -253,9 +253,9 @@ public class LoginFragment extends BaseFragment {
       if ((authData = (AuthData)event.mData) != null) {
         displaySuccess(getView(), authData.getToken());
 
-        Uri uri = ModuleUri.Builder(getActivity().getApplicationContext())
+        Uri uri = new ModuleUri.BBuilder()
                            .activity(MainActivity.TAG)
-                           .to(ProfileFragment.TAG)
+                           .fragment(ProfileFragment.TAG)
                            .user(Database.getSingleton().getUserName())
                            .build();
 
