@@ -163,6 +163,7 @@ public class Database <T> {
    * @return -> fires Events
    */
   public void addFriendLink(final String userA, final String userB, final boolean linkAgain){
+    Wtf.log();
     mFirebaseRef.child(USERS)
                 .child(userA)
                 .child(FirebaseKeys.FRIENDS)
@@ -187,6 +188,7 @@ public class Database <T> {
 
   /**
    * Get's all the child nodes of the friends list one by one
+   * This callback fires as soon as you add a friend or delete a friend
    * @param user - the username for which a list of friends are requuested
    * @return - fires FriendItemGetEvent
    */
@@ -194,9 +196,7 @@ public class Database <T> {
 
     mFirebaseRef.child(USERS + "/" + user + "/" + FRIENDS)
         .addChildEventListener(new ChildEventListener() {
-          @Override public void onChildAdded(
-              final DataSnapshot dataSnapshot,
-              final String s) {
+          @Override public void onChildAdded(final DataSnapshot dataSnapshot, final String s) {
             //THIS IS EVIL BUT ACTUALLY THE RECOMMENDED PRACTICE
             final String friendName = dataSnapshot.getKey();
 
@@ -209,7 +209,7 @@ public class Database <T> {
                   }
 
                   @Override public void onCancelled(final FirebaseError firebaseError) {
-
+                    //not used
                   }
                 });
           }
@@ -217,17 +217,17 @@ public class Database <T> {
           @Override public void onChildChanged(
               final DataSnapshot dataSnapshot,
               final String s) {
-            Wtf.log();
+            //not used
           }
 
           @Override public void onChildRemoved(final DataSnapshot dataSnapshot) {
-            Wtf.log();
+            //not used
           }
 
           @Override public void onChildMoved(
               final DataSnapshot dataSnapshot,
               final String s) {
-            Wtf.log();
+            //not used
           }
 
           @Override public void onCancelled(final FirebaseError firebaseError) {
