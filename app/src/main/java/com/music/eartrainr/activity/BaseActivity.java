@@ -59,6 +59,7 @@ public abstract class BaseActivity
 
     final ModuleUri moduleUri = ModuleUri.parseUri(getApplicationContext(), uri);
     final int action = moduleUri.getAction();
+    final String user = moduleUri.getUser();
 
     /*
     * Requesting close
@@ -67,6 +68,13 @@ public abstract class BaseActivity
       Wtf.log("Closing Fragment");
       getSupportFragmentManager().popBackStack();
       return;
+    }
+
+    /*
+    * Warn if no user specified
+    * */
+    if (TextUtils.isEmpty(user)) {
+      Wtf.warn("User name was not specified");
     }
 
     final String clazzPath = ModuleUri.getFragmentString(uri);
