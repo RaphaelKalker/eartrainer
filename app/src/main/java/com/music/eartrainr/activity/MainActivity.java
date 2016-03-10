@@ -66,8 +66,10 @@ public class MainActivity extends BaseActivity {
 
       mDrawerLayout.closeDrawers();
 
+      final String user = Database.getSingleton().getUserName();
+
       onFragmentInteraction(
-          new ModuleUri.BBuilder().fragment(tag).build()
+          new ModuleUri.BBuilder().fragment(tag).user(user).build()
       );
 
       return false;
