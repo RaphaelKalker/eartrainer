@@ -73,7 +73,7 @@ public class ModuleUri {
 
 
 
-  public String getUserId() {
+  public String getUser() {
     return (String) mUriArgs.get(USER);
   }
 
