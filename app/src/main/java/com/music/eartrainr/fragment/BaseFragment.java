@@ -1,6 +1,8 @@
 package com.music.eartrainr.fragment;
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -18,12 +20,15 @@ public abstract class BaseFragment<T>
     implements ModuleUri.FragmentModule {
 
   ActivityNavigation mNavigationCallback;
-
+  private ProgressDialog mProgressDialog;
 
 
   @Override public void onCreate(@Nullable final Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-
+    mProgressDialog = new ProgressDialog(getContext(), 0);
+    mProgressDialog.setTitle("Doing Stuff");
+    mProgressDialog.setCancelable(true);
+    mProgressDialog.setIndeterminate(true);
   }
 
 //  @Nullable @Override public View onCreateView(
@@ -53,6 +58,10 @@ public abstract class BaseFragment<T>
     mNavigationCallback = null;
   }
 
+  @Override public void onDestroyView() {
+    super.onDestroyView();
+  }
+
   protected void displayError(
       final View view,
       final String message) {
@@ -74,6 +83,20 @@ public abstract class BaseFragment<T>
     }
   }
 
+  protected void startLoading(final String message) {
+    if (getView() != null && mProgressDialog != null) {
+      mProgressDialog.setMessage(message);
+      mProgressDialog.show();
+    }
+  }
+
+  protected void stopLoading() {
+    if (mProgressDialog != null) {
+      mProgressDialog.setIndeterminate(false);
+//      mProgressDialog.show();
+    }
+  }
+
   @Override
   public Uri getUri() {
     return getArguments() != null ? (Uri) getArguments()
@@ -85,4 +108,6 @@ public abstract class BaseFragment<T>
     bundle.putParcelable(ActivityNavigation.KEY_FRAGMENT_URI_ARG, uri);
     return bundle;
   }
+
+
 }
