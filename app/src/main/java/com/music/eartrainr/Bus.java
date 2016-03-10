@@ -13,7 +13,7 @@ import org.greenrobot.eventbus.EventBus;
 public class Bus {
 
   public static void post(final EventBusEvent event) {
-    Wtf.log("Posting: " + event.mEventID);
+    Wtf.logPostEvent(event.mEventID);
     EventBus.getDefault().post(event);
   }
 

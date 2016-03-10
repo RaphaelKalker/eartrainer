@@ -7,16 +7,27 @@ public class Wtf {
 
   private static final int STACK_TRACE_LEVELS_UP = 5;
 
+  private static final String TAG = "RAPHTAG";
+  private static final boolean LOG_EVENTS = false;
+
   public static void log(final String message) {
-    Log.v("RAPHTAG", getClassNameMethodNameAndLineNumber() + "  --> " + message);
+    Log.v(TAG, getClassNameMethodNameAndLineNumber() + "  --> " + message);
   }
 
   public static void logError(final String message) {
-    Log.e("RAPHTAG", getClassNameMethodNameAndLineNumber() + " --> " + message);
+    Log.e(TAG, getClassNameMethodNameAndLineNumber() + " --> " + message);
   }
 
   public static void logEvent(final int eventId) {
-    Log.v("RAPHTAG", getClassNameMethodNameAndLineNumber() + "--> " + "Caught Event: " + eventId);
+    if (LOG_EVENTS) Log.v(TAG, getClassNameMethodNameAndLineNumber() + "--> " + "Caught Event: " + eventId);
+  }
+
+  public static void logPostEvent(final int eventId) {
+    if (LOG_EVENTS) Log.v(TAG, getClassNameMethodNameAndLineNumber() + "--> " + "Posting Event: " + eventId);
+  }
+
+  public static void warn(final String message) {
+    Log.w(TAG, message);
   }
 
   public static void log() {
@@ -45,6 +56,8 @@ public class Wtf {
     Exception e = new IllegalStateException("YOU FORGOT SOMETHING... THIS IS NOT USED!");
     throw e;
   }
+
+
 
 //  public static void toast(final Activity activity, String msg) {
 //    CareDroidToast.makeText(activity, msg, CareDroidToast.Style.INFO).show();
