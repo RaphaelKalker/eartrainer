@@ -49,6 +49,7 @@
     <string name="status_creating_profile">Creating profile...</string>
     <string name="status_signing_up">Signing up...</string>
     <string name="status_auth_success">Authorization successful.</string>
+    <string name="status_auth_progress">Authorizing...</string>
     <string name="fragment_title_game1">Game 1</string>
     <string name="friend_add_friend_deleted">Successfully removed friend.</string>
     <string name="fail_navigation">Failed to go to next screen.</string>
@@ -56,6 +57,8 @@
     <string name="btn_skip">Skip</string>
     <string name="btn_end">End</string>
     <string name="btn_submit">Submit</string>
+    <string name="game_next_game">Loading next game.</string>
+    <string name="status_auth_failed">Authorization failed.</string>
 
     <string-array name="game_classes">
         <item>Choose ...</item>

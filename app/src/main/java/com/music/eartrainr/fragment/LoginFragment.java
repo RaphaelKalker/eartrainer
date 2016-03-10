@@ -95,6 +95,11 @@ public class LoginFragment extends BaseFragment {
     initView();
   }
 
+  @Override public void onPause() {
+    super.onPause();
+    mStatusMessage.setText("");
+  }
+
   private void initView() {
     mSignUpBtn.setVisibility(mLoginState == SIGN_UP ? View.VISIBLE : View.GONE);
     mSignInBtn.setVisibility(mLoginState == SIGN_IN ? View.VISIBLE : View.GONE);
@@ -103,7 +108,6 @@ public class LoginFragment extends BaseFragment {
         mLoginState == SIGN_IN ?
         getResources().getText(R.string.login_toggle_signup) :
         getResources().getText(R.string.login_toggle_signin));
-
   }
 
   @Override public void onDestroyView() {
@@ -135,29 +139,13 @@ public class LoginFragment extends BaseFragment {
       return;
     }
 
+    mStatusMessage.setText(getString(R.string.status_auth_progress));
     Database.getSingleton().authorize(email, password, null);
-
-
-
-
-
-
-
-    final boolean success = false;
-
-    //if the user hasn't added the right details
-    if (!success) {
-
-    } else {
-
-
-    }
   }
 
   @OnClick(R.id.login_signup_btn)
   public void onSignupClick() {
     Wtf.log("sign up click");
-
 
     final String email = mEmail.getText().toString();
     final String password = mPassword.getText().toString();
@@ -204,6 +192,7 @@ public class LoginFragment extends BaseFragment {
       if (event.mError != null) {
         mProgressBar.setVisibility(View.GONE);
         displayError(getView(), ((FirebaseError) event.mError).getMessage());
+        mStatusMessage.setText("");
         return;
       }
 
@@ -226,14 +215,6 @@ public class LoginFragment extends BaseFragment {
           Wtf.log("SECURITY EXCEPTION");
         }
 
-//        Uri uri = ModuleUri.Builder(getActivity().getApplicationContext())
-//                           .to(ProfileFragment.TAG)
-//                           .user(Database.getSingleton().getUserId())
-//                           .build();
-//
-//        mNavigationCallback.onFragmentInteraction(uri);
-
-
       }
     }
   }
@@ -246,12 +227,13 @@ public class LoginFragment extends BaseFragment {
 
     if (event.mEventID == Database.EventToken.AUTHORIZATION) {
       mProgressBar.setVisibility(View.GONE);
-      mStatusMessage.setText(getString(R.string.status_auth_success));
       Wtf.log();
       final AuthData authData;
       final FirebaseError error;
       if ((authData = (AuthData)event.mData) != null) {
         displaySuccess(getView(), authData.getToken());
+        mStatusMessage.setText(getString(R.string.status_auth_success));
+
 
         Uri uri = new ModuleUri.BBuilder()
                            .activity(MainActivity.TAG)
@@ -265,7 +247,9 @@ public class LoginFragment extends BaseFragment {
 
 
       } else if ((error = (FirebaseError) event.mError) != null){
+
         displayError(getView(), error.getMessage());
+        mStatusMessage.setText("");
 
       }
     }
