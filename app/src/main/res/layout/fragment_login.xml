@@ -5,17 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
-    <!-- Login progress -->
-
-    <ProgressBar
-        android:id="@+id/login_progress"
-        style="?android:attr/progressBarStyleLarge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:visibility="invisible"/>
-
     <!-- TEXTFIELD CONTAINER -->
     <LinearLayout
         android:layout_width="match_parent"
@@ -89,8 +78,8 @@
             android:text="@string/sign_up"
             android:background="?android:attr/selectableItemBackground"/>
 
-        <!-- TOGGLE BTN -->
 
+        <!-- TOGGLE BTN -->
         <Button
             android:id="@+id/login_toggle_signup_btn"
             android:layout_width="wrap_content"
@@ -101,7 +90,25 @@
             android:layout_marginTop="40dp"
             android:layout_gravity="center_horizontal"/>
 
-        <include layout="@layout/include_status_message"/>
+
+        <!-- Login progress -->
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ProgressBar
+                android:id="@+id/login_progress"
+                style="?android:attr/progressBarStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="8dp"
+                android:visibility="invisible"/>
+
+            <include layout="@layout/include_status_message"/>
+
+        </LinearLayout>
 
 
     </LinearLayout>
