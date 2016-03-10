@@ -42,7 +42,7 @@ public class ModuleUri {
   }
 
   private ModuleUri() {
-
+    mUriArgs = new HashMap<>();
   }
 
   public Uri toUri() {
