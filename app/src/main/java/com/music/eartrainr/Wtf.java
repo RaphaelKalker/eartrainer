@@ -26,6 +26,10 @@ public class Wtf {
     if (LOG_EVENTS) Log.v(TAG, getClassNameMethodNameAndLineNumber() + "--> " + "Posting Event: " + eventId);
   }
 
+  public static void logBug(final String message) {
+    Log.d("FRIENDSBUG", message);
+  }
+
   public static void warn(final String message) {
     Log.w(TAG, message);
   }
