@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/friend_item_container"
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -8,11 +9,13 @@
     android:layout_margin="@dimen/activity_horizontal_margin">
 
     <!-- PROFILE PICTURE -->
-    <ImageView
+    <com.github.ivbaranov.mli.MaterialLetterIcon
         android:id="@+id/friend_item_pic"
-        android:layout_width="@dimen/pic_friend"
-        android:layout_height="@dimen/pic_friend"
-        android:background="@color/c_green_pantone"/>
+        android:layout_width="@dimen/profile_image"
+        android:layout_height="@dimen/profile_image"
+        app:mli_letter_color="@color/c_white"
+        app:mli_letters_number="1"
+        app:mli_letter_size="20" />
 
     <!-- NAME -->
     <TextView

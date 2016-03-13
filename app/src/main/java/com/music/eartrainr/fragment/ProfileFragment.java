@@ -160,7 +160,7 @@ public class ProfileFragment extends BaseFragment implements ProfileFriendsAdapt
     ButterKnife.bind(this, view);
 
     mFriendsList.setLayoutManager(new LinearLayoutManager(getActivity()));
-    mFriendsListAdapter = new ProfileFriendsAdapter(R.layout.list_profile_friends_item, getVisiblitySettings());
+    mFriendsListAdapter = new ProfileFriendsAdapter(getActivity(), R.layout.list_profile_friends_item, getVisiblitySettings());
     mFriendsList.setAdapter(mFriendsListAdapter);
     mFriendsListAdapter.setOnRowItemClickListener(this);
 
