@@ -1,14 +1,127 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragment.Game1Fragment">
 
-    <!-- TODO: Update blank fragment layout -->
+    <!-- RATIO-->
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment"
-        android:textSize="40dp"/>
+        android:id="@+id/game1_ratio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="@dimen/activity_verticle_spacing"
+        android:text="1/20"
+        android:textSize="12dp"/>
 
-</FrameLayout>
+    <!-- MUSIC NOTE -->
+    <!--<ImageView-->
+        <!--android:id="@+id/game1_musical_note"-->
+        <!--android:layout_width="100dp"-->
+        <!--android:layout_height="100dp"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:background="@color/c_iceberg"-->
+        <!--android:layout_below="@+id/game1_ratio"/>-->
+
+    <com.joanzapata.iconify.widget.IconTextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:id="@+id/game1_musical_note"
+        android:layout_centerHorizontal="true"
+        android:text="{fa-music 100sp}"
+        android:shadowColor="#22000000"
+        android:layout_below="@id/game1_ratio"
+        android:shadowDx="3"
+        android:shadowDy="3"
+        android:shadowRadius="1"
+        android:textColor="@color/md_white"/>
+
+
+    <!-- BTN CONTAINER-->
+    <LinearLayout
+        android:id="@+id/game1_btn_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="50dp"
+        android:gravity="center"
+        android:layout_below="@+id/game1_musical_note"
+        android:orientation="horizontal">
+
+        <!-- BTN REPLAY -->
+        <Button
+            android:id="@+id/game1_replay_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_replay"/>
+
+        <Space
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"/>
+
+        <!-- SKIP BTN-->
+        <Button
+            android:id="@+id/game1_skip_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_skip"/>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_below="@id/game1_btn_container">
+
+        <Spinner
+            android:id="@+id/game1_class_spinner"
+            android:layout_width="200dp"
+
+            android:layout_height="wrap_content"/>
+
+        <Spinner
+            android:id="@+id/game1_size_spinner"
+
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"/>
+
+
+    </LinearLayout>
+
+
+    <!-- BTN CONTAINER-->
+    <LinearLayout
+        android:id="@+id/game1_btnnav_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <!-- BTN REPLAY -->
+        <Button
+            android:id="@+id/game1_end_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_end"/>
+
+        <Space
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"/>
+
+        <!-- SKIP BTN-->
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/game1_submit_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_submit"/>
+    </LinearLayout>
+
+
+
+
+</RelativeLayout>
