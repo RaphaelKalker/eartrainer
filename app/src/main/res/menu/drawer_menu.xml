@@ -11,6 +11,11 @@
             android:title="@string/nav_home"/>
 
         <item
+            android:id="@+id/nav_leader_board"
+            android:icon="@android:drawable/ic_media_play"
+            android:title="@string/nav_leadership"/>
+
+        <item
             android:id="@+id/nav_games"
             android:title="@string/nav_game">
 

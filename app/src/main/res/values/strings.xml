@@ -59,6 +59,8 @@
     <string name="btn_submit">Submit</string>
     <string name="game_next_game">Loading next game.</string>
     <string name="status_auth_failed">Authorization failed.</string>
+    <string name="nav_leadership">Leader Board</string>
+    <string name="fragment_title_leaderboard">Leader Board</string>
 
     <string-array name="game_classes">
         <item>Choose ...</item>

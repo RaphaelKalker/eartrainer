@@ -1,7 +1,6 @@
 package com.music.eartrainr.activity;
 
 import android.os.Bundle;
-import android.app.Activity;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
@@ -10,8 +9,8 @@ import android.view.MenuItem;
 import com.music.eartrainr.Database;
 import com.music.eartrainr.ModuleUri;
 import com.music.eartrainr.R;
-import com.music.eartrainr.Wtf;
 import com.music.eartrainr.fragment.Game1Fragment;
+import com.music.eartrainr.fragment.LeaderBoard;
 import com.music.eartrainr.fragment.ProfileFragment;
 
 import butterknife.Bind;
@@ -48,6 +47,10 @@ public class MainActivity extends BaseActivity {
 
         case R.id.nav_home:
           tag = ProfileFragment.TAG;
+          break;
+
+        case R.id.nav_leader_board:
+          tag = LeaderBoard.TAG;
           break;
 
         case R.id.nav_logout:
