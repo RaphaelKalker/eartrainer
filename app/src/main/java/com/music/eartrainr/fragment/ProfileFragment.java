@@ -25,6 +25,7 @@ import com.music.eartrainr.R;
 import com.music.eartrainr.adapter.RecyclerViewBaseAdapter.VisibilitySettings;
 import com.music.eartrainr.event.FriendItemGetEvent;
 import com.music.eartrainr.model.User;
+import com.music.eartrainr.utils.DividerItemDecoration;
 
 import org.greenrobot.eventbus.Subscribe;
 
@@ -160,6 +161,7 @@ public class ProfileFragment extends BaseFragment implements ProfileFriendsAdapt
     ButterKnife.bind(this, view);
 
     mFriendsList.setLayoutManager(new LinearLayoutManager(getActivity()));
+    mFriendsList.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
     mFriendsListAdapter = new ProfileFriendsAdapter(getActivity(), R.layout.list_profile_friends_item, getVisiblitySettings());
     mFriendsList.setAdapter(mFriendsListAdapter);
     mFriendsListAdapter.setOnRowItemClickListener(this);
