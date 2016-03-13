@@ -1,4 +1,4 @@
-package com.music.eartrainr;
+package com.music.eartrainr.utils;
 
 import android.text.TextUtils;
 
