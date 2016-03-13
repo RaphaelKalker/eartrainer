@@ -12,6 +12,8 @@ import com.music.eartrainr.event.FriendItemGetEvent;
 import com.music.eartrainr.event.SignInEvent;
 import com.music.eartrainr.event.SignUpEvent;
 import com.music.eartrainr.model.User;
+import com.music.eartrainr.utils.Auth;
+import com.music.eartrainr.utils.TextUtility;
 
 import java.util.HashMap;
 import java.util.Map;
