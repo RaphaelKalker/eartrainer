@@ -5,34 +5,25 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.music.eartrainr.Bus;
-import com.music.eartrainr.Database;
-import com.music.eartrainr.ModuleUri;
 import com.music.eartrainr.R;
-import com.music.eartrainr.Wtf;
 import com.music.eartrainr.event.FriendItemGetEvent;
-import com.music.eartrainr.event.NavigationEvent;
-import com.music.eartrainr.fragment.ProfileFragment;
 import com.music.eartrainr.model.User;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class DataAdapter
-    extends RecyclerViewBaseAdapter<User, DataAdapter.DataAdapterViewHolder> {
+public class ProfileFriendsAdapter
+    extends RecyclerViewBaseAdapter<User, ProfileFriendsAdapter.DataAdapterViewHolder> {
 
 
   private OnRowItemClick<User> mOnClickListener;
 
-  public DataAdapter(final int listItemLayout, final VisibilitySettings visibilitySettings) {
+  public ProfileFriendsAdapter(final int listItemLayout, final VisibilitySettings visibilitySettings) {
     super.setDataSource(null);
     super.setView(listItemLayout);
     super.applyVisibilitySettings(visibilitySettings);
@@ -41,7 +32,6 @@ public class DataAdapter
   @Override public DataAdapterViewHolder onCreateViewHolder(
       final ViewGroup parent,
       final int viewType) {
-    //BAD why should we have to inflate again?
     final View view = LayoutInflater.from(parent.getContext()).inflate(mLayout, parent, false);
     return new DataAdapterViewHolder(view);
   }
@@ -49,7 +39,6 @@ public class DataAdapter
   @Override public void onBindViewHolder(
       final DataAdapterViewHolder holder,
       final int position) {
-
     holder.deleteBtn.setVisibility(mVisiblitySetting == VisibilitySettings.OWNER ? View.VISIBLE : View.GONE);
     holder.name.setText( getItem(position).getUserName());
   }
