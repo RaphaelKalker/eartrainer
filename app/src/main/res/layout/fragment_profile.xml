@@ -12,11 +12,15 @@
         android:layout_margin="@dimen/activity_horizontal_margin">
 
         <!-- PROFILE PICTURE -->
-        <ImageView
+        <com.github.ivbaranov.mli.MaterialLetterIcon
             android:id="@+id/profile_image"
             android:layout_width="@dimen/profile_image"
             android:layout_height="@dimen/profile_image"
-            android:background="@color/c_acidgreen"
+            app:mli_letter="R"
+            app:mli_shape_color="@color/c_yale_blue"
+            app:mli_letter_color="@color/c_white"
+            app:mli_letters_number="1"
+            app:mli_letter_size="26"
             android:layout_marginRight="40dp"
             android:layout_alignParentTop="true"/>
 

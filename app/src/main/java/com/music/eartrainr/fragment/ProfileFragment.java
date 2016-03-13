@@ -15,11 +15,12 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.firebase.client.FirebaseError;
+import com.github.ivbaranov.mli.MaterialLetterIcon;
 import com.music.eartrainr.Bus;
 import com.music.eartrainr.Database;
 import com.music.eartrainr.ModuleUri;
 import com.music.eartrainr.Wtf;
-import com.music.eartrainr.adapter.DataAdapter;
+import com.music.eartrainr.adapter.ProfileFriendsAdapter;
 import com.music.eartrainr.R;
 import com.music.eartrainr.adapter.RecyclerViewBaseAdapter.VisibilitySettings;
 import com.music.eartrainr.event.FriendItemGetEvent;
@@ -34,7 +35,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class ProfileFragment extends BaseFragment implements DataAdapter.OnRowItemClick {
+public class ProfileFragment extends BaseFragment implements ProfileFriendsAdapter.OnRowItemClick {
 
   public static final String TAG = ProfileFragment.class.getSimpleName();
 
@@ -42,10 +43,10 @@ public class ProfileFragment extends BaseFragment implements DataAdapter.OnRowIt
   @Bind(R.id.profile_username) TextView mUserName;
   @Bind(R.id.profile_email) TextView mEmail;
   @Bind(R.id.profile_rank) TextView mRank;
-  @Bind(R.id.profile_image) ImageView mProfileImage;
+  @Bind(R.id.profile_image) MaterialLetterIcon mProfileImage;
   @Bind(R.id.profile_friends) RecyclerView mFriendsList;
   @Bind(R.id.profile_add_friend) FloatingActionButton mAddFriendBtn;
-  private DataAdapter mFriendsListAdapter;
+  private ProfileFriendsAdapter mFriendsListAdapter;
   private Object mProfile;
   private List<User> mFriends;
   private String mCurrentUser;
@@ -79,7 +80,7 @@ public class ProfileFragment extends BaseFragment implements DataAdapter.OnRowIt
     if (getArguments() != null) {
     }
 
-    mCurrentUser = ModuleUri.parseUri(getContext(), getUri()).getUserId();
+    mCurrentUser = ModuleUri.parseUri(getContext(), getUri()).getUser();
 
     Database.getSingleton().getProfile(mCurrentUser, new Database.FirebaseGET<User>() {
       @Override public void onSuccess(final User user) {
@@ -112,6 +113,7 @@ public class ProfileFragment extends BaseFragment implements DataAdapter.OnRowIt
 
     if (event.mEventID == FriendItemGetEvent.EVENT.DELETE_REQUEST){
       Wtf.log("Delete request");
+      startLoading("Deleting friend...");
       final User deleteUser = (User) event.mData;
       final String currentUser = Database.getSingleton().getUserName();
       Database.getSingleton().removeFriend(deleteUser.getUserName(), currentUser, true);
@@ -119,7 +121,7 @@ public class ProfileFragment extends BaseFragment implements DataAdapter.OnRowIt
     }
 
     if (event.mEventID == FriendItemGetEvent.EVENT.DELETE_SUCCESS){
-      Wtf.log("Delete success");
+      stopLoading();
       displaySuccess(getView(), getString(R.string.friend_add_friend_deleted));
       mFriendsListAdapter.processDeletion();
       return;
@@ -158,18 +160,20 @@ public class ProfileFragment extends BaseFragment implements DataAdapter.OnRowIt
     ButterKnife.bind(this, view);
 
     mFriendsList.setLayoutManager(new LinearLayoutManager(getActivity()));
-    mFriendsListAdapter = new DataAdapter(R.layout.list_profile_friends_item, getVisiblitySettings());
+    mFriendsListAdapter = new ProfileFriendsAdapter(R.layout.list_profile_friends_item, getVisiblitySettings());
     mFriendsList.setAdapter(mFriendsListAdapter);
     mFriendsListAdapter.setOnRowItemClickListener(this);
 
     Database.getSingleton().getFriends(mCurrentUser);
 
-    Glide
-        .with(this)
-        .load(R.drawable.raph)
-        .centerCrop()
-        .crossFade()
-        .into(mProfileImage);
+    mProfileImage.setLetter(mCurrentUser);
+
+//    Glide
+//        .with(this)
+//        .load(R.drawable.raph)
+//        .centerCrop()
+//        .crossFade()
+//        .into(mProfileImage);
 
 
 
