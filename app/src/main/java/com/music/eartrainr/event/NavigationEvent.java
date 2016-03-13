@@ -1,6 +1,6 @@
 package com.music.eartrainr.event;
 
-import com.music.eartrainr.Auth;
+import com.music.eartrainr.utils.Auth;
 
 import static com.music.eartrainr.event.NavigationEvent.EVENT.NAVIGATION_FAILED;
 

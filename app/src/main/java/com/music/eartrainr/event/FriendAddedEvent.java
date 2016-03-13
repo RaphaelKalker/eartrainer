@@ -1,8 +1,7 @@
 package com.music.eartrainr.event;
 
 
-import com.music.eartrainr.Auth;
-import com.music.eartrainr.fragment.FriendAddFragment;
+import com.music.eartrainr.utils.Auth;
 import com.music.eartrainr.model.User;
 
 

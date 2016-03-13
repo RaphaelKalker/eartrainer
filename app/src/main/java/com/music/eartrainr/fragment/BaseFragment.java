@@ -92,8 +92,8 @@ public abstract class BaseFragment<T>
 
   protected void stopLoading() {
     if (mProgressDialog != null) {
-      mProgressDialog.setIndeterminate(false);
-//      mProgressDialog.show();
+//      mProgressDialog.setIndeterminate(false);
+      mProgressDialog.hide();
     }
   }
 

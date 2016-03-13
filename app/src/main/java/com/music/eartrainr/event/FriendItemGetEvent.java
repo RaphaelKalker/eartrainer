@@ -1,7 +1,7 @@
 package com.music.eartrainr.event;
 
 
-import com.music.eartrainr.Auth;
+import com.music.eartrainr.utils.Auth;
 
 import static com.music.eartrainr.event.FriendItemGetEvent.EVENT.DELETE_REQUEST;
 import static com.music.eartrainr.event.FriendItemGetEvent.EVENT.DELETE_SUCCESS;

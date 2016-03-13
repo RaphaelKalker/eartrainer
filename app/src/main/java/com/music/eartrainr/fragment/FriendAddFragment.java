@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.music.eartrainr.Auth;
+import com.music.eartrainr.utils.Auth;
 import com.music.eartrainr.Bus;
 import com.music.eartrainr.Database;
 import com.music.eartrainr.ModuleUri;

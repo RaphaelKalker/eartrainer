@@ -19,7 +19,7 @@ import com.music.eartrainr.Bus;
 import com.music.eartrainr.Database;
 import com.music.eartrainr.ModuleUri;
 import com.music.eartrainr.R;
-import com.music.eartrainr.TextUtility;
+import com.music.eartrainr.utils.TextUtility;
 import com.music.eartrainr.Wtf;
 import com.music.eartrainr.activity.MainActivity;
 import com.music.eartrainr.event.SignInEvent;
