@@ -1,5 +1,6 @@
 package com.music.eartrainr.activity;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
@@ -37,21 +38,29 @@ public class MainActivity extends BaseActivity {
 
     mNavigationView.setNavigationItemSelectedListener(mNavigationItemListener);
 
-    onFragmentInteraction(getUri());
+    //Resumed state
+    if (savedInstanceState != null) {
+//      onFragmentInteraction(getUri(), savedInstanceState);
+    } else {
+      onFragmentInteraction(getUri());
+    }
   }
 
   private NavigationView.OnNavigationItemSelectedListener mNavigationItemListener = new NavigationView.OnNavigationItemSelectedListener() {
     @Override public boolean onNavigationItemSelected(final MenuItem item) {
       String tag = "";
 
+      final ModuleUri.BBuilder uriBuilder = new ModuleUri.BBuilder();
+      final boolean exit = false;
+
       switch (item.getItemId()) {
 
         case R.id.nav_home:
-          tag = ProfileFragment.TAG;
+          uriBuilder.fragment(ProfileFragment.TAG);
           break;
 
         case R.id.nav_leader_board:
-          tag = LeaderBoardFragment.TAG;
+          uriBuilder.fragment(LeaderBoardFragment.TAG).activity(LeaderBoardActivity.TAG);
           break;
 
         case R.id.nav_logout:
@@ -60,8 +69,9 @@ public class MainActivity extends BaseActivity {
           break;
 
         case R.id.nav_game1:
-          tag = Game1Fragment.TAG;
+          uriBuilder.fragment(Game1Fragment.TAG);
           break;
+
         case R.id.nav_game2:
         case R.id.nav_game3:
         case R.id.nav_game4:
@@ -75,11 +85,14 @@ public class MainActivity extends BaseActivity {
 
       mDrawerLayout.closeDrawers();
 
-      final String user = Database.getSingleton().getUserName();
+      if (!exit) {
+        final String user = Database.getSingleton().getUserName();
 
-      onFragmentInteraction(
-          new ModuleUri.BBuilder().fragment(tag).user(user).build()
-      );
+        onFragmentInteraction(
+            uriBuilder.build()
+        );
+      }
+
 
       return false;
     }
