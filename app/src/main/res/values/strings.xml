@@ -83,4 +83,5 @@
         <item>7th</item>
         <item>8th</item>
     </string-array>
+    <string name="title_activity_leader_board">LeaderBoardActivity</string>
 </resources>
