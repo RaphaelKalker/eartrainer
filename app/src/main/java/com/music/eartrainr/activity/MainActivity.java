@@ -10,8 +10,9 @@ import com.music.eartrainr.Database;
 import com.music.eartrainr.ModuleUri;
 import com.music.eartrainr.R;
 import com.music.eartrainr.fragment.Game1Fragment;
-import com.music.eartrainr.fragment.LeaderBoard;
+import com.music.eartrainr.fragment.LeaderBoardFragment;
 import com.music.eartrainr.fragment.ProfileFragment;
+import com.music.eartrainr.model.FirebaseRank;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -50,7 +51,7 @@ public class MainActivity extends BaseActivity {
           break;
 
         case R.id.nav_leader_board:
-          tag = LeaderBoard.TAG;
+          tag = LeaderBoardFragment.TAG;
           break;
 
         case R.id.nav_logout:
@@ -64,6 +65,11 @@ public class MainActivity extends BaseActivity {
         case R.id.nav_game2:
         case R.id.nav_game3:
         case R.id.nav_game4:
+          break;
+
+        case R.id.btn_temp:
+          FirebaseRank.initDB();
+//          FirebaseRank.get();
           break;
       }
 

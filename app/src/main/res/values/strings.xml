@@ -61,6 +61,9 @@
     <string name="status_auth_failed">Authorization failed.</string>
     <string name="nav_leadership">Leader Board</string>
     <string name="fragment_title_leaderboard">Leader Board</string>
+    <string name="fail_retrieve_items">Failed to retrieve items</string>
+    <string name="leaderboard_username">Username:</string>
+    <string name="leaderboard_total_score">Total Score:</string>
 
     <string-array name="game_classes">
         <item>Choose ...</item>
