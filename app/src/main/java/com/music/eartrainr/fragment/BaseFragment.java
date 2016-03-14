@@ -31,16 +31,6 @@ public abstract class BaseFragment<T>
     mProgressDialog.setIndeterminate(true);
   }
 
-//  @Nullable @Override public View onCreateView(
-//      final LayoutInflater inflater,
-//      @Nullable final ViewGroup container,
-//      @Nullable final Bundle savedInstanceState) {
-//    final View view =  super.onCreateView(inflater, container, savedInstanceState);
-//    restoreState(savedInstanceState);
-//    return view;
-//
-//  }
-
   @Override public void onAttach(final Context context) {
     super.onAttach(context);
 
