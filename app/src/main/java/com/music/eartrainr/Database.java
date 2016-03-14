@@ -77,6 +77,10 @@ public class Database <T> {
     return INSTANCE;
   }
 
+  public Firebase getFirebase() {
+    return mFirebaseRef;
+  }
+
   private static synchronized void initFirebase() {
      mFirebaseRef = new Firebase(FIREBASE_APP);
     mFirebaseRef.keepSynced(true);
