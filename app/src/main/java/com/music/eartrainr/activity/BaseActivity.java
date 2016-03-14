@@ -54,12 +54,16 @@ public abstract class BaseActivity
     }
   }
 
-  @Override public void onFragmentInteraction(final Uri uri) {
+  @Override public void onFragmentInteraction(
+      final Uri uri,
+      final Bundle savedInstance) {
+
     if (LOGGING) Wtf.log("Opening... " + uri.toString());
 
     final ModuleUri moduleUri = ModuleUri.parseUri(getApplicationContext(), uri);
     final int action = moduleUri.getAction();
     final String user = moduleUri.getUser();
+    final String fragmentTag = moduleUri.getFragmentTag();
 
     /*
     * Requesting close
@@ -132,13 +136,13 @@ public abstract class BaseActivity
 
       } else {
         BaseFragment fragment = (BaseFragment) method.invoke(null, uri);
+        BaseFragment prev = (BaseFragment) getSupportFragmentManager().findFragmentByTag(fragmentTag);
 
-
-        //Start the fragment
-        ft.replace(R.id.fragment_container, fragment)
+        if (prev == null) {
+          ft.replace(R.id.fragment_container, fragment, fragmentTag)
             .addToBackStack(null)
             .commit();
-
+        }
       }
 
 
@@ -159,6 +163,13 @@ public abstract class BaseActivity
     } catch (InvocationTargetException e) {
       e.printStackTrace();
     }
+
+
+
+  }
+
+  @Override public void onFragmentInteraction(final Uri uri) {
+    onFragmentInteraction(uri, null);
   }
 
   @Override public Uri getUri() {
