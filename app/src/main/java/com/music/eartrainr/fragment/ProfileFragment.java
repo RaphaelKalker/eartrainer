@@ -40,6 +40,12 @@ public class ProfileFragment extends BaseFragment implements ProfileFriendsAdapt
 
   public static final String TAG = ProfileFragment.class.getSimpleName();
 
+  //region BUNDLE KEYS
+  private static final String USER_KEY = "user";
+  //endregion
+
+  //region BUTTERKNIFE
+
   @Bind(R.id.profile_name) TextView mProfileName;
   @Bind(R.id.profile_username) TextView mUserName;
   @Bind(R.id.profile_email) TextView mEmail;
@@ -47,12 +53,15 @@ public class ProfileFragment extends BaseFragment implements ProfileFriendsAdapt
   @Bind(R.id.profile_image) MaterialLetterIcon mProfileImage;
   @Bind(R.id.profile_friends) RecyclerView mFriendsList;
   @Bind(R.id.profile_add_friend) FloatingActionButton mAddFriendBtn;
+
+  //endregion
+
   private ProfileFriendsAdapter mFriendsListAdapter;
   private Object mProfile;
   private List<User> mFriends;
   private String mCurrentUser;
 
-
+  //region START STUFF
   public ProfileFragment() {
     // Required empty public constructor
   }
@@ -65,6 +74,9 @@ public class ProfileFragment extends BaseFragment implements ProfileFriendsAdapt
     return fragment;
   }
 
+  //endregion
+
+  //region LIFECYCLE
   @Override public void onStart() {
     super.onStart();
     Bus.register(this);
@@ -81,22 +93,66 @@ public class ProfileFragment extends BaseFragment implements ProfileFriendsAdapt
     if (getArguments() != null) {
     }
 
-    mCurrentUser = ModuleUri.parseUri(getContext(), getUri()).getUser();
+    if (savedInstanceState != null) {
+      restoreState(savedInstanceState);
+    } else {
+      mCurrentUser = ModuleUri.parseUri(getContext(), getUri()).getUser();
 
-    Database.getSingleton().getProfile(mCurrentUser, new Database.FirebaseGET<User>() {
-      @Override public void onSuccess(final User user) {
-        Wtf.log();
-        mProfileName.setText(user.getUserName());
-        mRank.setText(user.getRank());
-        mEmail.setText(user.getEmail());
-        mUserName.setText(user.getUserName());
-      }
-
-      @Override public void onError(final FirebaseError error) {
-        Wtf.log();
-      }
-    });
+    }
   }
+
+  @Override
+  public View onCreateView(
+      LayoutInflater inflater,
+      ViewGroup container,
+      Bundle savedInstanceState) {
+    final View view = inflater.inflate(R.layout.fragment_profile, container, false);
+    return view;
+  }
+
+
+
+
+  @Override public void onViewCreated(
+      final View view,
+      @Nullable final Bundle savedInstanceState) {
+    super.onViewCreated(view, savedInstanceState);
+    ButterKnife.bind(this, view);
+
+    mProfileName.setText(mCurrentUser);
+    mProfileImage.setLetter(mCurrentUser);
+
+    setupFriendList();
+
+    Database.getSingleton().getFriends(mCurrentUser);
+//    Database.getSingleton().getProfile(mCurrentUser, new Database.FirebaseGET<User>() {
+//      @Override public void onSuccess(final User user) {
+//        Wtf.log();
+//        mProfileName.setText(user.getUserName());
+//        mRank.setText(user.getRank());
+//        mEmail.setText(user.getEmail());
+//        mUserName.setText(user.getUserName());
+//      }
+//
+//      @Override public void onError(final FirebaseError error) {
+//        Wtf.log();
+//      }
+//    });
+  }
+
+  //endregion
+
+  //region UI HELPERS
+  private void setupFriendList() {
+    mFriendsList.setLayoutManager(new LinearLayoutManager(getActivity()));
+    mFriendsList.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
+    mFriendsListAdapter = new ProfileFriendsAdapter(getActivity(), R.layout.list_profile_friends_item, getVisiblitySettings());
+    mFriendsList.setAdapter(mFriendsListAdapter);
+    mFriendsListAdapter.setOnRowItemClickListener(this);
+  }
+  //endregion
+
+  //region EVENTS
 
   @Subscribe
   public void onFriendListItemGet(final FriendItemGetEvent<FirebaseError, User> event) {
@@ -130,62 +186,17 @@ public class ProfileFragment extends BaseFragment implements ProfileFriendsAdapt
 
   }
 
-
-  @Override public void onViewCreated(
-      final View view,
-      @Nullable final Bundle savedInstanceState) {
-    super.onViewCreated(view, savedInstanceState);
-    ModuleUri moduleUri = ModuleUri.parseUri(getActivity(), getUri());
-    mProfileName.setText(mCurrentUser);
-  }
-
-  private String longRunningOperationObservableEmitter() {
-    try {
-      Thread.sleep(1000);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
-
-    int shit  = 1/0;
-    return "DONE";
-  }
-
-  @Override
-  public View onCreateView(
-      LayoutInflater inflater,
-      ViewGroup container,
-      Bundle savedInstanceState) {
-    // Inflate the layout for this fragment
-
-    final View view = inflater.inflate(R.layout.fragment_profile, container, false);
-    ButterKnife.bind(this, view);
-
-    mFriendsList.setLayoutManager(new LinearLayoutManager(getActivity()));
-    mFriendsList.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
-    mFriendsListAdapter = new ProfileFriendsAdapter(getActivity(), R.layout.list_profile_friends_item, getVisiblitySettings());
-    mFriendsList.setAdapter(mFriendsListAdapter);
-    mFriendsListAdapter.setOnRowItemClickListener(this);
-
-    Database.getSingleton().getFriends(mCurrentUser);
-
-    mProfileImage.setLetter(mCurrentUser);
-
-//    Glide
-//        .with(this)
-//        .load(R.drawable.raph)
-//        .centerCrop()
-//        .crossFade()
-//        .into(mProfileImage);
+  //endregion
 
 
 
-
-
-
-    return view;
+  @Override public void onSaveInstanceState(final Bundle outState) {
+    super.onSaveInstanceState(outState);
+    outState.putString(USER_KEY, mCurrentUser);
   }
 
   @Override public void restoreState(final Bundle savedState) {
+    mCurrentUser = savedState.getString(USER_KEY);
 
   }
 
