@@ -6,3 +6,6 @@
 .DS_Store
 /build
 /captures
+app/.idea/misc.xml
+app/.idea/workspace.xml
+app/src/main/java/Changelog.md
