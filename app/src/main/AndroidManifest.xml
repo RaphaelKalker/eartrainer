@@ -37,6 +37,12 @@
             android:theme="@style/AppTheme.NoActionBar"
             android:label="@string/title_activity_main"></activity>
 
+        <!-- LEADERBOARD ACTIVITY -->
+        <activity
+            android:name=".activity.LeaderBoardActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:label="@string/title_activity_leader_board"></activity>
+
     </application>
 
 </manifest>
