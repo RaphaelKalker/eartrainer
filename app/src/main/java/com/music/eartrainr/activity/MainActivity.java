@@ -56,11 +56,11 @@ public class MainActivity extends BaseActivity {
       switch (item.getItemId()) {
 
         case R.id.nav_home:
-          uriBuilder.fragment(ProfileFragment.TAG);
+          uriBuilder.activity(MainActivity.TAG).fragment(ProfileFragment.TAG);
           break;
 
         case R.id.nav_leader_board:
-          uriBuilder.fragment(LeaderBoardFragment.TAG).activity(LeaderBoardActivity.TAG);
+          uriBuilder.activity(LeaderBoardActivity.TAG);
           break;
 
         case R.id.nav_logout:
@@ -69,7 +69,7 @@ public class MainActivity extends BaseActivity {
           break;
 
         case R.id.nav_game1:
-          uriBuilder.fragment(Game1Fragment.TAG);
+          uriBuilder.activity(MainActivity.TAG).fragment(Game1Fragment.TAG);
           break;
 
         case R.id.nav_game2:
