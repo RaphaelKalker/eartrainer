@@ -88,25 +88,24 @@ public abstract class BaseActivity
     if (LOGGING) Wtf.log("Class path to open: " + clazzPath);
 
     try {
+
+        /*
+      * Launch a new activity if the current one is not correct.
+      * Note: We launch the fragment on the second pass
+      * */
+
+      if (launchActivityIfNecessary(moduleUri)) {
+        return;
+      }
+
+
       final Class<?> clazz = Class.forName(clazzPath);
       final Class [] args = new Class[1];
       args[0] = Uri.class;
       final Method method = clazz.getMethod("newInstance", args);
 
 
-      /*
-      * Launch a new activity if the current one is not correct.
-      * Note: We launch the fragment on the second pass
-      * */
 
-      final String currentActivity = this.getClass().getSimpleName();
-
-      if (!TextUtils.equals(currentActivity, moduleUri.getActivity()) &&
-          !TextUtils.isEmpty(moduleUri.getActivityPath())) {
-        final Class<?> activityClazz = Class.forName(moduleUri.getActivityPath());
-        BaseActivity.startActivity(this, activityClazz, uri);
-        return;
-      }
 
       /*
       * Launch a new fragment
@@ -166,6 +165,23 @@ public abstract class BaseActivity
 
 
 
+  }
+
+
+  private boolean launchActivityIfNecessary(ModuleUri moduleUri) throws ClassNotFoundException {
+
+    boolean handled = false;
+
+    final String currentActivity = this.getClass().getSimpleName();
+
+    if (!TextUtils.equals(currentActivity, moduleUri.getActivity()) &&
+        !TextUtils.isEmpty(moduleUri.getActivityPath())) {
+      final Class<?> activityClazz = Class.forName(moduleUri.getActivityPath());
+      BaseActivity.startActivity(this, activityClazz, moduleUri.getUri());
+      handled = true;
+    }
+
+    return handled;
   }
 
   @Override public void onFragmentInteraction(final Uri uri) {
