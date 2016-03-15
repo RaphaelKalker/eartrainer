@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Activity;
+import android.os.Parcelable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -22,6 +23,13 @@ import butterknife.ButterKnife;
 public class LeaderBoardActivity extends BaseActivity {
 
   public static final String TAG = LeaderBoardActivity.class.getSimpleName();
+
+  public enum GAME{
+    GAME_1,
+    GAME_2,
+    GAME_3,
+    GAME_4
+  }
 
   @Bind(R.id.leaderboard_viewpager) ViewPager mViewPager;
   @Bind(R.id.leaderboard_tabs) TabLayout mTabLayout;
@@ -47,13 +55,14 @@ public class LeaderBoardActivity extends BaseActivity {
 
 
   public class SampleFragmentPagerAdapter extends FragmentPagerAdapter {
-    final int PAGE_COUNT = 3;
-    private String tabTitles[] = new String[] { "Tab1", "Tab2", "Tab3" };
+    final static int PAGE_COUNT = 4;
+    private String tabTitles[];
     private Context context;
 
     public SampleFragmentPagerAdapter(FragmentManager fm, Context context) {
       super(fm);
       this.context = context;
+      tabTitles = context.getResources().getStringArray(R.array.games);
     }
 
     @Override
