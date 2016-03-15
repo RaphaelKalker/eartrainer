@@ -71,7 +71,9 @@ public class ModuleUri {
     return builder.build();
   }
 
-
+  public Uri getUri() {
+    return mUri;
+  }
 
   public String getUser() {
     return (String) mUriArgs.get(USER);
