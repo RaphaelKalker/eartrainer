@@ -9,9 +9,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.music.eartrainr.Bus;
 import com.music.eartrainr.R;
+import com.music.eartrainr.Wtf;
 import com.music.eartrainr.adapter.LeaderAdapter;
 import com.music.eartrainr.event.RankItemGetEvent;
 import com.music.eartrainr.model.FirebaseRank;
@@ -21,7 +23,6 @@ import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 
 public class LeaderBoardFragment extends BaseFragment {
@@ -29,12 +30,13 @@ public class LeaderBoardFragment extends BaseFragment {
   public static final String TAG = LeaderBoardFragment.class.getSimpleName();
 
   @Bind(R.id.leaderboard_list) RecyclerView mLeaderList;
+  @Bind(R.id.loading) ProgressBar mProgressBar;
+
   private LeaderAdapter mLeaderAdapter;
 
   public static LeaderBoardFragment newInstance(final Uri uri) {
     LeaderBoardFragment fragment = new LeaderBoardFragment();
     Bundle args = new Bundle();
-    args.putParcelable(ActivityNavigation.KEY_FRAGMENT_URI_ARG, uri);
     fragment.setArguments(args);
     return fragment;
   }
@@ -54,8 +56,7 @@ public class LeaderBoardFragment extends BaseFragment {
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    if (getArguments() != null) {
-    }
+    startLoading("Retrieval rank items");
   }
 
   @Override
@@ -71,12 +72,10 @@ public class LeaderBoardFragment extends BaseFragment {
       @Nullable final Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
     ButterKnife.bind(this, view);
-    startLoading("Retrieving rank items");
-
-    mLeaderAdapter = new LeaderAdapter(getActivity(), R.layout.list_leaderboard_item);
-    mLeaderList.setAdapter(mLeaderAdapter);
-    mLeaderList.setLayoutManager(new LinearLayoutManager(getActivity()));
-    mLeaderList.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
+    Wtf.log("Starting to load items");
+    setLoadingState(true);
+    setupListView();
+    FirebaseRank.get();
   }
 
   @Override public void onDestroyView() {
@@ -100,10 +99,29 @@ public class LeaderBoardFragment extends BaseFragment {
 
   //endregion
 
+  //region UI HELPERS
+  private void setLoadingState(final boolean isLoading) {
+    if (mProgressBar != null && false) {
+      mProgressBar.setIndeterminate(true);
+      mProgressBar.setVisibility(isLoading ? View.VISIBLE : View.INVISIBLE);
+    }
+  }
+
+  private void setupListView() {
+    mLeaderAdapter = new LeaderAdapter(getActivity(), R.layout.list_leaderboard_item);
+    mLeaderList.setAdapter(mLeaderAdapter);
+    mLeaderList.setLayoutManager(new LinearLayoutManager(getActivity()));
+    mLeaderList.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
+  }
+
+  //endregion
+
   //region SUBSCRIBERS
 
   @Subscribe
   public void onGetRequest(final RankItemGetEvent event) {
+
+    setLoadingState(false);
 
     if (event.mEventID == RankItemGetEvent.EVENT.RANK_GET_SUCCESS) {
       mLeaderAdapter.setDataSource(event.mData);
@@ -119,18 +137,9 @@ public class LeaderBoardFragment extends BaseFragment {
 
   //endregion
 
-
   //region ONCLICKS
 
-  @OnClick(R.id.leaderboard_get)
-  public void onGetClicked() {
-    FirebaseRank.get();
-  }
-
   //endregion
-
-
-
 
   @Override public String getTitle() {
     return getString(R.string.fragment_title_leaderboard);

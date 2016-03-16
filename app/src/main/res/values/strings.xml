@@ -65,6 +65,12 @@
     <string name="leaderboard_username">Username:</string>
     <string name="leaderboard_total_score">Total Score:</string>
 
+    <!-- GAMES -->
+    <string name="game1">TOTAL SCORE</string>
+    <string name="game2">INTERVAL TRAINING</string>
+    <string name="game3">ERROR DETECTION</string>
+    <string name="game4">CHORD PROGRESSIONS</string>
+
     <string-array name="game_classes">
         <item>Choose ...</item>
         <item>Major</item>
