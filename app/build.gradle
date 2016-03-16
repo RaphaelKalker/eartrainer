@@ -66,4 +66,6 @@ dependencies {
     compile 'com.joanzapata.iconify:android-iconify-fontawesome:2.2.1'
 
     compile 'com.github.ivbaranov:materiallettericon:0.2.1'
+
+    compile 'com.github.fcannizzaro:material-stepper:1.0.2'
 }
