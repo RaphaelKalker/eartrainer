@@ -32,7 +32,6 @@ public abstract class BaseActivity
 
 
   public static void startActivity(final BaseActivity current, final Class<?> next, final Uri uri) {
-    Wtf.log("Starting Activity: " + next.getClass().getName());
     final Intent intent =  new Intent(current, next);
     intent.putExtra(URI, uri);
     current.startActivity(intent);
@@ -83,9 +82,6 @@ public abstract class BaseActivity
 
     final String clazzPath = ModuleUri.getFragmentString(uri);
     final int fragmentType = moduleUri.getFragmentType(uri);
-
-
-    if (LOGGING) Wtf.log("Class path to open: " + clazzPath);
 
     try {
 
@@ -177,6 +173,7 @@ public abstract class BaseActivity
     if (!TextUtils.equals(currentActivity, moduleUri.getActivity()) &&
         !TextUtils.isEmpty(moduleUri.getActivityPath())) {
       final Class<?> activityClazz = Class.forName(moduleUri.getActivityPath());
+      Wtf.log("Starting Activity: " + moduleUri.getActivity());
       BaseActivity.startActivity(this, activityClazz, moduleUri.getUri());
       handled = true;
     }
