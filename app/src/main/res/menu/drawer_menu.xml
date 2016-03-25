@@ -26,33 +26,24 @@
                     android:icon="@android:drawable/ic_media_play"
                     android:title="@string/nav_game1"/>
 
-                <item
-                    android:id="@+id/nav_game2"
-                    android:icon="@android:drawable/ic_media_play"
-                    android:title="@string/nav_game2"/>
-
-                <item
-                    android:id="@+id/nav_game3"
-                    android:icon="@android:drawable/ic_media_play"
-                    android:title="@string/nav_game3"/>
-
-                <item
-                    android:id="@+id/nav_game4"
-                    android:icon="@android:drawable/ic_media_play"
-                    android:title="@string/nav_game4"/>
-
             </menu>
         </item>
 
         <item
-            android:id="@+id/nav_settings"
-            android:icon="@android:drawable/ic_lock_power_off"
-            android:title="@string/nav_settings"/>
+            android:id="@+id/nav_testing"
+            android:title="@string/nav_testing">
+            <menu>
+                <item
+                    android:id="@+id/btn_temp"
+                    android:icon="@android:drawable/ic_lock_power_off"
+                    android:title="INIT DB"/>
+                <item
+                    android:id="@+id/btn_db_answer_init"
+                    android:icon="@android:drawable/ic_lock_power_off"
+                    android:title="Init Database Answers"/>
 
-        <item
-            android:id="@+id/btn_temp"
-            android:icon="@android:drawable/ic_lock_power_off"
-            android:title="INIT DB"/>
+            </menu>
+        </item>
 
         <item
             android:id="@+id/nav_logout"

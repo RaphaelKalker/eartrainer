@@ -11,6 +11,7 @@ import com.music.eartrainr.ModuleUri;
 import com.music.eartrainr.R;
 import com.music.eartrainr.fragment.ProfileFragment;
 import com.music.eartrainr.model.FirebaseRank;
+import com.music.eartrainr.test.SetupFB;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -69,24 +70,21 @@ public class MainActivity extends BaseActivity {
           uriBuilder.activity(IntervalDetectionGameActivity.TAG);
           break;
 
-        case R.id.nav_game2:
-        case R.id.nav_game3:
-        case R.id.nav_game4:
-          break;
-
         case R.id.btn_temp:
           FirebaseRank.initDB();
 //          FirebaseRank.get();
-          break;
+          return false;
+        case R.id.btn_db_answer_init:
+          SetupFB.intervalDetectionAnswer(getApplicationContext());
       }
 
       mDrawerLayout.closeDrawers();
 
-      if (!exit) {
+      if (uriBuilder.isNavigationDefined()) {
         final String user = Database.getSingleton().getUserName();
 
         onFragmentInteraction(
-            uriBuilder.build()
+            uriBuilder.user(user).build()
         );
       }
 
