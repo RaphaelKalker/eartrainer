@@ -74,4 +74,20 @@
         android:layout_alignTop="@id/game1_successrate"
         android:layout_toEndOf="@id/game1_successrate"/>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/game1_answer"
+        android:text="Answer"
+        android:layout_above="@+id/game1_show_answer_btn"
+        android:layout_alignParentStart="true"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/game1_show_answer_btn"
+        android:text="Show Answer"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"/>
+
 </RelativeLayout>

@@ -9,10 +9,11 @@ import com.music.eartrainr.R;
 import com.music.eartrainr.Wtf;
 import com.music.eartrainr.fragment.BaseFragment;
 import com.music.eartrainr.fragment.IntervalDetectionStepFragment;
+import com.music.eartrainr.interfaces.GameHelper;
 import com.music.eartrainr.model.IntervalDetection;
 
 
-public class IntervalDetectionGameActivity extends BaseGameActivity<IntervalDetection> {
+public class IntervalDetectionGameActivity extends BaseGameActivity<IntervalDetection> implements GameHelper {
 
   public static final String TAG = IntervalDetectionGameActivity.class.getSimpleName();
   private MediaPlayer mMediaPlayer;
@@ -120,6 +121,11 @@ public class IntervalDetectionGameActivity extends BaseGameActivity<IntervalDete
       mMediaPlayer.release();
       mMediaPlayer = null;
     }
+  }
+
+  @Override public String getAnswer(final int stepNr) {
+    IntervalDetection step = (IntervalDetection) GameManager.getInstance().getGameData(stepNr);
+    return step.getAnswer();
   }
 
   //endregion

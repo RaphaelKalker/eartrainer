@@ -55,7 +55,7 @@ public class GameManager<STEP> {
 
   public STEP getGameData(final int stepPosition) {
     if (mGameSteps == null || mGameSteps.size() == 0) {
-      throw new IllegalStateException("There are no game steps.");
+      throw new IllegalStateException("There are no game steps. You called this too early!");
     }
 
     return mGameSteps.get(stepPosition);

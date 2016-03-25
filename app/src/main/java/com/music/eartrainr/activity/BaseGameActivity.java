@@ -13,7 +13,6 @@ import org.greenrobot.eventbus.Subscribe;
 
 public abstract class BaseGameActivity<GAME> extends TabStepper {
 
-
   private ProgressDialog mProgressDialog;
 
   //region LIFE CYCLE

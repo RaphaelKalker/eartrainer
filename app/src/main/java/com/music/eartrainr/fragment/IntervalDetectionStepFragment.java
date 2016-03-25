@@ -1,5 +1,6 @@
 package com.music.eartrainr.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -13,7 +14,9 @@ import android.widget.TextView;
 import com.joanzapata.iconify.widget.IconTextView;
 import com.music.eartrainr.R;
 import com.music.eartrainr.Wtf;
+import com.music.eartrainr.activity.BaseGameActivity;
 import com.music.eartrainr.activity.IntervalDetectionGameActivity;
+import com.music.eartrainr.interfaces.GameHelper;
 import com.music.eartrainr.model.IntervalDetection;
 
 import butterknife.Bind;
@@ -43,6 +46,8 @@ public class IntervalDetectionStepFragment extends GameFragment<IntervalDetectio
   @Bind(R.id.game1_size_spinner) Spinner mSizeDropdown;
   @Bind(R.id.game1_musical_note) IconTextView mMusicNote;
   @Bind(R.id.game1_successrate_val) TextView mSuccessRate;
+  @Bind(R.id.game1_answer) TextView mAnswer;
+  @Bind(R.id.game1_show_answer_btn) Button mShowAnswer;
 
   //endregion
 
@@ -83,6 +88,7 @@ public class IntervalDetectionStepFragment extends GameFragment<IntervalDetectio
     initView();
   }
 
+
   @Override public void onDestroyView() {
     super.onDestroyView();
     ButterKnife.unbind(this);
@@ -102,7 +108,7 @@ public class IntervalDetectionStepFragment extends GameFragment<IntervalDetectio
 
   @Override public boolean validateInput(final IntervalDetection gameData) {
 
-    mValidationState = verifyUserSelection(gameData.parseAnswers(), mClassDropdown, mSizeDropdown);
+    mValidationState = verifyUserSelection(gameData.parseAnswers(), mSizeDropdown, mClassDropdown);
 
     switch (mValidationState) {
       case CORRECT:
@@ -143,6 +149,17 @@ public class IntervalDetectionStepFragment extends GameFragment<IntervalDetectio
   @OnClick(R.id.game1_replay_btn)
   public void onPlayClicked() {
     ((IntervalDetectionGameActivity)getActivity()).requestPlay(getArguments().getInt(STEP_MIDI_FILE));
+  }
+
+  @OnClick(R.id.game1_show_answer_btn)
+  public void onShowAnswerClick() {
+    if (getActivity() != null) {
+      final String answer = ((GameHelper)getActivity()).getAnswer(getArguments().getInt(GAME_STEP_NR));
+      mAnswer.setText(answer);
+      mShowAnswer.setEnabled(false);
+      mShowAnswer.setVisibility(View.VISIBLE);
+    }
+
   }
 
   //endregion
