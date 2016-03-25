@@ -21,4 +21,12 @@
         <item>@string/game4</item>
     </array>
 
+    <array name="interval_detection_answers">
+        <item>"1st,something"</item>
+        <item>"2nd,something"</item>
+        <item>"3rd,something"</item>
+        <item>"4th,something"</item>
+        <item>"5th,something"</item>
+    </array>
+
 </resources>

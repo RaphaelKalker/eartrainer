@@ -11,7 +11,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="nav_home">Home</string>
     <string name="nav_about">About</string>
-    <string name="nav_game1">Game 1</string>
+    <string name="nav_game1">Interval Detection</string>
     <string name="nav_game2">Game 2</string>
     <string name="nav_game3">Game 3</string>
     <string name="nav_game4">Game 4</string>
@@ -93,4 +93,5 @@
     <string name="title_activity_game">Game</string>
     <string name="error_no_input">Please make a selection</string>
     <string name="error_wrong_answer">\"Answer not correct, try again!\"</string>
+    <string name="nav_testing">Testing</string>
 </resources>

@@ -25,7 +25,6 @@ public class MainActivity extends BaseActivity {
   @Bind(R.id.nav_view) NavigationView mNavigationView;
   @Bind(R.id.nav_drawerlayout) DrawerLayout mDrawerLayout;
 
-
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -72,7 +71,6 @@ public class MainActivity extends BaseActivity {
 
         case R.id.btn_temp:
           FirebaseRank.initDB();
-//          FirebaseRank.get();
           return false;
         case R.id.btn_db_answer_init:
           SetupFB.intervalDetectionAnswer(getApplicationContext());
