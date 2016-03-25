@@ -8,8 +8,12 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 
+import com.music.eartrainr.Bus;
 import com.music.eartrainr.R;
+import com.music.eartrainr.event.RankItemGetEvent;
 import com.music.eartrainr.fragment.LeaderBoardFragment;
+
+import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -22,6 +26,17 @@ public class LeaderBoardActivity extends BaseActivity {
   @Bind(R.id.leaderboard_viewpager) ViewPager mViewPager;
   @Bind(R.id.leaderboard_tabs) TabLayout mTabLayout;
 
+  //region LIFECYCLE
+  @Override protected void onStart() {
+    super.onStart();
+    Bus.register(this);
+  }
+
+  @Override protected void onStop() {
+    super.onStop();
+    Bus.unregister(this);
+  }
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -31,6 +46,16 @@ public class LeaderBoardActivity extends BaseActivity {
     mViewPager.setAdapter(new SampleFragmentPagerAdapter(getSupportFragmentManager(), this));
     mTabLayout.setupWithViewPager(mViewPager);
   }
+
+  //endregion
+
+  //region EVENTS
+  @Subscribe
+  public void onEventRankGet(final RankItemGetEvent event) {
+
+  }
+
+  //endregion
 
   public class SampleFragmentPagerAdapter extends FragmentPagerAdapter {
     final static int PAGE_COUNT = 4;

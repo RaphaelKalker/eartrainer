@@ -52,7 +52,7 @@ public abstract class BaseFragment<T>
     super.onDestroyView();
   }
 
-  protected void displayError(
+  public static void displayError(
       final View view,
       final String message) {
     if (view != null) {
@@ -63,7 +63,7 @@ public abstract class BaseFragment<T>
     }
   }
 
-  protected void displaySuccess(
+  public static void displaySuccess(
       final View view,
       final String message) {
     if (view != null) {

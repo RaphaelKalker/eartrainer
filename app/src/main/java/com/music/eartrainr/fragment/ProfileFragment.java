@@ -97,7 +97,6 @@ public class ProfileFragment extends BaseFragment implements ProfileFriendsAdapt
       restoreState(savedInstanceState);
     } else {
       mCurrentUser = ModuleUri.parseUri(getContext(), getUri()).getUser();
-
     }
   }
 
@@ -109,9 +108,6 @@ public class ProfileFragment extends BaseFragment implements ProfileFriendsAdapt
     final View view = inflater.inflate(R.layout.fragment_profile, container, false);
     return view;
   }
-
-
-
 
   @Override public void onViewCreated(
       final View view,
@@ -125,19 +121,31 @@ public class ProfileFragment extends BaseFragment implements ProfileFriendsAdapt
     setupFriendList();
 
     Database.getSingleton().getFriends(mCurrentUser);
-//    Database.getSingleton().getProfile(mCurrentUser, new Database.FirebaseGET<User>() {
-//      @Override public void onSuccess(final User user) {
-//        Wtf.log();
-//        mProfileName.setText(user.getUserName());
-//        mRank.setText(user.getRank());
-//        mEmail.setText(user.getEmail());
-//        mUserName.setText(user.getUserName());
-//      }
-//
-//      @Override public void onError(final FirebaseError error) {
-//        Wtf.log();
-//      }
-//    });
+    Database.getSingleton().getProfile(mCurrentUser, new Database.FirebaseGET<User>() {
+      @Override public void onSuccess(final User user) {
+        Wtf.log();
+        mProfileName.setText(user.getUserName());
+        mRank.setText(user.getRank());
+        mEmail.setText(user.getEmail());
+        mUserName.setText(user.getUserName());
+      }
+
+      @Override public void onError(final FirebaseError error) {
+        Wtf.log();
+      }
+    });
+  }
+
+  @Override public void onDestroyView() {
+    super.onDestroyView();
+    ButterKnife.unbind(this);
+    mFriendsListAdapter.removeListener();
+  }
+
+
+  @Override public void onSaveInstanceState(final Bundle outState) {
+    super.onSaveInstanceState(outState);
+    outState.putString(USER_KEY, mCurrentUser);
   }
 
   //endregion
@@ -145,10 +153,27 @@ public class ProfileFragment extends BaseFragment implements ProfileFriendsAdapt
   //region UI HELPERS
   private void setupFriendList() {
     mFriendsList.setLayoutManager(new LinearLayoutManager(getActivity()));
-    mFriendsList.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
+    mFriendsList
+        .addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
     mFriendsListAdapter = new ProfileFriendsAdapter(getActivity(), R.layout.list_profile_friends_item, getVisiblitySettings());
     mFriendsList.setAdapter(mFriendsListAdapter);
     mFriendsListAdapter.setOnRowItemClickListener(this);
+  }
+
+  public VisibilitySettings getVisiblitySettings() {
+    if (TextUtils.equals(Database.getSingleton().getUserName(), mCurrentUser)) {
+      return VisibilitySettings.OWNER;
+    } else {
+      return VisibilitySettings.OTHER;
+    }
+  }
+
+  @Override public void restoreState(final Bundle savedState) {
+    mCurrentUser = savedState.getString(USER_KEY);
+  }
+
+  @Override public String getTitle() {
+    return getString(R.string.fragment_title_profile);
   }
   //endregion
 
@@ -168,7 +193,7 @@ public class ProfileFragment extends BaseFragment implements ProfileFriendsAdapt
   @Subscribe
   public void onFriendListItemDelete(final FriendItemGetEvent event) {
 
-    if (event.mEventID == FriendItemGetEvent.EVENT.DELETE_REQUEST){
+    if (event.mEventID == FriendItemGetEvent.EVENT.DELETE_REQUEST) {
       Wtf.log("Delete request");
       startLoading("Deleting friend...");
       final User deleteUser = (User) event.mData;
@@ -177,7 +202,7 @@ public class ProfileFragment extends BaseFragment implements ProfileFriendsAdapt
       return;
     }
 
-    if (event.mEventID == FriendItemGetEvent.EVENT.DELETE_SUCCESS){
+    if (event.mEventID == FriendItemGetEvent.EVENT.DELETE_SUCCESS) {
       stopLoading();
       displaySuccess(getView(), getString(R.string.friend_add_friend_deleted));
       mFriendsListAdapter.processDeletion();
@@ -188,53 +213,14 @@ public class ProfileFragment extends BaseFragment implements ProfileFriendsAdapt
 
   //endregion
 
-
-
-  @Override public void onSaveInstanceState(final Bundle outState) {
-    super.onSaveInstanceState(outState);
-    outState.putString(USER_KEY, mCurrentUser);
-  }
-
-  @Override public void restoreState(final Bundle savedState) {
-    mCurrentUser = savedState.getString(USER_KEY);
-
-  }
-
-  @Override public String getTitle() {
-    return getString(R.string.fragment_title_profile);
-  }
-
-  @Override public void onDestroyView() {
-    super.onDestroyView();
-    ButterKnife.unbind(this);
-    mFriendsListAdapter.removeListener();
-  }
-
-  /*
-  * VIEW HELPER METHODS
-  * */
-
-  public VisibilitySettings getVisiblitySettings() {
-    if (TextUtils.equals(Database.getSingleton().getUserName(), mCurrentUser)){
-      return VisibilitySettings.OWNER;
-    } else {
-      return VisibilitySettings.OTHER;
-    }
-  }
-
-
-  /*
-  * ONCLICK LISTENERS
-  * */
+  //region CLICK LISTENERS
 
   @OnClick(R.id.profile_add_friend)
   public void onAddFriendClicked() {
 
-
     FriendAddFragment.Parameters params = new FriendAddFragment.Parameters.Builder()
         .title(getResources().getString(R.string.fragment_title_friendadd))
         .build();
-
 
     //open view on top
     final Uri uri = new ModuleUri.BBuilder()
@@ -244,7 +230,6 @@ public class ProfileFragment extends BaseFragment implements ProfileFriendsAdapt
         .build();
 
     mNavigationCallback.onFragmentInteraction(uri);
-
   }
 
 
@@ -262,5 +247,5 @@ public class ProfileFragment extends BaseFragment implements ProfileFriendsAdapt
     }
   }
 
-
+  //endregion
 }

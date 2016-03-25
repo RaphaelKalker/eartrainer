@@ -1,6 +1,5 @@
 package com.music.eartrainr.activity;
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
@@ -10,8 +9,6 @@ import android.view.MenuItem;
 import com.music.eartrainr.Database;
 import com.music.eartrainr.ModuleUri;
 import com.music.eartrainr.R;
-import com.music.eartrainr.fragment.Game1Fragment;
-import com.music.eartrainr.fragment.LeaderBoardFragment;
 import com.music.eartrainr.fragment.ProfileFragment;
 import com.music.eartrainr.model.FirebaseRank;
 
@@ -69,7 +66,7 @@ public class MainActivity extends BaseActivity {
           break;
 
         case R.id.nav_game1:
-          uriBuilder.activity(MainActivity.TAG).fragment(Game1Fragment.TAG);
+          uriBuilder.activity(IntervalDetectionGameActivity.TAG);
           break;
 
         case R.id.nav_game2:

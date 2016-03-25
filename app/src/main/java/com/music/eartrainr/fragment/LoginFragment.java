@@ -108,6 +108,8 @@ public class LoginFragment extends BaseFragment {
         mLoginState == SIGN_IN ?
         getResources().getText(R.string.login_toggle_signup) :
         getResources().getText(R.string.login_toggle_signin));
+
+    onSignInBtnClick();
   }
 
   @Override public void onDestroyView() {
