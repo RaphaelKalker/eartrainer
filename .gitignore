@@ -5,6 +5,7 @@
 /.idea/libraries
 .DS_Store
 /build
+/materialstepper/build
 /captures
 app/.idea/misc.xml
 app/.idea/workspace.xml

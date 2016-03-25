@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/../EarTrainR.iml" filepath="$PROJECT_DIR$/../EarTrainR.iml" />
       <module fileurl="file://$PROJECT_DIR$/app.iml" filepath="$PROJECT_DIR$/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../materialstepper/materialstepper.iml" filepath="$PROJECT_DIR$/../materialstepper/materialstepper.iml" />
     </modules>
   </component>
 </project>
