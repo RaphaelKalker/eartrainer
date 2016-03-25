@@ -9,12 +9,18 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.view.View;
 
+import com.music.eartrainr.Bus;
 import com.music.eartrainr.ModuleUri;
 import com.music.eartrainr.R;
 import com.music.eartrainr.Wtf;
+import com.music.eartrainr.event.UIMessageEvent;
 import com.music.eartrainr.fragment.BaseFragment;
 import com.music.eartrainr.fragment.ActivityNavigation;
+import com.music.eartrainr.utils.UiUtils;
+
+import org.greenrobot.eventbus.Subscribe;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -41,6 +47,16 @@ public abstract class BaseActivity
   public void startActivity(final Uri uri) {
     final ModuleUri moduleUri = ModuleUri.parseUri(getApplicationContext(), uri);
 //    final String clazzPath = moduleUri.getActivityPath();
+  }
+
+  @Override protected void onStart() {
+    super.onStart();
+    Bus.register(this);
+  }
+
+  @Override protected void onStop() {
+    super.onStop();
+    Bus.unregister(this);
   }
 
   @Override protected void onCreate(@Nullable final Bundle savedInstanceState) {
@@ -194,4 +210,15 @@ public abstract class BaseActivity
       getSupportActionBar().setTitle(title);
     }
   }
+
+  //region EVENTS
+  @Subscribe
+  public void onNewMessage(final UIMessageEvent event) {
+    final View rootView = findViewById(R.id.nav_drawerlayout);
+
+    if (rootView != null) {
+      UiUtils.displaySuccess(rootView, event.mData);
+    }
+  }
+  //endregion
 }
