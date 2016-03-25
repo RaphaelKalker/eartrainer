@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="ms_primaryText">#212121</color>
+    <color name="ms_stepBackground">#fff</color>
+    <color name="ms_stepNavigationBackground">#80FFFFFF</color>
+    <color name="ms_stepNavigationColor">#9e9e9e</color>
+    <color name="ms_errorColor">#f44336</color>
+    <color name="ms_colorPrimary">#2196f3</color>
+    <color name="ms_colorPrimaryDark">#1976d2</color>
+</resources>
