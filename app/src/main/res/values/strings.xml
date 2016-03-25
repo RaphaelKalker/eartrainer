@@ -72,7 +72,7 @@
     <string name="game4">CHORD PROGRESSIONS</string>
 
     <string-array name="game_classes">
-        <item>Choose ...</item>
+        <item>Choose a game class...</item>
         <item>Major</item>
         <item>Minor</item>
         <item>Dim</item>
@@ -80,7 +80,7 @@
     </string-array>
 
     <string-array name="game_size">
-        <item>Choose ...</item>
+        <item>Choose a game size ...</item>
         <item>2nd</item>
         <item>3rd</item>
         <item>4th</item>
@@ -90,4 +90,7 @@
         <item>8th</item>
     </string-array>
     <string name="title_activity_leader_board">LeaderBoardActivity</string>
+    <string name="title_activity_game">Game</string>
+    <string name="error_no_input">Please make a selection</string>
+    <string name="error_wrong_answer">\"Answer not correct, try again!\"</string>
 </resources>

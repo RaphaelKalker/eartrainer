@@ -50,6 +50,11 @@
             android:title="@string/nav_settings"/>
 
         <item
+            android:id="@+id/btn_temp"
+            android:icon="@android:drawable/ic_lock_power_off"
+            android:title="INIT DB"/>
+
+        <item
             android:id="@+id/nav_logout"
             android:icon="@android:drawable/ic_lock_power_off"
             android:title="@string/nav_logout"/>

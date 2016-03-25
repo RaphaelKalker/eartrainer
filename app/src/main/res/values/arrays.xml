@@ -13,4 +13,12 @@
         <item>@color/color_10</item>
         <item>@color/color_11</item>
     </array>
+
+    <array name="games">
+        <item>@string/game1</item>
+        <item>@string/game2</item>
+        <item>@string/game3</item>
+        <item>@string/game4</item>
+    </array>
+
 </resources>
