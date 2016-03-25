@@ -6,6 +6,12 @@ import com.music.eartrainr.GameManager;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class IntervalDetection extends BaseGame {
 
+  public static IntervalDetection newStep(final String answer) {
+    final IntervalDetection step = new IntervalDetection();
+    step.setAnswer(answer);
+    return step;
+  }
+
 
   public String getAnswer() {
     return answer;

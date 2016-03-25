@@ -160,6 +160,10 @@ public class ModuleUri {
 //      mAppContext = appContext;
       mUriArgs = new HashMap<>();
     }
+
+    public boolean isNavigationDefined() {
+      return mUriArgs.containsKey(FRAGMENT) || mUriArgs.containsKey(ACTIVITY);
+    }
   }
 
   public static String getFragmentString(@NonNull Uri uri) {
