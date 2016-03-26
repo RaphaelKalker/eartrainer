@@ -23,15 +23,15 @@ public class IntervalDetection extends BaseGame {
 
   String answer;
 
-  public long getMidi() {
+  public String getMidi() {
     return midi;
   }
 
-  public void setMidi(final int midi) {
+  public void setMidi(final String midi) {
     this.midi = midi;
   }
 
-  long midi;
+  String midi;
 
   public String[] parseAnswers() {
     return getAnswer().split(",");

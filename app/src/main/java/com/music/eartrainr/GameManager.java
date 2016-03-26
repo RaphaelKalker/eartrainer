@@ -39,12 +39,16 @@ public class GameManager<STEP> {
 
   public static int[] getMidiArray() {
     return new int[] {
-        R.raw.game1_01,
-        R.raw.game1_02,
-        R.raw.game1_03,
-        R.raw.game1_04,
-        R.raw.game1_05,
-        R.raw.game1_06
+        R.raw.maj2ac4,
+        R.raw.maj3ac4,
+        R.raw.min3ac4,
+        R.raw.per4ac4,
+        R.raw.per5ac4,
+        R.raw.maj6ac4,
+        R.raw.min6ac4,
+        R.raw.maj7ac4,
+        R.raw.min7ac4,
+        R.raw.per8ac4
     };
   }
 
