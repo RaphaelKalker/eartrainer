@@ -240,10 +240,6 @@ public class ModuleUri {
     return mUriArgs.get(TYPE) != null && Integer.valueOf((String) mUriArgs.get(TYPE)) == Type.DIALOG;
   }
 
-//  public boolean closeCurrentFragment() {
-//    return mUriArgs.get(ACTION) != null && mUriArgs.get(ACTION) == Action.EXIT;
-//  }
-
   public String getFragmentTag() {
     return mUriArgs != null ? (String) mUriArgs.get(FRAGMENT) : "";
   }

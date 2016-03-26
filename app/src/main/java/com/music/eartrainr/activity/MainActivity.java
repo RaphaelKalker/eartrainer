@@ -1,19 +1,29 @@
 package com.music.eartrainr.activity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.music.eartrainr.Database;
 import com.music.eartrainr.ModuleUri;
 import com.music.eartrainr.R;
-import com.music.eartrainr.fragment.LoginFragment;
 import com.music.eartrainr.fragment.ProfileFragment;
 import com.music.eartrainr.interfaces.ResultCodes;
+import com.music.eartrainr.Wtf;
+import com.music.eartrainr.gcm.QuickstartPreferences;
+import com.music.eartrainr.gcm.RegistrationIntentService;
 import com.music.eartrainr.model.FirebaseRank;
-import com.music.eartrainr.test.SetupFB;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -22,6 +32,11 @@ import butterknife.ButterKnife;
 public class MainActivity extends BaseActivity {
 
   public static final String TAG = MainActivity.class.getSimpleName();
+
+  private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
+
+  private BroadcastReceiver mRegistrationBroadcastReceiver;
+  private boolean isReceiverRegistered;
 
   @Bind(R.id.toolbar) Toolbar mToolbar;
   @Bind(R.id.nav_view) NavigationView mNavigationView;
@@ -42,6 +57,30 @@ public class MainActivity extends BaseActivity {
 //      onFragmentInteraction(getUri(), savedInstanceState);
     } else {
       onFragmentInteraction(getUri());
+    }
+
+    mRegistrationBroadcastReceiver = new BroadcastReceiver() {
+      @Override
+      public void onReceive(Context context, Intent intent) {
+        SharedPreferences sharedPreferences =
+                PreferenceManager.getDefaultSharedPreferences(context);
+        boolean sentToken = sharedPreferences
+                .getBoolean(QuickstartPreferences.SENT_TOKEN_TO_SERVER, false);
+        if (sentToken) {
+          Wtf.log(getString(R.string.gcm_send_message));
+      } else {
+        Wtf.log(getString(R.string.token_error_message));
+      }
+      }
+    };
+
+    // Registering BroadcastReceiver
+    registerReceiver();
+
+    if (checkPlayServices()) {
+      // Start IntentService to register this application with GCM.
+      Intent intent = new Intent(this, RegistrationIntentService.class);
+      startService(intent);
     }
   }
 
@@ -105,5 +144,34 @@ public class MainActivity extends BaseActivity {
       return false;
     }
   };
-  
+
+  private void registerReceiver(){
+    if(!isReceiverRegistered) {
+      LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
+              new IntentFilter(QuickstartPreferences.REGISTRATION_COMPLETE));
+      isReceiverRegistered = true;
+    }
+  }
+
+  /**
+   * Check the device to make sure it has the Google Play Services APK. If
+   * it doesn't, display a dialog that allows users to download the APK from
+   * the Google Play Store or enable it in the device's system settings.
+   */
+  private boolean checkPlayServices() {
+    Wtf.log("Checking play services");
+    GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
+    int resultCode = apiAvailability.isGooglePlayServicesAvailable(this);
+    if (resultCode != ConnectionResult.SUCCESS) {
+      if (apiAvailability.isUserResolvableError(resultCode)) {
+        apiAvailability.getErrorDialog(this, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST)
+                .show();
+      } else {
+        Wtf.log("This device is not supported");
+        finish();
+      }
+      return false;
+    }
+    return true;
+  }
 }
