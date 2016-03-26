@@ -10,7 +10,9 @@ import android.widget.TextView;
 
 import com.github.ivbaranov.mli.MaterialLetterIcon;
 import com.music.eartrainr.Bus;
+import com.music.eartrainr.Database;
 import com.music.eartrainr.R;
+import com.music.eartrainr.api.MultiplayerService;
 import com.music.eartrainr.event.FriendItemGetEvent;
 import com.music.eartrainr.model.User;
 
@@ -80,6 +82,13 @@ public class ProfileFriendsAdapter
       final User userToDelete = getItem(getLayoutPosition());
       queueForDeletion(userToDelete);
       Bus.post(new FriendItemGetEvent().itemDeleteRequest(userToDelete));
+    }
+
+    @OnClick(R.id.friend_item_challenge)
+    public void onFriendChallengeClick() {
+      //statusMessage.setText("Challenging...");
+      final User userToChallenge = getItem(getLayoutPosition());
+      MultiplayerService.requestMatch(Database.getSingleton().getUserName(), userToChallenge.getUserName());
     }
 
     @OnClick(R.id.friend_item_container)
