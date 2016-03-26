@@ -26,17 +26,6 @@ public class LeaderBoardActivity extends BaseActivity {
   @Bind(R.id.leaderboard_viewpager) ViewPager mViewPager;
   @Bind(R.id.leaderboard_tabs) TabLayout mTabLayout;
 
-  //region LIFECYCLE
-  @Override protected void onStart() {
-    super.onStart();
-    Bus.register(this);
-  }
-
-  @Override protected void onStop() {
-    super.onStop();
-    Bus.unregister(this);
-  }
-
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -49,13 +38,7 @@ public class LeaderBoardActivity extends BaseActivity {
 
   //endregion
 
-  //region EVENTS
-  @Subscribe
-  public void onEventRankGet(final RankItemGetEvent event) {
-
-  }
-
-  //endregion
+  //region ADAPTER
 
   public class SampleFragmentPagerAdapter extends FragmentPagerAdapter {
     final static int PAGE_COUNT = 4;
@@ -83,5 +66,7 @@ public class LeaderBoardActivity extends BaseActivity {
       return tabTitles[position];
     }
   }
+
+  //endregion
 }
 
