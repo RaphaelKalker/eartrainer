@@ -3,6 +3,7 @@ package com.music.eartrainr.fragment;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -82,6 +83,11 @@ public class FriendAddFragment extends BaseDialogFragment {
 
   @OnClick(R.id.friend_add_btn)
   public void onFriendAddClick() {
+
+    if (TextUtils.isEmpty(mUserName.getText().toString())) {
+      mStatusMessage.setText("Enter a username.");
+      return;
+    }
 
     showProgress();
     mStatusMessage.setText(getString(R.string.friend_add_searching));
