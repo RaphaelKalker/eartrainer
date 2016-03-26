@@ -75,6 +75,7 @@
         <item>Choose a game class...</item>
         <item>Major</item>
         <item>Minor</item>
+        <item>Perfect</item>
         <item>Dim</item>
         <item>Aug</item>
     </string-array>
