@@ -278,8 +278,14 @@ public class Database <T> {
   }
 
   public String getUserName() {
-    final String email = (String) mFirebaseRef.getAuth().getProviderData().get(FirebaseKeys.EMAIL);
-    return TextUtility.getUserNameFromEmail(email);
+    final AuthData auth = mFirebaseRef.getAuth();
+
+    if (auth != null) {
+      final String email = (String) mFirebaseRef.getAuth().getProviderData().get(FirebaseKeys.EMAIL);
+      return TextUtility.getUserNameFromEmail(email);
+    } else {
+      return "";
+    }
   }
 
   /**

@@ -246,6 +246,8 @@ public class LoginFragment extends BaseFragment {
 
         //it was the correct information
         mNavigationCallback.onFragmentInteraction(uri);
+        getActivity().finish();
+
 
 
       } else if ((error = (FirebaseError) event.mError) != null){

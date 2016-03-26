@@ -1,6 +1,7 @@
 package com.music.eartrainr.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -8,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import com.music.eartrainr.ModuleUri;
 import com.music.eartrainr.R;
 import com.music.eartrainr.fragment.LoginFragment;
+import com.music.eartrainr.interfaces.ResultCodes;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -17,7 +19,7 @@ import static com.music.eartrainr.interfaces.ResultCodes.*;
 
 public class LoginActivity extends BaseActivity {
 
-  private static final String TAG = LoginActivity.class.getSimpleName();
+  public static final String TAG = LoginActivity.class.getSimpleName();
   @Bind(R.id.toolbar) Toolbar mToolbar;
 
 
@@ -44,11 +46,19 @@ public class LoginActivity extends BaseActivity {
 
   @Override
   public void onBackPressed() {
-    if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
-      setResult(LOGIN);
-      this.finish();
-    } else {
-      getSupportFragmentManager().popBackStack();
-    }
+    setResult(LOGIN);
+    this.finish();
   }
+
+//  @Override protected void onActivityResult(
+//      final int requestCode,
+//      final int resultCode,
+//      final Intent data) {
+//    super.onActivityResult(requestCode, resultCode, data);
+//
+//    if (resultCode == ResultCodes.MAIN) {
+//      setResult(Res);
+//      finish();
+//    }
+//  }
 }

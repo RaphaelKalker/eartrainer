@@ -9,7 +9,9 @@ import android.view.MenuItem;
 import com.music.eartrainr.Database;
 import com.music.eartrainr.ModuleUri;
 import com.music.eartrainr.R;
+import com.music.eartrainr.fragment.LoginFragment;
 import com.music.eartrainr.fragment.ProfileFragment;
+import com.music.eartrainr.interfaces.ResultCodes;
 import com.music.eartrainr.model.FirebaseRank;
 import com.music.eartrainr.test.SetupFB;
 
@@ -43,6 +45,17 @@ public class MainActivity extends BaseActivity {
     }
   }
 
+  @Override
+  public void onBackPressed() {
+    if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
+      setResult(ResultCodes.MAIN);
+      this.finish();
+    } else {
+      getSupportFragmentManager().popBackStack();
+    }
+
+  }
+
   private NavigationView.OnNavigationItemSelectedListener mNavigationItemListener = new NavigationView.OnNavigationItemSelectedListener() {
     @Override public boolean onNavigationItemSelected(final MenuItem item) {
       String tag = "";
@@ -62,6 +75,7 @@ public class MainActivity extends BaseActivity {
 
         case R.id.nav_logout:
           Database.getSingleton().logout();
+          uriBuilder.activity(LoginActivity.TAG);
           finish();
           break;
 
