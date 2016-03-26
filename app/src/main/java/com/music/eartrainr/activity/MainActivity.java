@@ -12,6 +12,8 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -41,6 +43,7 @@ public class MainActivity extends BaseActivity {
   @Bind(R.id.toolbar) Toolbar mToolbar;
   @Bind(R.id.nav_view) NavigationView mNavigationView;
   @Bind(R.id.nav_drawerlayout) DrawerLayout mDrawerLayout;
+  private TextView mUserName;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +53,7 @@ public class MainActivity extends BaseActivity {
 
     setSupportActionBar(mToolbar);
 
-    mNavigationView.setNavigationItemSelectedListener(mNavigationItemListener);
+    initView();
 
     //Resumed state
     if (savedInstanceState != null) {
@@ -81,6 +84,15 @@ public class MainActivity extends BaseActivity {
       // Start IntentService to register this application with GCM.
       Intent intent = new Intent(this, RegistrationIntentService.class);
       startService(intent);
+    }
+  }
+
+  private void initView() {
+    if (mNavigationView != null) {
+      mNavigationView.setNavigationItemSelectedListener(mNavigationItemListener);
+      View header = mNavigationView.getHeaderView(0);
+      mUserName = ButterKnife.findById(header, R.id.drawer_username);
+      mUserName.setText(Database.getSingleton().getUserName());
     }
   }
 
