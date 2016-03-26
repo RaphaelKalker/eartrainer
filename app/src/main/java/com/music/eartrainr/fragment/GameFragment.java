@@ -16,11 +16,14 @@ public abstract class GameFragment<G> extends AbstractStep {
 
   @Override public boolean nextIf() {
     G gameData = (G) GameManager.getInstance().getGameData(getArguments().getInt(GAME_STEP_NR));
-    boolean inputValid = validateInput(gameData);
-    return inputValid || OVERRIDE_NEXT;
+
+    if (gameData == null) {
+      return true;
+    } else {
+      boolean inputValid = validateInput(gameData);
+      return inputValid || OVERRIDE_NEXT;
+    }
   }
-
-
 
   public String getValidationErrorString(VALIDATION validation) {
     if (validation == VALIDATION.CORRECT) {

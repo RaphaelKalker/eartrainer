@@ -65,7 +65,11 @@ public class GameManager<STEP> {
       throw new IllegalStateException("There are no game steps. You called this too early!");
     }
 
-    return mGameSteps.get(stepPosition);
+    if (stepPosition < mGameSteps.size()) {
+      return mGameSteps.get(stepPosition);
+    } else {
+      return null;
+    }
   }
 
   public void doStuff(final String gameIdentifier, final Class<?> clazz) {
