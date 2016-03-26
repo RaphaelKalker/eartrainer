@@ -71,9 +71,10 @@ public class MainActivity extends BaseActivity {
 
         case R.id.btn_temp:
           FirebaseRank.initDB();
-          return false;
+          break;
         case R.id.btn_db_answer_init:
-          SetupFB.intervalDetectionAnswer(getApplicationContext());
+//          SetupFB.intervalDetectionAnswer(getApplicationContext());
+          break;
       }
 
       mDrawerLayout.closeDrawers();

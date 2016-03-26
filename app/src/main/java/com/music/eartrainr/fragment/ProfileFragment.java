@@ -115,9 +115,9 @@ public class ProfileFragment extends BaseFragment implements ProfileFriendsAdapt
     super.onViewCreated(view, savedInstanceState);
     ButterKnife.bind(this, view);
 
-    mProfileName.setText(mCurrentUser);
-    mProfileImage.setLetter(mCurrentUser);
 
+
+    initView();
     setupFriendList();
 
     Database.getSingleton().getFriends(mCurrentUser);
@@ -151,6 +151,13 @@ public class ProfileFragment extends BaseFragment implements ProfileFriendsAdapt
   //endregion
 
   //region UI HELPERS
+
+  public void initView() {
+    mProfileName.setText(mCurrentUser);
+    mProfileImage.setLetter(mCurrentUser);
+    mAddFriendBtn.setVisibility(getVisiblitySettings() == VisibilitySettings.OWNER ? View.VISIBLE : View.INVISIBLE);
+  }
+
   private void setupFriendList() {
     mFriendsList.setLayoutManager(new LinearLayoutManager(getActivity()));
     mFriendsList

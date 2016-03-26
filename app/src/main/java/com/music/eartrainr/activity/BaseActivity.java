@@ -149,7 +149,7 @@ public abstract class BaseActivity
         BaseFragment fragment = (BaseFragment) method.invoke(null, uri);
         BaseFragment prev = (BaseFragment) getSupportFragmentManager().findFragmentByTag(fragmentTag);
 
-        if (prev == null) {
+        if (prev == null || true) {
           ft.replace(R.id.fragment_container, fragment, fragmentTag)
             .addToBackStack(null)
             .commit();
