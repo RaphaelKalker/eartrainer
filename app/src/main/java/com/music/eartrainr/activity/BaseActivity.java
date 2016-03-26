@@ -69,6 +69,15 @@ public abstract class BaseActivity
     }
   }
 
+  @Override
+  public void onBackPressed() {
+    if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
+      this.finish();
+    } else {
+      getSupportFragmentManager().popBackStack();
+    }
+  }
+
   @Override public void onFragmentInteraction(
       final Uri uri,
       final Bundle savedInstance) {
