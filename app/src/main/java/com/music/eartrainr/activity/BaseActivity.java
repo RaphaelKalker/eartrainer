@@ -43,6 +43,13 @@ public abstract class BaseActivity
     current.startActivity(intent);
   }
 
+  public static void startActivity(final BaseActivity current, final Class<?> next, final Uri uri, final int resultCode) {
+    final Intent intent =  new Intent(current, next);
+    intent.putExtra(URI, uri);
+    current.startActivityForResult(intent, resultCode);
+  }
+
+
 
   public void startActivity(final Uri uri) {
     final ModuleUri moduleUri = ModuleUri.parseUri(getApplicationContext(), uri);

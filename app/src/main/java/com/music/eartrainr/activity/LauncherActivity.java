@@ -14,6 +14,7 @@ import com.music.eartrainr.Database;
 import com.music.eartrainr.ModuleUri;
 import com.music.eartrainr.R;
 import com.music.eartrainr.fragment.LoginFragment;
+import com.music.eartrainr.interfaces.ResultCodes;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -35,9 +36,9 @@ public class LauncherActivity extends BaseActivity {
     final String userSessionKey = prefs.getString("user_session_key", "");
 
     if (TextUtils.isEmpty(userSessionKey)) {
-      startActivity(this, LoginActivity.class, getUri());
+      startActivity(this, LoginActivity.class, getUri(), ResultCodes.LOGIN);
     } else {
-      startActivity(this, MainActivity.class, getUri());
+      startActivity(this, MainActivity.class, getUri(), ResultCodes.MAIN);
     }
 
 
@@ -55,9 +56,19 @@ public class LauncherActivity extends BaseActivity {
 
   }
 
+  @Override protected void onActivityResult(
+      final int requestCode,
+      final int resultCode,
+      final Intent data) {
+    super.onActivityResult(requestCode, resultCode, data);
 
-
-
-
-
+    switch (resultCode) {
+      case ResultCodes.LOGIN:
+        finish();
+        break;
+      case ResultCodes.MAIN:
+        finish();
+        break;
+    }
+  }
 }

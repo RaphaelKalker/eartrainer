@@ -12,6 +12,8 @@ import com.music.eartrainr.fragment.LoginFragment;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
+import static com.music.eartrainr.interfaces.ResultCodes.*;
+
 
 public class LoginActivity extends BaseActivity {
 
@@ -38,5 +40,15 @@ public class LoginActivity extends BaseActivity {
   }
 
   public LoginActivity() {
+  }
+
+  @Override
+  public void onBackPressed() {
+    if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
+      setResult(LOGIN);
+      this.finish();
+    } else {
+      getSupportFragmentManager().popBackStack();
+    }
   }
 }
