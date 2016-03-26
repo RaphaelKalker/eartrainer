@@ -13,5 +13,7 @@
 
     <dimen name="avatar_right_margin">32dp</dimen>
     <dimen name="spinner_height">100dp</dimen>
+    <dimen name="activity_vertical_margin2">32dp</dimen>
+    <dimen name="divider_margin_below">32dp</dimen>
 
 </resources>

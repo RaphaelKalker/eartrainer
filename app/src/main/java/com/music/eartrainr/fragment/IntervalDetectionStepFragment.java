@@ -12,6 +12,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.joanzapata.iconify.widget.IconTextView;
+import com.music.eartrainr.GameManager;
 import com.music.eartrainr.R;
 import com.music.eartrainr.Wtf;
 import com.music.eartrainr.activity.BaseGameActivity;
@@ -110,6 +111,7 @@ public class IntervalDetectionStepFragment extends GameFragment<IntervalDetectio
 
     mValidationState = verifyUserSelection(gameData.parseAnswers(), mSizeDropdown, mClassDropdown);
 
+
     switch (mValidationState) {
       case CORRECT:
         return true;
@@ -163,4 +165,9 @@ public class IntervalDetectionStepFragment extends GameFragment<IntervalDetectio
   }
 
   //endregion
+
+
+  @Override public void recordAnswer() {
+    GameManager.getInstance().addAnswer(mValidationState == VALIDATION.CORRECT);
+  }
 }

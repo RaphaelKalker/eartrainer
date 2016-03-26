@@ -47,4 +47,8 @@
         <item name="textAllCaps">true</item>
     </style>
 
+    <style name="ER_Body2" parent="TextAppearance.AppCompat.Body2">
+        <item name="android:layout_margin">@dimen/activity_vertical_margin2</item>
+    </style>
+
 </resources>

@@ -11,6 +11,7 @@ import com.firebase.client.ValueEventListener;
 import com.music.eartrainr.event.GameManagerEvent;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -18,6 +19,8 @@ public class GameManager<STEP> {
 
   private static volatile GameManager INSTANCE;
   private volatile List<STEP> mGameSteps;
+  private volatile int wrongGuesses;
+  private volatile int correctGuesses;
 
   //region INSTANTIATION
   private GameManager() {
@@ -31,7 +34,7 @@ public class GameManager<STEP> {
     return INSTANCE;
   }
 
-  public static void destroy() {
+  public void destroy() {
     INSTANCE = null;
   }
 
@@ -75,11 +78,13 @@ public class GameManager<STEP> {
               mGameSteps.add(gameStep);
             }
 
-            new Handler().postDelayed(new Runnable(){
-              public void run() {
-                Bus.post(new GameManagerEvent().gamesReady());
-                // do something
-              }}, 5000);
+            Bus.post(new GameManagerEvent().gamesReady());
+
+//            new Handler().postDelayed(new Runnable(){
+//              public void run() {
+//
+//                // do something
+//              }}, 5000);
 
           }
 
@@ -87,6 +92,24 @@ public class GameManager<STEP> {
             //do nothing
           }
         });
+  }
+
+  public void addAnswer(final boolean success) {
+    if (success) {
+      correctGuesses += 1;
+    } else {
+      wrongGuesses += 1;
+    }
+  }
+
+  public HashMap getSummaryStats() {
+    final HashMap map = new HashMap()
+    {{
+      put("correct", String.valueOf(correctGuesses));
+      put("incorrect", String.valueOf(wrongGuesses));
+    }};
+
+    return map;
   }
 
 
