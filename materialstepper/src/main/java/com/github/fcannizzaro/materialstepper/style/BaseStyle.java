@@ -144,6 +144,7 @@ public class BaseStyle extends AppCompatActivity implements Stepable {
         if (mSteps.current() >= mSteps.total() - 1)
             return;
 
+        mSteps.getCurrent().recordAnswer();
         mSteps.current(mSteps.current() + 1);
         onUpdate();
     }

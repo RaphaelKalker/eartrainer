@@ -9,13 +9,18 @@ import com.music.eartrainr.R;
 
 import static com.music.eartrainr.GameManager.GAMES.GAME_STEP_NR;
 
-
 public abstract class GameFragment<G> extends AbstractStep {
+
+  public static final boolean OVERRIDE_NEXT = true;
+
 
   @Override public boolean nextIf() {
     G gameData = (G) GameManager.getInstance().getGameData(getArguments().getInt(GAME_STEP_NR));
-    return validateInput(gameData);
+    boolean inputValid = validateInput(gameData);
+    return inputValid || OVERRIDE_NEXT;
   }
+
+
 
   public String getValidationErrorString(VALIDATION validation) {
     if (validation == VALIDATION.CORRECT) {
@@ -57,4 +62,11 @@ public abstract class GameFragment<G> extends AbstractStep {
 
   }
 
+  @Override public void recordAnswer() {
+    //OVERRIDE IF NEEDED
+  }
+
+  @Override public void updateCurrent() {
+    //OVERRIDE IF NEEDED
+  }
 }

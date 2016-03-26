@@ -5,4 +5,6 @@ package com.music.eartrainr.interfaces;
  */
 public interface GameHelper {
   String getAnswer(final int stepPosition);
+  void addAnswerAttempt(final int step, final boolean success);
+
 }

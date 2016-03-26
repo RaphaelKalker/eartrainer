@@ -8,6 +8,7 @@ import com.music.eartrainr.GameManager;
 import com.music.eartrainr.R;
 import com.music.eartrainr.Wtf;
 import com.music.eartrainr.fragment.BaseFragment;
+import com.music.eartrainr.fragment.GameStepSummaryFragment;
 import com.music.eartrainr.fragment.IntervalDetectionStepFragment;
 import com.music.eartrainr.interfaces.GameHelper;
 import com.music.eartrainr.model.IntervalDetection;
@@ -39,9 +40,22 @@ public class IntervalDetectionGameActivity extends BaseGameActivity<IntervalDete
     super.onPause();
   }
 
+  @Override protected void onDestroy() {
+    super.onDestroy();
+    GameManager.getInstance().destroy();
+  }
+
   //endregion
 
   //region VIEW SETUP
+  @Override public void onPageChanged(final int position) {
+    if (mPager.getAdapter().getCount() - 1 == position) {
+      //update with the latest stats
+      mSteps.getCurrent().updateCurrent();
+    }
+    reset();
+  }
+
   @Override
   public void initGameTabs() {
 
@@ -49,7 +63,9 @@ public class IntervalDetectionGameActivity extends BaseGameActivity<IntervalDete
 
     int [] midiFiles = GameManager.getMidiArray();
 
-    for (int i = 0; i < midiFiles.length; i++) {
+    final int gameSteps = midiFiles.length;
+
+    for (int i = 0; i < gameSteps; i++) {
       Bundle args = new GameManager.StepBuilder()
           .midiFile(midiFiles[i])
           .layout(R.layout.fragment_game1)
@@ -59,6 +75,13 @@ public class IntervalDetectionGameActivity extends BaseGameActivity<IntervalDete
       fragment = IntervalDetectionStepFragment.newInstance(args);
       addStep(fragment);
     }
+
+    Bundle args = new GameManager.StepBuilder()
+        .layout(R.layout.fragment_game_summary)
+        .stepNr(gameSteps)
+        .build();
+
+    addStep(GameStepSummaryFragment.newInstance(args));
   }
 
   @Override
@@ -73,30 +96,6 @@ public class IntervalDetectionGameActivity extends BaseGameActivity<IntervalDete
   //endregion
 
 
-
-//  @Override public void onUpdate() {
-//    super.onUpdate();
-//  }
-//
-//  @Override public void onNext() {
-//    super.onNext();
-//  }
-//
-//  @Override public void onPrevious() {
-//    super.onPrevious();
-//  }
-
-
-
-
-  @Override public void onPageChanged(final int position) {
-    Wtf.log("Position Changed: " + position);
-    reset();
-  }
-
-//  @Override public void onNext() {
-//    super.onNext();
-//  }
 
   //region MEDIA PLAYER
   public void requestPlay(@IdRes final int song) {
@@ -126,6 +125,14 @@ public class IntervalDetectionGameActivity extends BaseGameActivity<IntervalDete
   @Override public String getAnswer(final int stepNr) {
     IntervalDetection step = (IntervalDetection) GameManager.getInstance().getGameData(stepNr);
     return step.getAnswer();
+  }
+
+  @Override public void addAnswerAttempt(final int step, final boolean success) {
+    GameManager.getInstance().addAnswer(success);
+  }
+
+  @Override public void onNext() {
+    super.onNext();
   }
 
   //endregion

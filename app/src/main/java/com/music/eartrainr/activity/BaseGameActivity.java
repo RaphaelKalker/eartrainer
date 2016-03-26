@@ -38,7 +38,6 @@ public abstract class BaseGameActivity<GAME> extends TabStepper {
 
   @Override protected void onDestroy() {
     super.onDestroy();
-    GameManager.destroy();
     if (mProgressDialog != null) {
       mProgressDialog.dismiss();
     }

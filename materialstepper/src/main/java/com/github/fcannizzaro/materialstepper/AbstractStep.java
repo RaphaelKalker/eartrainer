@@ -37,4 +37,8 @@ public abstract class AbstractStep extends Fragment implements Nextable {
     public String error() {
         return "No error";
     }
+
+    public abstract void recordAnswer();
+
+    public abstract void updateCurrent();
 }
