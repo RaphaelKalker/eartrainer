@@ -31,7 +31,7 @@ public class GcmIntentService extends GcmListenerService {
         Bundle bundle = data.getBundle("notification");
         String body = bundle.getString("body");
         String title = bundle.getString("title");
-        int id = Integer.valueOf(data.getString(GameManager.GAMES.GAME_ID));
+        String id = data.getString(GameManager.GAMES.GAME_ID);
 
         NotificationManager notificationManager= (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
