@@ -13,6 +13,7 @@ public class MultiPlayerEvent extends EventBusEvent {
     int MATCH_REQUEST_SUCCESS = Auth.generateEventToken(TAG, "match_request_success");
     int MATCH_PREPARE_PENDING = Auth.generateEventToken(TAG, "match_prepare_pending");
     int MATCH_DECLINED_SUCCESS = Auth.generateEventToken(TAG, "match_declined_success");
+    int MATCH_DECLINE = Auth.generateEventToken(TAG, "match_decline");
     int MATCH_ACCEPTED_SUCCESS = Auth.generateEventToken(TAG, "match_accepted_success");
     int MATCH_CANCELED_SUCCESS = Auth.generateEventToken(TAG, "match_cancelled_success");
     int MATCH_CANCEL = Auth.generateEventToken(TAG, "match_cancel");
@@ -53,6 +54,11 @@ public class MultiPlayerEvent extends EventBusEvent {
 
   public MultiPlayerEvent cancelGame() {
     mEventID = EVENT.MATCH_CANCEL;
+    return this;
+  }
+
+  public MultiPlayerEvent declineGame() {
+    mEventID = EVENT.MATCH_DECLINE;
     return this;
   }
 }

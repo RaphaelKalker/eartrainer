@@ -50,6 +50,7 @@ public class GcmIntentService extends GcmListenerService {
                 break;
             case ACTION_CHALLENGE_DECLINED:
                 showStandardNotification(data);
+                declineGame();
                 break;
             case ACTION_CHALLENGE_CANCELLED:
                 showStandardNotification(data);
@@ -64,6 +65,10 @@ public class GcmIntentService extends GcmListenerService {
     }
     private void cancelGame() {
         Bus.post(new MultiPlayerEvent().cancelGame());
+    }
+
+    private void declineGame() {
+        Bus.post(new MultiPlayerEvent().declineGame());
     }
 
     private void showChallengeNotification(final Bundle data) {

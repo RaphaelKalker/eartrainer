@@ -99,7 +99,7 @@ public class IntervalDetectionGameActivity extends BaseGameActivity<IntervalDete
               final DialogInterface dialog,
               final int which) {
             //TODO send to service
-            MultiplayerService.getInstance().cancelRequest(id);
+            MultiplayerService.getInstance().cancelRequest(Database.getSingleton().getUserName(), id);
 
             mDialog.setMessage("Canceling Request...");
 
@@ -269,8 +269,8 @@ public class IntervalDetectionGameActivity extends BaseGameActivity<IntervalDete
 
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onCancelGame(final MultiPlayerEvent event) {
-        if (event.mEventID == MultiPlayerEvent.EVENT.MATCH_CANCEL) {
+    public void onCancelOrDeclineGame(final MultiPlayerEvent event) {
+        if (event.mEventID == MultiPlayerEvent.EVENT.MATCH_CANCEL || event.mEventID == MultiPlayerEvent.EVENT.MATCH_DECLINE) {
             if (mDialog != null && mDialog.isShowing()) {
                 mDialog.dismiss();
                 finish();

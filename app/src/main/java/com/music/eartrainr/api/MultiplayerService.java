@@ -41,9 +41,9 @@ public final class MultiplayerService {
 
 
   //region PUBLIC API METHODS
-  public void cancelRequest(final String gameId) {
+  public void cancelRequest(String username, final String gameId) {
       Wtf.log("Canceling MultiPlayer Request: " + gameId);
-      mApi.updateGameState(gameId, "cancelled").enqueue(new Callback<Void>() {
+      mApi.updateGameState(gameId, username, "cancelled").enqueue(new Callback<Void>() {
           @Override
           public void onResponse(
                   Call<Void> call,
@@ -82,9 +82,9 @@ public final class MultiplayerService {
     });
   }
 
-  public void declineRequest(final String gameId) {
+  public void declineRequest(String username, final String gameId) {
       Wtf.log("Declining MultiPlayer Request: " + gameId);
-      mApi.updateGameState(gameId, "declined").enqueue(new Callback<Void>() {
+      mApi.updateGameState(gameId, username, "declined").enqueue(new Callback<Void>() {
           @Override
           public void onResponse(
                   Call<Void> call,
@@ -101,9 +101,9 @@ public final class MultiplayerService {
       });
   }
 
-  public void acceptRequest(final String gameId) {
+  public void acceptRequest(String username, final String gameId) {
       Wtf.log("Accepting MultiPlayer Request: " + gameId);
-      mApi.updateGameState(gameId, "accepted").enqueue(new Callback<Void>() {
+      mApi.updateGameState(gameId, username, "accepted").enqueue(new Callback<Void>() {
           @Override
           public void onResponse(
                   Call<Void> call,

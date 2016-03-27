@@ -25,6 +25,8 @@ public interface Api {
 
   @GET("/updateGameState") Call<Void> updateGameState(
       @Query(GAMEID) String gameId,
+      @Query(USER) String user,
       @Query(STATE) String state
+      
   );
 }

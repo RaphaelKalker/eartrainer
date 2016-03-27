@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
+import com.music.eartrainr.Database;
 import com.music.eartrainr.GameManager;
 import com.music.eartrainr.Wtf;
 import com.music.eartrainr.activity.IntervalDetectionGameActivity;
@@ -21,11 +22,11 @@ public class GcmNotificationReceiver extends BroadcastReceiver {
         String gameID = intent.getExtras().getString(GameManager.GAMES.GAME_ID, "");
         if (!matchResponse) {
             //TODO notify API that things are cancelled (Send GCM to other player to let them know)
-            MultiplayerService.getInstance().declineRequest(gameID);
+            MultiplayerService.getInstance().declineRequest(Database.getSingleton().getUserName(), gameID);
             Wtf.log("The challenge was denied!");
         } else {
             //TODO notify API that things are approved (Send GCM to other player to let them know)
-            MultiplayerService.getInstance().acceptRequest(gameID);
+            MultiplayerService.getInstance().acceptRequest(Database.getSingleton().getUserName(), gameID);
             context.startActivity(IntervalDetectionGameActivity.makeMultiplayerIntent(context, true, intent.getExtras()));
             Wtf.log("Challenge accepted!");
         }
