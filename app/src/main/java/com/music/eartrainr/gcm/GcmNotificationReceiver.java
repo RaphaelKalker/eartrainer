@@ -21,7 +21,7 @@ public class GcmNotificationReceiver extends BroadcastReceiver {
         boolean matchResponse = intent.getBooleanExtra(GcmIntentService.ACTION.MATCH_RESPONSE, false);
         if (!matchResponse) {
             //TODO notify API that things are cancelled (Send GCM to other player to let them know)
-            int gameID = intent.getExtras().getInt(GameManager.GAMES.GAME_ID, -1);
+            String gameID = intent.getExtras().getString(GameManager.GAMES.GAME_ID, "");
             MultiplayerService.getInstance().cancelRequest(Database.getSingleton().getUserName(), gameID);
             Wtf.log("The challenge was denied!");
         } else {
