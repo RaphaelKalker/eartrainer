@@ -1,77 +1,72 @@
 package com.music.eartrainr.api;
 
-import android.util.Log;
-
+import com.music.eartrainr.Bus;
 import com.music.eartrainr.Wtf;
-import com.music.eartrainr.model.User;
-
-import java.io.IOException;
-import java.util.List;
-import java.util.Map;
+import com.music.eartrainr.event.MultiPlayerEvent;
+import com.music.eartrainr.model.MultiplayerGame;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.http.Body;
-import retrofit2.http.GET;
-import retrofit2.http.POST;
-import retrofit2.http.Path;
-import retrofit2.http.Query;
-import retrofit2.http.QueryMap;
+
 
 /**
  * Created by rapha on 3/26/2016.
  */
 public final class MultiplayerService {
-    public static final String API_URL = "http://eartrainr-nsimone.rhcloud.com";
+  public static final String API_URL = "http://eartrainr-nsimone.rhcloud.com";
 
-    public static class MultiplayerGame {
-        public final String username;
-        public final String competitor;
-        public final int gameID;
+  public static MultiplayerService INSTANCE = null;
 
+  private final Retrofit mRetrofit;
+  private final Api mApi;
 
-        public MultiplayerGame(String username, String competitor, int gameID) {
-            this.username = username;
-            this.competitor = competitor;
-            this.gameID = gameID;
-        }
+  private MultiplayerService() {
+    mRetrofit = new Retrofit.Builder()
+        .baseUrl(API_URL)
+        .addConverterFactory(GsonConverterFactory.create())
+        .build();
+
+    mApi = mRetrofit.create(Api.class);
+  }
+
+  public static synchronized MultiplayerService getInstance() {
+    if (INSTANCE == null) {
+      INSTANCE = new MultiplayerService();
     }
 
-    public interface MatchRequest {
-        @GET("/matchRequest")
-        Call<MultiplayerGame> getMatchRequest(
-                @Query("user") String user,
-                @Query("competitor") String competitor
-        );
-    }
+    return INSTANCE;
+  }
 
-    public static void requestMatch(String username, String competitor) {
-        // Create a very simple REST adapter which points the GitHub API.
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(API_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
 
-        // Create an instance of our MatchRequest API interface.
-        MatchRequest matchRequest = retrofit.create(MatchRequest.class);
+  //region PUBLIC API METHODS
+  public void cancelRequest(final String user, final int id) {
+    Wtf.log(String.format("Canceling MultiPlayer Request: %s %d", user, id));
+    mApi.cancelMatchRequest(user, id);
+  }
 
-        // Create a call instance for looking up sessionID.
-        Call<MultiplayerGame> call = matchRequest.getMatchRequest(username, competitor);
+  public void requestMatch(String username, String competitor) {
 
-        // Fetch and print a list of the contributors to the library.
-        call.enqueue(new Callback<MultiplayerGame>() {
-            @Override
-            public void onResponse(Call<MultiplayerGame> call, Response<MultiplayerGame> response) {
-                Wtf.log("Requested match. Resulting game ID: " + response.body().gameID);
-            }
+    mApi.getMatchRequest(username, competitor).enqueue(new Callback<MultiplayerGame>() {
+      @Override
+      public void onResponse(
+          Call<MultiplayerGame> call,
+          Response<MultiplayerGame> response) {
+        Wtf.log("Requested match. Resulting game ID: " + response.body().gameID);
+        Bus.post(new MultiPlayerEvent().success(response.body()));
+      }
 
-            @Override
-            public void onFailure(Call<MultiplayerGame> call, Throwable t) {
-                Wtf.log("Failed to execute requestMatch!");
-            }
-        });
-    }
+      @Override
+      public void onFailure(
+          Call<MultiplayerGame> call,
+          Throwable t) {
+        Wtf.log("Failed to execute requestMatch!");
+        Bus.post(new MultiPlayerEvent().success(null));
+
+      }
+    });
+  }
+  //endregion
 }
