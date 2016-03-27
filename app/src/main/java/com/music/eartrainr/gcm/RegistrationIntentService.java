@@ -14,6 +14,7 @@ import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.android.gms.iid.InstanceID;
 import com.music.eartrainr.R;
 import com.music.eartrainr.Wtf;
+import com.music.eartrainr.firebase.Users;
 
 import java.io.IOException;
 
@@ -36,6 +37,9 @@ public class RegistrationIntentService extends IntentService {
                     GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);
 
             Wtf.log("GCM Registration Token: " + token);
+            Users.registerGCMToken(token);
+
+
 
             // TODO: Implement this method to send any registration to your app's servers.
             sendRegistrationToServer(token);
