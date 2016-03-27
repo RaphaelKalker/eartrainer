@@ -82,14 +82,9 @@ public final class MultiplayerService {
     });
   }
 
-  public void updateGameState(String gameId, String state) {
-    Wtf.log("Updating game state: " + state + " " + gameId);
-    mApi.updateGameState(gameId, state);
-  }
-
   public void declineRequest(final String gameId) {
       Wtf.log("Declining MultiPlayer Request: " + gameId);
-      mApi.updateGameState("decline", gameId).enqueue(new Callback<Void>() {
+      mApi.updateGameState(gameId, "declined").enqueue(new Callback<Void>() {
           @Override
           public void onResponse(
                   Call<Void> call,
@@ -108,7 +103,7 @@ public final class MultiplayerService {
 
   public void acceptRequest(final String gameId) {
       Wtf.log("Accepting MultiPlayer Request: " + gameId);
-      mApi.updateGameState("accept", gameId).enqueue(new Callback<Void>() {
+      mApi.updateGameState(gameId, "accepted").enqueue(new Callback<Void>() {
           @Override
           public void onResponse(
                   Call<Void> call,
