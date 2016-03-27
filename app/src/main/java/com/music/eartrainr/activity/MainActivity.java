@@ -1,11 +1,14 @@
 package com.music.eartrainr.activity;
 
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.content.LocalBroadcastManager;
@@ -20,12 +23,16 @@ import com.google.android.gms.common.GoogleApiAvailability;
 import com.music.eartrainr.Database;
 import com.music.eartrainr.ModuleUri;
 import com.music.eartrainr.R;
+import com.music.eartrainr.api.MultiplayerService;
+import com.music.eartrainr.event.MultiPlayerEvent;
 import com.music.eartrainr.fragment.ProfileFragment;
 import com.music.eartrainr.interfaces.ResultCodes;
 import com.music.eartrainr.Wtf;
 import com.music.eartrainr.gcm.QuickstartPreferences;
 import com.music.eartrainr.gcm.RegistrationIntentService;
 import com.music.eartrainr.model.FirebaseRank;
+
+import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

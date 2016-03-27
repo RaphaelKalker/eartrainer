@@ -16,14 +16,15 @@ public interface Api {
   String USER = "user";
   String COMPETITOR = "competitor";
   String ID = "id";
+  String STATE = "state";
 
   @GET("/matchRequest") Call<MultiplayerGame> getMatchRequest(
       @Query(USER) String user,
       @Query(COMPETITOR) String competitor
   );
 
-  @PUT("/cancelMatch") Call<Void> cancelMatchRequest(
-      @Query(USER) String user,
-      @Query(ID) int id
+  @GET("/updateGameState") Call<Void> updateGameState(
+      @Query(STATE) String state,
+      @Query(ID) String id
   );
 }
