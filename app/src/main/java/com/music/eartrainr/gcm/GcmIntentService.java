@@ -75,6 +75,7 @@ public class GcmIntentService extends GcmListenerService {
 
         Intent declineIntent = new Intent(this, GcmNotificationReceiver.class);
         declineIntent.setAction("decline");
+        declineIntent.putExtra(GameManager.GAMES.GAME_ID, id);
         declineIntent.putExtra(MATCH_RESPONSE, false);
         PendingIntent pDeclineIntent = PendingIntent.getBroadcast(this, ResultCodes.DECLINE_GAME, declineIntent, 0);
 
