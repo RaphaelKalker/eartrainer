@@ -88,7 +88,7 @@ public class ProfileFriendsAdapter
     public void onFriendChallengeClick() {
       //statusMessage.setText("Challenging...");
       final User userToChallenge = getItem(getLayoutPosition());
-      MultiplayerService.requestMatch(Database.getSingleton().getUserName(), userToChallenge.getUserName());
+      MultiplayerService.getInstance().requestMatch(Database.getSingleton().getUserName(), userToChallenge.getUserName());
     }
 
     @OnClick(R.id.friend_item_container)
