@@ -1,5 +1,6 @@
 package com.music.eartrainr.fragment;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -18,12 +19,15 @@ import com.firebase.client.FirebaseError;
 import com.github.ivbaranov.mli.MaterialLetterIcon;
 import com.music.eartrainr.Bus;
 import com.music.eartrainr.Database;
+import com.music.eartrainr.GameManager;
 import com.music.eartrainr.ModuleUri;
 import com.music.eartrainr.Wtf;
+import com.music.eartrainr.activity.IntervalDetectionGameActivity;
 import com.music.eartrainr.adapter.ProfileFriendsAdapter;
 import com.music.eartrainr.R;
 import com.music.eartrainr.adapter.RecyclerViewBaseAdapter.VisibilitySettings;
 import com.music.eartrainr.event.FriendItemGetEvent;
+import com.music.eartrainr.event.MultiPlayerEvent;
 import com.music.eartrainr.model.User;
 import com.music.eartrainr.utils.DividerItemDecoration;
 
@@ -215,7 +219,24 @@ public class ProfileFragment extends BaseFragment implements ProfileFriendsAdapt
       mFriendsListAdapter.processDeletion();
       return;
     }
+  }
 
+  @Subscribe
+  public void onMatchRequestUpdate(final MultiPlayerEvent event) {
+
+    if (event.mEventID == MultiPlayerEvent.EVENT.MATCH_REQUEST_SUCCESS) {
+
+//      final String opponent = event.mData.competitor;
+//      final int gameId = event.mData.gameID;
+      Bundle args = new Bundle();
+      args.putBoolean(GameManager.GAMES.MULTIPLAYER, true);
+      args.putString(GameManager.GAMES.OPPONENT, "jacinta");
+      args.putInt(GameManager.GAMES.GAME_ID, 123);
+
+      Intent intent = new Intent(getActivity(), IntervalDetectionGameActivity.class);
+      intent.putExtras(args);
+      startActivity(intent);
+    }
   }
 
   //endregion

@@ -1,12 +1,18 @@
 package com.music.eartrainr.activity;
 
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.IdRes;
 
+import com.music.eartrainr.Database;
 import com.music.eartrainr.GameManager;
 import com.music.eartrainr.R;
 import com.music.eartrainr.Wtf;
+import com.music.eartrainr.api.MultiplayerService;
 import com.music.eartrainr.fragment.BaseFragment;
 import com.music.eartrainr.fragment.GameStepSummaryFragment;
 import com.music.eartrainr.fragment.IntervalDetectionStepFragment;
@@ -18,6 +24,7 @@ public class IntervalDetectionGameActivity extends BaseGameActivity<IntervalDete
 
   public static final String TAG = IntervalDetectionGameActivity.class.getSimpleName();
   private MediaPlayer mMediaPlayer;
+  private ProgressDialog mDialog;
 
   //region LIFECYCLE
 
@@ -25,6 +32,8 @@ public class IntervalDetectionGameActivity extends BaseGameActivity<IntervalDete
   protected void onCreate(Bundle savedInstanceState) {
 
     boolean linear = getIntent().getBooleanExtra("linear", false);
+
+    handleMultiplayer();
 
     setErrorTimeout(1500);
     setLinear(linear);
@@ -35,9 +44,57 @@ public class IntervalDetectionGameActivity extends BaseGameActivity<IntervalDete
     super.onCreate(savedInstanceState);
   }
 
+
+
+  private void handleMultiplayer() {
+    Intent intent = getIntent();
+
+    if (intent != null) {
+      Bundle args = intent.getExtras();
+
+      final boolean multiplayer = args.getBoolean(GameManager.GAMES.MULTIPLAYER, false);
+      final String opponent = args.getString(GameManager.GAMES.OPPONENT, "");
+      final int id = args.getInt(GameManager.GAMES.GAME_ID, 1);
+
+      if (multiplayer) {
+        mDialog = new ProgressDialog(this);
+        mDialog.setMessage(String.format("Waiting on %s to accept", opponent));
+        mDialog.setTitle("Multi Player Mode");
+        mDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
+          @Override public void onClick(
+              final DialogInterface dialog,
+              final int which) {
+            //TODO send to service
+            MultiplayerService.getInstance().cancelRequest(Database.getSingleton().getUserName(), id);
+
+            mDialog.setMessage("Canceling Request...");
+
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+              @Override public void run() {
+                finish();
+              }
+            }, 1000);
+          }
+        });
+        mDialog.setCancelable(false);
+
+        mDialog.setIndeterminate(true);
+        mDialog.show();
+
+
+
+      }
+    }
+  }
+
   @Override protected void onPause() {
     requestPause();
     super.onPause();
+
+    if (mDialog != null) {
+      mDialog.dismiss();
+    }
   }
 
   @Override protected void onDestroy() {
