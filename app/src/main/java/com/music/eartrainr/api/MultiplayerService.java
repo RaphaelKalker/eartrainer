@@ -119,5 +119,9 @@ public final class MultiplayerService {
           }
       });
   }
+
+    public void finishRequest(String username, final String gameId) {
+        Wtf.log("Finishing MultiPlayer Game Request: " + gameId);
+    }
   //endregion
 }

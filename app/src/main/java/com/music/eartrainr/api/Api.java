@@ -27,6 +27,5 @@ public interface Api {
       @Query(GAMEID) String gameId,
       @Query(USER) String user,
       @Query(STATE) String state
-      
   );
 }

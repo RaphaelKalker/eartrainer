@@ -28,6 +28,7 @@ import com.music.eartrainr.R;
 import com.music.eartrainr.adapter.RecyclerViewBaseAdapter.VisibilitySettings;
 import com.music.eartrainr.event.FriendItemGetEvent;
 import com.music.eartrainr.event.MultiPlayerEvent;
+import com.music.eartrainr.model.MultiplayerGame;
 import com.music.eartrainr.model.User;
 import com.music.eartrainr.utils.DividerItemDecoration;
 
@@ -225,14 +226,13 @@ public class ProfileFragment extends BaseFragment implements ProfileFriendsAdapt
   public void onMatchRequestUpdate(final MultiPlayerEvent event) {
 
     if (event.mEventID == MultiPlayerEvent.EVENT.MATCH_REQUEST_SUCCESS) {
-
-//      final String opponent = event.mData.competitor;
-      final String opponent = "jacinta";
-//      final int gameId = event.mData.gameID;
+      MultiplayerGame game = (MultiplayerGame) event.mData;
+      final String opponent = game.competitor;
+      final String gameId = game.gameID;
       Bundle args = new Bundle();
       args.putBoolean(GameManager.GAMES.MULTIPLAYER, true);
       args.putString(GameManager.GAMES.OPPONENT, opponent);
-      args.putInt(GameManager.GAMES.GAME_ID, 123);
+      args.putString(GameManager.GAMES.GAME_ID, gameId);
       args.putString(GameManager.GAMES.MESSAGE, String.format("Waiting for %s to accept...", opponent));
 
       Intent intent = new Intent(getActivity(), IntervalDetectionGameActivity.class);
