@@ -42,7 +42,7 @@ public final class MultiplayerService {
 
 
   //region PUBLIC API METHODS
-  public void cancelRequest(final String user, final int id) {
+  public void cancelRequest(final String user, final String id) {
     Wtf.log(String.format("Canceling MultiPlayer Request: %s %d", user, id));
     mApi.cancelMatchRequest(user, id);
   }

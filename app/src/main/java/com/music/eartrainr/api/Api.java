@@ -24,6 +24,6 @@ public interface Api {
 
   @PUT("/cancelMatch") Call<Void> cancelMatchRequest(
       @Query(USER) String user,
-      @Query(ID) int id
+      @Query(ID) String id
   );
 }

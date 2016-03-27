@@ -81,7 +81,7 @@ public class IntervalDetectionGameActivity extends BaseGameActivity<IntervalDete
 
       final boolean multiplayer = args.getBoolean(GameManager.GAMES.MULTIPLAYER, false);
       final String opponent = args.getString(GameManager.GAMES.OPPONENT, "");
-      final int id = args.getInt(GameManager.GAMES.GAME_ID, 1);
+      final String id = args.getString(GameManager.GAMES.GAME_ID, "");
       final String message = args.getString(GameManager.GAMES.MESSAGE, "");
 
       if (multiplayer) {
