@@ -56,6 +56,7 @@
             android:label="@string/title_activity_game"
             android:theme="@style/AppTheme.NoActionBar" />
 
+        <!--GCM CRAP-->
         <receiver
             android:name="com.google.android.gms.gcm.GcmReceiver"
             android:exported="true"
@@ -68,6 +69,10 @@
             </intent-filter>
         </receiver>
 
+        <!-- GCM Dismissal -->
+        <receiver android:name=".gcm.GcmNotificationReceiver"
+            android:exported="false">
+        </receiver>
         <service
             android:name=".gcm.GcmIntentService"
             android:exported="false">

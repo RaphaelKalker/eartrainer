@@ -6,4 +6,6 @@ package com.music.eartrainr.interfaces;
 public interface ResultCodes {
   int LOGIN = 0;
   int MAIN = 1;
+  int ACCEPT_GAME = 2;
+  int DECLINE_GAME = 3;
 }

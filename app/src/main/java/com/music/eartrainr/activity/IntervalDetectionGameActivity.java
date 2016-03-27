@@ -1,7 +1,9 @@
 package com.music.eartrainr.activity;
 
+
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -190,6 +192,15 @@ public class IntervalDetectionGameActivity extends BaseGameActivity<IntervalDete
 
   @Override public void onNext() {
     super.onNext();
+  }
+
+  public static Intent makeIntent(Context context, boolean notification) {
+    Intent intent = new Intent(context, IntervalDetectionGameActivity.class);
+    if (notification) {
+      intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+    }
+    //TODO add arguments about multiplayer crap
+    return intent;
   }
 
   //endregion
