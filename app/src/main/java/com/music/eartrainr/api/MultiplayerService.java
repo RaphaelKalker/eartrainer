@@ -36,15 +36,28 @@ public final class MultiplayerService {
     if (INSTANCE == null) {
       INSTANCE = new MultiplayerService();
     }
-
     return INSTANCE;
   }
 
 
   //region PUBLIC API METHODS
-  public void cancelRequest(final String user, final String id) {
-    Wtf.log(String.format("Canceling MultiPlayer Request: %s %s", user, id));
-    mApi.cancelMatchRequest(user, id);
+  public void cancelRequest(final String gameId) {
+      Wtf.log("Canceling MultiPlayer Request: " + gameId);
+      mApi.updateGameState(gameId, "cancelled").enqueue(new Callback<Void>() {
+          @Override
+          public void onResponse(
+                  Call<Void> call,
+                  Response<Void> response) {
+              Bus.post(new MultiPlayerEvent().cancelSuccess());
+          }
+
+          @Override
+          public void onFailure(
+                  Call<Void> call,
+                  Throwable t) {
+              Wtf.log("Failed to execute cancelRequest!");
+          }
+      });
   }
 
   public void requestMatch(String username, String competitor) {
@@ -72,6 +85,44 @@ public final class MultiplayerService {
   public void updateGameState(String gameId, String state) {
     Wtf.log("Updating game state: " + state + " " + gameId);
     mApi.updateGameState(gameId, state);
+  }
+
+  public void declineRequest(final String gameId) {
+      Wtf.log("Declining MultiPlayer Request: " + gameId);
+      mApi.updateGameState("decline", gameId).enqueue(new Callback<Void>() {
+          @Override
+          public void onResponse(
+                  Call<Void> call,
+                  Response<Void> response) {
+              Bus.post(new MultiPlayerEvent().declineSuccess());
+          }
+
+          @Override
+          public void onFailure(
+                  Call<Void> call,
+                  Throwable t) {
+              Wtf.log("Failed to execute declineRequest!");
+          }
+      });
+  }
+
+  public void acceptRequest(final String gameId) {
+      Wtf.log("Accepting MultiPlayer Request: " + gameId);
+      mApi.updateGameState("accept", gameId).enqueue(new Callback<Void>() {
+          @Override
+          public void onResponse(
+                  Call<Void> call,
+                  Response<Void> response) {
+              Bus.post(new MultiPlayerEvent().acceptSuccess());
+          }
+
+          @Override
+          public void onFailure(
+                  Call<Void> call,
+                  Throwable t) {
+              Wtf.log("Failed to execute acceptRequest!");
+          }
+      });
   }
   //endregion
 }

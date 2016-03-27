@@ -53,6 +53,7 @@ public class GcmIntentService extends GcmListenerService {
                 break;
             case ACTION_CHALLENGE_CANCELLED:
                 showStandardNotification(data);
+                cancelGame();
                 break;
         }
     }
@@ -60,6 +61,9 @@ public class GcmIntentService extends GcmListenerService {
         String id = data.getString(GameManager.GAMES.GAME_ID);
         String startTime = data.getString(START_TIME);
         Bus.post(new MultiPlayerEvent().prepareStart(startTime));
+    }
+    private void cancelGame() {
+        Bus.post(new MultiPlayerEvent().cancelGame());
     }
 
     private void showChallengeNotification(final Bundle data) {

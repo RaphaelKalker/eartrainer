@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -14,6 +15,7 @@ import android.support.annotation.IdRes;
 import com.music.eartrainr.Bus;
 import com.music.eartrainr.Database;
 import com.music.eartrainr.GameManager;
+import com.music.eartrainr.ModuleUri;
 import com.music.eartrainr.R;
 import com.music.eartrainr.Wtf;
 import com.music.eartrainr.api.MultiplayerService;
@@ -22,11 +24,15 @@ import com.music.eartrainr.event.MultiPlayerEvent;
 import com.music.eartrainr.fragment.BaseFragment;
 import com.music.eartrainr.fragment.GameStepSummaryFragment;
 import com.music.eartrainr.fragment.IntervalDetectionStepFragment;
+import com.music.eartrainr.fragment.ProfileFragment;
 import com.music.eartrainr.interfaces.GameHelper;
+import com.music.eartrainr.interfaces.ResultCodes;
 import com.music.eartrainr.model.IntervalDetection;
 
 import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
+import java.net.URI;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -93,7 +99,7 @@ public class IntervalDetectionGameActivity extends BaseGameActivity<IntervalDete
               final DialogInterface dialog,
               final int which) {
             //TODO send to service
-            MultiplayerService.getInstance().cancelRequest(Database.getSingleton().getUserName(), id);
+            MultiplayerService.getInstance().cancelRequest(id);
 
             mDialog.setMessage("Canceling Request...");
 
@@ -109,9 +115,6 @@ public class IntervalDetectionGameActivity extends BaseGameActivity<IntervalDete
 
         mDialog.setIndeterminate(true);
         mDialog.show();
-
-
-
       }
     }
   }
@@ -265,5 +268,15 @@ public class IntervalDetectionGameActivity extends BaseGameActivity<IntervalDete
   }
 
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onCancelGame(final MultiPlayerEvent event) {
+        if (event.mEventID == MultiPlayerEvent.EVENT.MATCH_CANCEL) {
+            if (mDialog != null && mDialog.isShowing()) {
+                mDialog.dismiss();
+                finish();
+            }
+        }
+    }
   //endregion
 }
+
