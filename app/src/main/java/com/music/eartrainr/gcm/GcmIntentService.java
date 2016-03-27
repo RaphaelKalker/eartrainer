@@ -31,6 +31,7 @@ public class GcmIntentService extends GcmListenerService {
         int ACTION_CHALLENGE = 0;
         int ACTION_CHALLENGE_ACCEPTED = 1;
         int ACTION_CHALLENGE_DECLINED = 2;
+        int ACTION_CHALLENGE_CANCELLED = 3;
         int NOTIFICATION_ID = 0;
         String START_TIME = "startTime";
     }
@@ -47,8 +48,13 @@ public class GcmIntentService extends GcmListenerService {
             case ACTION_CHALLENGE_ACCEPTED:
                 prepareGame(data);
                 break;
+            case ACTION_CHALLENGE_DECLINED:
+                showStandardNotification(data);
+                break;
+            case ACTION_CHALLENGE_CANCELLED:
+                showStandardNotification(data);
+                break;
         }
-
     }
     private void prepareGame(final Bundle data) {
         String id = data.getString(GameManager.GAMES.GAME_ID);
@@ -88,6 +94,21 @@ public class GcmIntentService extends GcmListenerService {
             .setPriority(Notification.PRIORITY_MAX)
             .setWhen(0)
             .setDeleteIntent(pDeclineIntent);
+        notificationManager.notify(NOTIFICATION_ID, mBuilder.build());
+    }
+
+    private void showStandardNotification(final Bundle data) {
+        Bundle bundle = data.getBundle("notification");
+        String title = bundle.getString("title");
+        String body = bundle.getString("body");
+
+        NotificationManager notificationManager= (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
+            .setSmallIcon(R.drawable.ic_done_white_18dp)
+            .setContentTitle(title)
+            .setContentText(body)
+            .setPriority(Notification.PRIORITY_MAX)
+            .setWhen(0);
         notificationManager.notify(NOTIFICATION_ID, mBuilder.build());
     }
 
