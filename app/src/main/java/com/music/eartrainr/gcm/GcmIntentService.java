@@ -30,6 +30,7 @@ public class GcmIntentService extends GcmListenerService {
         String ACTION = "action";
         int ACTION_CHALLENGE = 0;
         int ACTION_CHALLENGE_ACCEPTED = 1;
+        int ACTION_CHALLENGE_DECLINED = 2;
         int NOTIFICATION_ID = 0;
         String START_TIME = "startTime";
     }
@@ -50,7 +51,7 @@ public class GcmIntentService extends GcmListenerService {
 
     }
     private void prepareGame(final Bundle data) {
-        int id = Integer.valueOf(data.getString(GameManager.GAMES.GAME_ID));
+        String id = data.getString(GameManager.GAMES.GAME_ID);
         String startTime = data.getString(START_TIME);
         Bus.post(new MultiPlayerEvent().prepareStart(startTime));
     }
