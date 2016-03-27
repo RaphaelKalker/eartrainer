@@ -16,6 +16,8 @@ public interface Api {
   String USER = "user";
   String COMPETITOR = "competitor";
   String ID = "id";
+  String GAMEID = "gameId";
+  String STATE = "state";
 
   @GET("/matchRequest") Call<MultiplayerGame> getMatchRequest(
       @Query(USER) String user,
@@ -25,5 +27,10 @@ public interface Api {
   @PUT("/cancelMatch") Call<Void> cancelMatchRequest(
       @Query(USER) String user,
       @Query(ID) String id
+  );
+
+  @GET("/updateGameState") Call<Void> updateGameState(
+      @Query(GAMEID) String gameId,
+      @Query(STATE) String state
   );
 }

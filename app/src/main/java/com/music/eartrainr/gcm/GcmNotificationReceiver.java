@@ -26,6 +26,9 @@ public class GcmNotificationReceiver extends BroadcastReceiver {
             Wtf.log("The challenge was denied!");
         } else {
             //TODO notify API that things are approved (Send GCM to other player to let them know)
+            String gameID = intent.getExtras().getString(GameManager.GAMES.GAME_ID, "");
+            String state = "accepted";
+            MultiplayerService.getInstance().updateGameState(gameID, state);
             context.startActivity(IntervalDetectionGameActivity.makeMultiplayerIntent(context, true, intent.getExtras()));
             Wtf.log("Challenge accepted!");
         }
