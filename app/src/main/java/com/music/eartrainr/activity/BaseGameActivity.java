@@ -7,6 +7,7 @@ import com.github.fcannizzaro.materialstepper.style.TabStepper;
 import com.music.eartrainr.Bus;
 import com.music.eartrainr.GameManager;
 import com.music.eartrainr.event.GameManagerEvent;
+import com.music.eartrainr.event.MultiPlayerEvent;
 
 import org.greenrobot.eventbus.Subscribe;
 
@@ -19,29 +20,13 @@ public abstract class BaseGameActivity<GAME> extends TabStepper {
   @Override protected void onCreate(final Bundle savedInstanceState) {
     initGameTabs();
     initGameManager(getGameClazz());
-    mProgressDialog = ProgressDialog.show(this, "Game Manager", "Initializing Game...", false);
 
 
     //RUN LAST
     super.onCreate(savedInstanceState);
   }
 
-  @Override protected void onStart() {
-    super.onStart();
-    Bus.register(this);
-  }
 
-  @Override protected void onStop() {
-    super.onStop();
-    Bus.unregister(this);
-  }
-
-  @Override protected void onDestroy() {
-    super.onDestroy();
-    if (mProgressDialog != null) {
-      mProgressDialog.dismiss();
-    }
-  }
 
   //endregion
 
@@ -49,18 +34,7 @@ public abstract class BaseGameActivity<GAME> extends TabStepper {
     GameManager.getInstance().doStuff(getGameIdentifier(), getGameClazz());
   }
 
-  //region SUBSCRIBERS
-  @Subscribe
-  public void onGameManagerInitialized(final GameManagerEvent event) {
-    if (event.mEventID == GameManagerEvent.EVENT.GAMES_READY) {
-      if (mProgressDialog != null) {
-        mProgressDialog.setMessage("Done");
-        mProgressDialog.hide();
-      }
-    }
-  }
 
-  //endregion
 
   //region ABSTRACT METHODS
   abstract void initGameTabs();

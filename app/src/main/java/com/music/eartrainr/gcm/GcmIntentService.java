@@ -11,23 +11,51 @@ import android.support.v4.app.NotificationCompat;
 import com.google.android.gms.gcm.GcmListenerService;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.android.gms.iid.InstanceID;
+import com.music.eartrainr.Bus;
 import com.music.eartrainr.GameManager;
 import com.music.eartrainr.R;
 import com.music.eartrainr.Wtf;
-import com.music.eartrainr.activity.IntervalDetectionGameActivity;
+import com.music.eartrainr.event.MultiPlayerEvent;
 import com.music.eartrainr.interfaces.ResultCodes;
 
 import java.io.IOException;
 
+import static com.music.eartrainr.gcm.GcmIntentService.ACTION.*;
+
+
 public class GcmIntentService extends GcmListenerService {
 
-    public interface notificationAction {
+    public interface ACTION {
         String MATCH_RESPONSE = "match_response";
+        String ACTION = "action";
+        int ACTION_CHALLENGE = 0;
+        int ACTION_CHALLENGE_ACCEPTED = 1;
         int NOTIFICATION_ID = 0;
+        String START_TIME = "startTime";
     }
 
     @Override
     public void onMessageReceived(String from, Bundle data) {
+
+        final int action = Integer.valueOf(data.getString(ACTION));
+
+        switch (action) {
+            case ACTION_CHALLENGE:
+                showChallengeNotification(data);
+                break;
+            case ACTION_CHALLENGE_ACCEPTED:
+                prepareGame(data);
+                break;
+        }
+
+    }
+    private void prepareGame(final Bundle data) {
+        int id = Integer.valueOf(data.getString(GameManager.GAMES.GAME_ID));
+        String startTime = data.getString(START_TIME);
+        Bus.post(new MultiPlayerEvent().prepareStart(startTime));
+    }
+
+    private void showChallengeNotification(final Bundle data) {
         Bundle bundle = data.getBundle("notification");
         String body = bundle.getString("body");
         String title = bundle.getString("title");
@@ -37,7 +65,7 @@ public class GcmIntentService extends GcmListenerService {
 
         Intent acceptIntent = new Intent(this, GcmNotificationReceiver.class);
         acceptIntent.setAction("accept");
-        acceptIntent.putExtra(notificationAction.MATCH_RESPONSE, true);
+        acceptIntent.putExtra(MATCH_RESPONSE, true);
         acceptIntent.putExtra(GameManager.GAMES.MESSAGE, "Waiting for game to start");
         acceptIntent.putExtra(GameManager.GAMES.GAME_ID, id);
         acceptIntent.putExtra(GameManager.GAMES.MULTIPLAYER, true);
@@ -46,19 +74,19 @@ public class GcmIntentService extends GcmListenerService {
 
         Intent declineIntent = new Intent(this, GcmNotificationReceiver.class);
         declineIntent.setAction("decline");
-        declineIntent.putExtra(notificationAction.MATCH_RESPONSE, false);
+        declineIntent.putExtra(MATCH_RESPONSE, false);
         PendingIntent pDeclineIntent = PendingIntent.getBroadcast(this, ResultCodes.DECLINE_GAME, declineIntent, 0);
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.drawable.ic_done_white_18dp)
-                .setContentTitle(title)
-                .setContentText(body)
-                .addAction(R.drawable.ic_done_white_18dp, "Accept", pAcceptIntent)
-                .addAction(android.R.drawable.ic_menu_close_clear_cancel, "Decline", pDeclineIntent)
-                .setPriority(Notification.PRIORITY_MAX)
-                .setWhen(0)
-                .setDeleteIntent(pDeclineIntent);
-        notificationManager.notify(notificationAction.NOTIFICATION_ID, mBuilder.build());
+            .setSmallIcon(R.drawable.ic_done_white_18dp)
+            .setContentTitle(title)
+            .setContentText(body)
+            .addAction(R.drawable.ic_done_white_18dp, "Accept", pAcceptIntent)
+            .addAction(android.R.drawable.ic_menu_close_clear_cancel, "Decline", pDeclineIntent)
+            .setPriority(Notification.PRIORITY_MAX)
+            .setWhen(0)
+            .setDeleteIntent(pDeclineIntent);
+        notificationManager.notify(NOTIFICATION_ID, mBuilder.build());
     }
 
     public String getRegistrationToken() {

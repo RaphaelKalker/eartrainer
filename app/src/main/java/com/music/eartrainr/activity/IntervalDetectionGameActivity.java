@@ -8,18 +8,30 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.support.annotation.IdRes;
 
+import com.music.eartrainr.Bus;
 import com.music.eartrainr.Database;
 import com.music.eartrainr.GameManager;
 import com.music.eartrainr.R;
 import com.music.eartrainr.Wtf;
 import com.music.eartrainr.api.MultiplayerService;
+import com.music.eartrainr.event.GameManagerEvent;
+import com.music.eartrainr.event.MultiPlayerEvent;
 import com.music.eartrainr.fragment.BaseFragment;
 import com.music.eartrainr.fragment.GameStepSummaryFragment;
 import com.music.eartrainr.fragment.IntervalDetectionStepFragment;
 import com.music.eartrainr.interfaces.GameHelper;
 import com.music.eartrainr.model.IntervalDetection;
+
+import org.greenrobot.eventbus.Subscribe;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class IntervalDetectionGameActivity extends BaseGameActivity<IntervalDetection> implements GameHelper {
@@ -32,6 +44,7 @@ public class IntervalDetectionGameActivity extends BaseGameActivity<IntervalDete
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
+//    mDialog = ProgressDialog.show(this, "Game Manager", "Initializing Game...", false);
 
     boolean linear = getIntent().getBooleanExtra("linear", false);
 
@@ -45,6 +58,18 @@ public class IntervalDetectionGameActivity extends BaseGameActivity<IntervalDete
     //THIS MUST BE AT THE END
     super.onCreate(savedInstanceState);
   }
+
+  @Override protected void onStart() {
+    super.onStart();
+    Bus.register(this);
+  }
+
+  @Override protected void onStop() {
+    super.onStop();
+    Bus.unregister(this);
+  }
+
+
 
 
 
@@ -153,6 +178,16 @@ public class IntervalDetectionGameActivity extends BaseGameActivity<IntervalDete
     return GameManager.GAMES.INTERVAL_DETECTION;
   }
 
+  private void updateDialogTimer(final String seconds) {
+    if (mDialog != null) {
+      runOnUiThread(new Runnable() {
+        @Override public void run() {
+          mDialog.setMessage(seconds);
+        }
+      });
+    }
+  }
+
   //endregion
 
 
@@ -203,6 +238,32 @@ public class IntervalDetectionGameActivity extends BaseGameActivity<IntervalDete
     intent.putExtras(args);
     return intent;
   }
+
+  //endregion
+
+
+  //region SUBSCRIBERS
+  @Subscribe
+  public void onGameManagerInitialized(final GameManagerEvent event) {
+    if (event.mEventID == GameManagerEvent.EVENT.GAMES_READY) {
+      if (mDialog != null && false) {
+        mDialog.setMessage("Done");
+        mDialog.hide();
+      }
+    }
+  }
+
+  @Subscribe
+  public void onPrepareGame(final MultiPlayerEvent event) {
+    if (event.mEventID == MultiPlayerEvent.EVENT.MATCH_PREPARE_PENDING) {
+      if (mDialog != null && mDialog.isShowing()) {
+        //TODO: parse js date and find difference
+        String startTime = (String) event.mData;
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+      }
+    }
+  }
+
 
   //endregion
 }
