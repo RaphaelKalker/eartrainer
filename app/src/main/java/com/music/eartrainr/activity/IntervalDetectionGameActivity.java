@@ -30,6 +30,7 @@ import com.music.eartrainr.interfaces.ResultCodes;
 import com.music.eartrainr.model.IntervalDetection;
 
 import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.net.URI;
 import java.text.ParseException;
@@ -267,15 +268,15 @@ public class IntervalDetectionGameActivity extends BaseGameActivity<IntervalDete
   }
 
 
-    @Subscribe
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onCancelGame(final MultiPlayerEvent event) {
         if (event.mEventID == MultiPlayerEvent.EVENT.MATCH_CANCEL) {
             if (mDialog != null && mDialog.isShowing()) {
-                mDialog.hide();
-                //TODO CLOSE GAME AND LOAD MAIN ACTIVITY
+                mDialog.dismiss();
+                finish();
             }
         }
     }
-
   //endregion
 }
+
