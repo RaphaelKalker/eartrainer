@@ -129,7 +129,8 @@ public class GameManager<STEP> {
     String INTERVAL_DETECTION = "interval_detection";
     String MULTIPLAYER = "multiplayer";
     String OPPONENT = "opponent";
-    String GAME_ID = "game_id";
+    String GAME_ID = "gameID";
+    String MESSAGE = "message";
   }
 
 //  public static class GameBuilder {

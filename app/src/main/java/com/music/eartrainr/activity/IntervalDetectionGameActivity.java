@@ -57,10 +57,11 @@ public class IntervalDetectionGameActivity extends BaseGameActivity<IntervalDete
       final boolean multiplayer = args.getBoolean(GameManager.GAMES.MULTIPLAYER, false);
       final String opponent = args.getString(GameManager.GAMES.OPPONENT, "");
       final int id = args.getInt(GameManager.GAMES.GAME_ID, 1);
+      final String message = args.getString(GameManager.GAMES.MESSAGE, "");
 
       if (multiplayer) {
         mDialog = new ProgressDialog(this);
-        mDialog.setMessage(String.format("Waiting on %s to accept", opponent));
+        mDialog.setMessage(message);
         mDialog.setTitle("Multi Player Mode");
         mDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
           @Override public void onClick(
@@ -194,12 +195,12 @@ public class IntervalDetectionGameActivity extends BaseGameActivity<IntervalDete
     super.onNext();
   }
 
-  public static Intent makeIntent(Context context, boolean notification) {
+  public static Intent makeMultiplayerIntent(Context context, boolean notification, Bundle args) {
     Intent intent = new Intent(context, IntervalDetectionGameActivity.class);
     if (notification) {
       intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
     }
-    //TODO add arguments about multiplayer crap
+    intent.putExtras(args);
     return intent;
   }
 

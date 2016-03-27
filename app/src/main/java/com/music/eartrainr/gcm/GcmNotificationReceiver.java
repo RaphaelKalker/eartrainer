@@ -4,8 +4,9 @@ import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.NotificationCompat;
+import android.os.Bundle;
 
+import com.music.eartrainr.GameManager;
 import com.music.eartrainr.Wtf;
 import com.music.eartrainr.activity.IntervalDetectionGameActivity;
 
@@ -23,7 +24,7 @@ public class GcmNotificationReceiver extends BroadcastReceiver {
             Wtf.log("The challenge was denied!");
         } else {
             //TODO notify API that things are approved (Send GCM to other player to let them know)
-            context.startActivity(IntervalDetectionGameActivity.makeIntent(context, true));
+            context.startActivity(IntervalDetectionGameActivity.makeMultiplayerIntent(context, true, intent.getExtras()));
             Wtf.log("Challenge accepted!");
         }
         cancelNotification(context);

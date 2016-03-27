@@ -1,5 +1,6 @@
 package com.music.eartrainr.gcm;
 
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -10,6 +11,7 @@ import android.support.v4.app.NotificationCompat;
 import com.google.android.gms.gcm.GcmListenerService;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.android.gms.iid.InstanceID;
+import com.music.eartrainr.GameManager;
 import com.music.eartrainr.R;
 import com.music.eartrainr.Wtf;
 import com.music.eartrainr.activity.IntervalDetectionGameActivity;
@@ -29,12 +31,17 @@ public class GcmIntentService extends GcmListenerService {
         Bundle bundle = data.getBundle("notification");
         String body = bundle.getString("body");
         String title = bundle.getString("title");
+        int id = Integer.valueOf(data.getString(GameManager.GAMES.GAME_ID));
 
         NotificationManager notificationManager= (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
         Intent acceptIntent = new Intent(this, GcmNotificationReceiver.class);
         acceptIntent.setAction("accept");
         acceptIntent.putExtra(notificationAction.MATCH_RESPONSE, true);
+        acceptIntent.putExtra(GameManager.GAMES.MESSAGE, "Waiting for game to start");
+        acceptIntent.putExtra(GameManager.GAMES.GAME_ID, id);
+        acceptIntent.putExtra(GameManager.GAMES.MULTIPLAYER, true);
+
         PendingIntent pAcceptIntent = PendingIntent.getBroadcast(this, ResultCodes.ACCEPT_GAME, acceptIntent, 0);
 
         Intent declineIntent = new Intent(this, GcmNotificationReceiver.class);
@@ -48,6 +55,8 @@ public class GcmIntentService extends GcmListenerService {
                 .setContentText(body)
                 .addAction(R.drawable.ic_done_white_18dp, "Accept", pAcceptIntent)
                 .addAction(android.R.drawable.ic_menu_close_clear_cancel, "Decline", pDeclineIntent)
+                .setPriority(Notification.PRIORITY_MAX)
+                .setWhen(0)
                 .setDeleteIntent(pDeclineIntent);
         notificationManager.notify(notificationAction.NOTIFICATION_ID, mBuilder.build());
     }
@@ -63,7 +72,7 @@ public class GcmIntentService extends GcmListenerService {
         return token;
     }
 
-/*    public static Intent makeIntent(Context context) {
+/*    public static Intent makeMultiplayerIntent(Context context) {
         final Intent intent = new Intent(context, GcmIntentService.class);
     }*/
 }

@@ -227,11 +227,13 @@ public class ProfileFragment extends BaseFragment implements ProfileFriendsAdapt
     if (event.mEventID == MultiPlayerEvent.EVENT.MATCH_REQUEST_SUCCESS) {
 
 //      final String opponent = event.mData.competitor;
+      final String opponent = "jacinta";
 //      final int gameId = event.mData.gameID;
       Bundle args = new Bundle();
       args.putBoolean(GameManager.GAMES.MULTIPLAYER, true);
-      args.putString(GameManager.GAMES.OPPONENT, "jacinta");
+      args.putString(GameManager.GAMES.OPPONENT, opponent);
       args.putInt(GameManager.GAMES.GAME_ID, 123);
+      args.putString(GameManager.GAMES.MESSAGE, String.format("Waiting for %s to accept...", opponent));
 
       Intent intent = new Intent(getActivity(), IntervalDetectionGameActivity.class);
       intent.putExtras(args);
