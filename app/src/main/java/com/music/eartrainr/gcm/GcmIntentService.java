@@ -76,6 +76,7 @@ public class GcmIntentService extends GcmListenerService {
         String body = bundle.getString("body");
         String title = bundle.getString("title");
         String id = data.getString(GameManager.GAMES.GAME_ID);
+        String timestamp = data.getString("timestamp");
 
         NotificationManager notificationManager= (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
@@ -84,6 +85,7 @@ public class GcmIntentService extends GcmListenerService {
         acceptIntent.putExtra(MATCH_RESPONSE, true);
         acceptIntent.putExtra(GameManager.GAMES.MESSAGE, "Waiting for game to start");
         acceptIntent.putExtra(GameManager.GAMES.GAME_ID, id);
+        acceptIntent.putExtra("timestamp", timestamp);
         acceptIntent.putExtra(GameManager.GAMES.MULTIPLAYER, true);
 
         PendingIntent pAcceptIntent = PendingIntent.getBroadcast(this, ResultCodes.ACCEPT_GAME, acceptIntent, 0);
@@ -102,7 +104,8 @@ public class GcmIntentService extends GcmListenerService {
             .addAction(android.R.drawable.ic_menu_close_clear_cancel, "Decline", pDeclineIntent)
             .setPriority(Notification.PRIORITY_MAX)
             .setWhen(0)
-            .setDeleteIntent(pDeclineIntent);
+            .setDeleteIntent(pDeclineIntent)
+            .setAutoCancel(true);
         notificationManager.notify(NOTIFICATION_ID, mBuilder.build());
     }
 
@@ -114,10 +117,11 @@ public class GcmIntentService extends GcmListenerService {
         NotificationManager notificationManager= (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
             .setSmallIcon(R.drawable.ic_done_white_18dp)
-            .setContentTitle(title)
-            .setContentText(body)
-            .setPriority(Notification.PRIORITY_MAX)
-            .setWhen(0);
+                .setContentTitle(title)
+                .setContentText(body)
+                .setPriority(Notification.PRIORITY_MAX)
+            .setWhen(0)
+                .setAutoCancel(true);
         notificationManager.notify(NOTIFICATION_ID, mBuilder.build());
     }
 
