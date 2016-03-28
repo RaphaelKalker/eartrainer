@@ -104,7 +104,8 @@ public class GcmIntentService extends GcmListenerService {
             .addAction(android.R.drawable.ic_menu_close_clear_cancel, "Decline", pDeclineIntent)
             .setPriority(Notification.PRIORITY_MAX)
             .setWhen(0)
-            .setDeleteIntent(pDeclineIntent);
+            .setDeleteIntent(pDeclineIntent)
+            .setAutoCancel(true);
         notificationManager.notify(NOTIFICATION_ID, mBuilder.build());
     }
 
