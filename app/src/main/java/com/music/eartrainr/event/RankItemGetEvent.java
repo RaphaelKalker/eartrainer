@@ -3,6 +3,8 @@ package com.music.eartrainr.event;
 import com.music.eartrainr.model.Rank;
 import com.music.eartrainr.utils.Auth;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class RankItemGetEvent extends EventBusEvent<List<Rank>> {
@@ -17,6 +19,12 @@ public class RankItemGetEvent extends EventBusEvent<List<Rank>> {
   public RankItemGetEvent success(final List<Rank> rankList) {
     mEventID = EVENT.RANK_GET_SUCCESS;
     mData = rankList;
+    Collections.sort(mData, new Comparator<Rank>() {
+      @Override
+      public int compare(Rank rank1, Rank rank2) {
+        return rank2.getTotalScore() - rank1.getTotalScore();
+      }
+    });
     return this;
   }
 }
