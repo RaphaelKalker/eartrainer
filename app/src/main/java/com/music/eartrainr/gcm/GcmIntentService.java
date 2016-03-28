@@ -104,8 +104,7 @@ public class GcmIntentService extends GcmListenerService {
             .addAction(android.R.drawable.ic_menu_close_clear_cancel, "Decline", pDeclineIntent)
             .setPriority(Notification.PRIORITY_MAX)
             .setWhen(0)
-            .setDeleteIntent(pDeclineIntent)
-            .setAutoCancel(true);
+            .setDeleteIntent(pDeclineIntent);
         notificationManager.notify(NOTIFICATION_ID, mBuilder.build());
     }
 
@@ -117,11 +116,11 @@ public class GcmIntentService extends GcmListenerService {
         NotificationManager notificationManager= (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
             .setSmallIcon(R.drawable.ic_done_white_18dp)
-                .setContentTitle(title)
-                .setContentText(body)
-                .setPriority(Notification.PRIORITY_MAX)
+            .setContentTitle(title)
+            .setContentText(body)
+            .setPriority(Notification.PRIORITY_MAX)
             .setWhen(0)
-                .setAutoCancel(true);
+            .setAutoCancel(true);
         notificationManager.notify(NOTIFICATION_ID, mBuilder.build());
     }
 

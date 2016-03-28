@@ -21,11 +21,11 @@ public class GcmNotificationReceiver extends BroadcastReceiver {
         boolean matchResponse = intent.getBooleanExtra(GcmIntentService.ACTION.MATCH_RESPONSE, false);
         String gameID = intent.getExtras().getString(GameManager.GAMES.GAME_ID, "");
         if (!matchResponse) {
-            //TODO notify API that things are cancelled (Send GCM to other player to let them know)
+            //notify API that things are cancelled (Send GCM to other player to let them know)
             MultiplayerService.getInstance().declineRequest(Database.getSingleton().getUserName(), gameID);
             Wtf.log("The challenge was denied!");
         } else {
-            //TODO notify API that things are approved (Send GCM to other player to let them know)
+            //notify API that things are approved (Send GCM to other player to let them know)
             MultiplayerService.getInstance().acceptRequest(Database.getSingleton().getUserName(), gameID);
             context.startActivity(IntervalDetectionGameActivity.makeMultiplayerIntent(context, true, intent.getExtras()));
             Wtf.log("Challenge accepted!");
@@ -40,3 +40,4 @@ public class GcmNotificationReceiver extends BroadcastReceiver {
         context.sendBroadcast(closeDialogIntent);
     }
 }
+

@@ -67,8 +67,13 @@ public final class MultiplayerService {
       public void onResponse(
           Call<MultiplayerGame> call,
           Response<MultiplayerGame> response) {
-        Wtf.log("Requested match. Resulting game ID: " + response.body().gameID);
-        Bus.post(new MultiPlayerEvent().success(response.body()));
+          if (response == null) {
+              Wtf.log("User unavailable to battle.");
+              Bus.post(new MultiPlayerEvent().success(null));
+          } else {
+              Wtf.log("Requested match. Resulting game ID: " + response.body().gameID);
+              Bus.post(new MultiPlayerEvent().success(response.body()));
+          }
       }
 
       @Override
