@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.music.eartrainr.GameManager;
 import com.music.eartrainr.R;
 import com.music.eartrainr.utils.UiUtils;
+import com.music.eartrainr.firebase.Rank;
 
 import java.util.HashMap;
 
@@ -49,6 +50,7 @@ public class GameStepSummaryFragment extends GameFragment {
     super.onViewCreated(view, savedInstanceState);
     ButterKnife.bind(this, view);
     initView();
+    Rank.updateGame1Score(Integer.valueOf(mCorrectGuesses.getText().toString()));
   }
 
 

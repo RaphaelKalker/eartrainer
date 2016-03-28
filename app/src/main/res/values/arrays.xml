@@ -15,10 +15,10 @@
     </array>
 
     <array name="games">
-        <item>@string/game1</item>
+        <!--<item>@string/game1</item>-->
         <item>@string/game2</item>
-        <item>@string/game3</item>
-        <item>@string/game4</item>
+        <!--<item>@string/game3</item>-->
+        <!--<item>@string/game4</item>-->
     </array>
 
     <array name="interval_detection_answers">

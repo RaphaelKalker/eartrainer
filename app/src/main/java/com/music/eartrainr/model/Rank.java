@@ -11,6 +11,7 @@ public class Rank {
 
   private long game_1_won;
   private long game_1_lost;
+  private int game_1_score;
   private String username;
 
   public long getGame_1_won() {
@@ -29,8 +30,10 @@ public class Rank {
     this.game_1_lost = game_1_lost;
   }
 
+  public int getGame_1_score() { return game_1_score; }
+
   public int getTotalScore() {
-    return (int) (getGame_1_lost() + getGame_1_won());
+    return (int) (getGame_1_score());
   }
 
   public String getUsername() {
