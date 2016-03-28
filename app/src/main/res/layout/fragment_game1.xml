@@ -62,7 +62,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         style="@style/TextAppearance.AppCompat.Body2"
-        android:text="Success Rate: "/>
+        android:text="Success Rate: "
+        android:visibility="gone"/>
 
     <!-- SUCCESS RATE VALUE-->
     <TextView
@@ -71,6 +72,7 @@
         android:layout_height="wrap_content"
         style="@style/TextAppearance.AppCompat.Body2"
         android:text="12%"
+        android:visibility="gone"
         android:layout_alignTop="@id/game1_successrate"
         android:layout_toEndOf="@id/game1_successrate"/>
 
