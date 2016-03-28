@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_id": "eartrainr",
-    "project_number": "224755808207",
-    "name": "EarTrainR"
+    "project_id": "eartrainr-60a8d",
+    "project_number": "515575571846",
+    "name": "EarTrainr"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:224755808207:android:5bef552d11604a3b",
+        "mobilesdk_app_id": "1:515575571846:android:5bef552d11604a3b",
         "client_id": "android:com.music.eartrainr",
         "client_type": 1,
         "android_client_info": {
