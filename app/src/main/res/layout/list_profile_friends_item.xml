@@ -41,13 +41,14 @@
 
     <!-- DELETE FRIEND -->
     <Button
+        style="?android:attr/buttonBarButtonStyle"
         android:id="@+id/friend_item_delete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@android:drawable/ic_menu_delete"
-        style="@style/Widget.AppCompat.ActionButton"
+        android:text="Delete"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"/>
+        android:layout_toEndOf="@+id/friend_item_challenge"/>
 
     <!-- STATUS MSG -->
     <TextView
@@ -64,12 +65,12 @@
         tools:text=""/>
 
     <Button
-        style="?android:attr/buttonStyleSmall"
+        style="?android:attr/buttonBarButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Challenge"
         android:id="@+id/friend_item_challenge"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignTop="@+id/friend_item_delete"
+        android:layout_centerHorizontal="true"/>
 
 </RelativeLayout>

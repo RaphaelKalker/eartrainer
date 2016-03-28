@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">EarTrainR</string>
     <string name="title_activity_launcher">LauncherActivity</string>
-    <string name="prompt_username">prompt_username</string>
-    <string name="prompt_password">prompt password</string>
+    <string name="prompt_username">Email</string>
+    <string name="prompt_password">Password</string>
     <string name="sign_in">Sign In</string>
     <string name="login_toggle_signin">I have existing credentials</string>
     <string name="login_toggle_signup">I want to sign up</string>

@@ -80,7 +80,7 @@ public class LoginFragment extends BaseFragment {
       @Nullable final Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
     ButterKnife.bind(this, view);
-    fillInDetails();
+//    fillInDetails();
     restoreState(savedInstanceState);
   }
 
@@ -109,7 +109,7 @@ public class LoginFragment extends BaseFragment {
         getResources().getText(R.string.login_toggle_signup) :
         getResources().getText(R.string.login_toggle_signin));
 
-    onSignInBtnClick();
+//    onSignInBtnClick();
   }
 
   @Override public void onDestroyView() {
