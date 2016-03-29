@@ -133,11 +133,13 @@ public class LoginFragment extends BaseFragment {
     if (!TextUtility.isValidEmail(email)) {
       Wtf.log();
       mEmail.setError(getResources().getString(R.string.error_invalid_email));
+      mProgressBar.setVisibility(View.INVISIBLE);
       return;
     }
 
     if (TextUtils.isEmpty(password)) {
       mPassword.setError(getResources().getString(R.string.error_invalid_password));
+      mProgressBar.setVisibility(View.INVISIBLE);
       return;
     }
 
@@ -157,11 +159,13 @@ public class LoginFragment extends BaseFragment {
       if (!TextUtility.isValidEmail(email)) {
         Wtf.log();
         mEmail.setError(getResources().getString(R.string.error_invalid_email));
+        mProgressBar.setVisibility(View.INVISIBLE);
         return;
       }
 
       if (TextUtils.isEmpty(password)) {
         mPassword.setError(getResources().getString(R.string.error_invalid_password));
+        mProgressBar.setVisibility(View.INVISIBLE);
         return;
       }
 
