@@ -34,9 +34,10 @@ public class LeaderBoardFragment extends BaseFragment {
 
   private LeaderAdapter mLeaderAdapter;
 
-  public static LeaderBoardFragment newInstance(final Uri uri) {
+  public static LeaderBoardFragment newInstance(final Uri uri, int tab) {
     LeaderBoardFragment fragment = new LeaderBoardFragment();
     Bundle args = new Bundle();
+    args.putInt("tab", tab);
     fragment.setArguments(args);
     return fragment;
   }
@@ -108,7 +109,7 @@ public class LeaderBoardFragment extends BaseFragment {
   }
 
   private void setupListView() {
-    mLeaderAdapter = new LeaderAdapter(getActivity(), R.layout.list_leaderboard_item);
+    mLeaderAdapter = new LeaderAdapter(getActivity(), R.layout.list_leaderboard_item, this.getArguments().getInt("tab"));
     mLeaderList.setAdapter(mLeaderAdapter);
     mLeaderList.setLayoutManager(new LinearLayoutManager(getActivity()));
     mLeaderList.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));

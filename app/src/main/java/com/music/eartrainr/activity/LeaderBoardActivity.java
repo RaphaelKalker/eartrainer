@@ -41,7 +41,7 @@ public class LeaderBoardActivity extends BaseActivity {
   //region ADAPTER
 
   public class SampleFragmentPagerAdapter extends FragmentPagerAdapter {
-    final static int PAGE_COUNT = 1;
+    final static int PAGE_COUNT = 2;
     private String tabTitles[];
     private Context context;
 
@@ -58,7 +58,7 @@ public class LeaderBoardActivity extends BaseActivity {
 
     @Override
     public Fragment getItem(int position) {
-      return LeaderBoardFragment.newInstance(null);
+      return LeaderBoardFragment.newInstance(null, position);
     }
 
     @Override

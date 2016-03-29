@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 import com.github.ivbaranov.mli.MaterialLetterIcon;
 import com.music.eartrainr.R;
+import com.music.eartrainr.RankManager;
+import com.music.eartrainr.activity.LeaderBoardActivity;
 import com.music.eartrainr.model.Rank;
 
 import java.util.Random;
@@ -21,11 +23,13 @@ public class LeaderAdapter extends RecyclerViewBaseAdapter<Rank, LeaderAdapter.L
 
   private static final Random RANDOM = new Random();
   private final int[] mColours;
+  private final int mTab;
 
-  public LeaderAdapter(final Context context, final int listItemLayout) {
+  public LeaderAdapter(final Context context, final int listItemLayout, int tab) {
     super.setDataSource(null);
     super.setView(listItemLayout);
     mColours = context.getResources().getIntArray(R.array.letterImageViewColours);
+    mTab = tab;
   }
 
   //region VIEWHOLDER
@@ -41,11 +45,13 @@ public class LeaderAdapter extends RecyclerViewBaseAdapter<Rank, LeaderAdapter.L
       final LeaderBoardViewholder holder,
       final int position) {
 
-    final Rank rank = getItem(position);
+    RankManager rankManager = RankManager.getInstance();
+    rankManager.updateRank(getItem(position));
+    int score = mTab == 0 ? rankManager.calculateTotalRank() : rankManager.calculateGameRank(mTab);
 
-    holder.userName.setText(rank.getUsername());
-    holder.totalScore.setText(String.valueOf(rank.getTotalScore()));
-    holder.avatar.setLetter(rank.getUsername());
+    holder.userName.setText(rankManager.getUsername());
+    holder.totalScore.setText(String.valueOf(score));
+    holder.avatar.setLetter(rankManager.getUsername());
     holder.avatar.setShapeColor(mColours[RANDOM.nextInt(mColours.length -1)]);
   }
 
